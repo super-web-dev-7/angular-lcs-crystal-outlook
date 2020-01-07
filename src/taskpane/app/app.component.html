@@ -1,28 +1,98 @@
-<header class="ms-welcome__header ms-bgColor-neutralLighter ms-u-fadeIn500">
-    <img width="90" height="90" src="../../../assets/logo-filled.png" alt="Contoso Task Pane Add-in" title="Contoso Task Pane Add-in" />
-    <h1 class="ms-fontSize-su ms-fontWeight-light ms-fontColor-neutralPrimary">{{welcomeMessage}}</h1>
-</header>
 <main class="ms-welcome__main">
-    <h2 class="ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20"> Discover what Office Add-ins can do for you today! </h2>
-    <ul class="ms-List ms-welcome__features ms-u-slideUpIn10">
-        <li class="ms-ListItem">
-            <i class="ms-Icon ms-Icon--Ribbon"></i>
-            <span class="ms-font-m ms-fontColor-neutralPrimary">Achieve more with Office integration</span>
-        </li>
-        <li class="ms-ListItem">
-            <i class="ms-Icon ms-Icon--Unlock"></i>
-            <span class="ms-font-m ms-fontColor-neutralPrimary">Unlock features and functionality</span>
-        </li>
-        <li class="ms-ListItem">
-            <i class="ms-Icon ms-Icon--Design"></i>
-            <span class="ms-font-m ms-fontColor-neutralPrimary">Create and visualize like a pro</span>
-        </li>
-    </ul>
-    <br />
-    <br />
-    <p class="ms-font-l">Modify the source files, then click <b>Run</b>.</p>
-    <div role="button" class="ms-welcome__action ms-Button ms-Button--hero ms-u-slideUpIn20" (click)="run()">
-        <span class="ms-Button-label">Run</span>
-        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--ChevronRight"></i></span>
+  <div class="ui fluid center aligned container">
+    <div class="ui fluid container">
+        <img src="../../../assets/logo.png" class="ui fluid centered image" style="max-width: 368px;">
     </div>
+    <div class="ui grid" style="margin-top:5%;">
+        <div class="sixteen wide column">
+        <div class="ui fluid input container">	
+          <input placeholder="Enter Name" type="text" style="border-width: 0 0 1 0;">
+        </div>
+      </div>
+        <div class="sixteen wide column">
+        <div class="ui fluid left aligned container">
+          <span style="margin-left:15px;">Capacity: <span id="display-3"></span></span>
+          <div class="ui blue range" id="range-3" style="padding:0;"></div>      					
+        </div>
+      </div>
+        <div class="eight wide column">
+        <select class="ui fluid search dropdown">
+            <option value="">Country</option>
+            <option value="AL">France</option>
+        </select>
+      </div>
+        <div class="eight wide column">
+        <select class="ui fluid search dropdown">
+            <option value="">City</option>
+            <option value="AL">Paris</option>
+        </select>
+      </div>
+        <div class="eight wide column">
+        <select class="ui fluid search dropdown">
+            <option value="">Building</option>
+            <option value="AL">Galaxy</option>
+        </select>
+      </div>
+        <div class="eight wide column">
+        <select class="ui fluid search dropdown">
+            <option value="">Floor</option>
+            <option value="AF">All Floor</option>
+        </select>
+      </div>
+      
+      <div class="sixteen wide column left aligned">
+        <span style="color: #03A9F4;font-weight: 600;margin-left: 2px;"><a href="#">More Filters ></a></span>			
+      </div>
+    </div>	
+    <div class="ui grid" id="morefilters" >
+      <div class="sixteen wide column">
+        <select class="ui fluid search dropdown">
+          <option value="">Profile Filters</option>
+          <option value="AF">All Floor</option>
+        </select>
+      </div>
+      <div class="eight wide column">
+        <select name="equipments" multiple="" class="ui fluid search dropdown">
+            <option value="">Equipments</option>
+            <option value="phone">Phone</option>
+          <option value="tv">TV</option>
+          <option value="speaker">Speaker</option>
+        </select>
+      </div>
+      <div class="eight wide column">
+        <select class="ui fluid search dropdown">
+            <option value="">Services</option>
+            <option value="AF">All Floor</option>
+        </select>
+      </div>
+    </div>  				
+    <div class="ui fluid" style="margin-top:5%;">
+      <div class="ui placeholder segment segment-grey left aligned">
+        <div class="ui grid">
+          <div class="six wide column">
+            <img src="../../../assets/conf.jpg" class="ui image">
+          </div>
+          <div class="eight wide column middle aligned">
+            <h3 class="ui header aligned left">Room 2</h3>						
+            <div class="aligned left"><i class="circle icon available"></i>Available</div>
+            <p class="aligned left">France/Paris/Building1</p>
+          </div>
+          <div class="two wide column right aligned" style="padding: 0 0 0;">
+            5<i class="user icon"></i>
+          </div>
+        </div>
+      </div>				
+    </div>
+    <div class="ui grid" style="margin-top:5%;" >
+      <div class="two wide column">
+        <i class="left chevron icon"></i>
+      </div>
+      <div class="twelve wide column">
+        <p id="page">1/1</p>
+      </div>
+      <div class="two wide column">
+        <i class="right chevron icon"></i>
+      </div>
+    </div>
+  </div>		
 </main>
