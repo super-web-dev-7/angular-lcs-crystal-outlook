@@ -1,38 +1,24 @@
 <main class="ms-welcome__main">
-  <div semanticUi class="ui fluid center aligned container">
+  <div class="ui fluid center aligned container">
     <div class="ui fluid container">
-        <img src="../assets/logo.png" class="ui fluid centered image" style="max-width: 368px;">
+        <img src="../../../assets/logo.png" class="ui fluid centered image" style="max-width: 368px;">
     </div>
     <div class="ui grid" style="margin-top:5%;">
         <div class="sixteen wide column">
         <div class="ui fluid input container">	
-          <input placeholder="Enter Name" type="text" style="border-width: 0 0 1 0;">
+          <input placeholder="Enter Name" type="text" style="border-width: 0 0 1 0;" [(ngModel)]="searchText">
         </div>
       </div>
         <div class="sixteen wide column">
         <div class="ui fluid left aligned container">
-          <span style="margin-left:15px;">Capacity: <span id="display-3"></span></span>
+          <span style="margin-left:15px;">Capacity: <span  id="display-3"></span></span>
           <div class="ui blue range" id="range-3" style="padding:0;"></div>      					
         </div>
       </div>
-        <div class="eight wide column">
-        <select class="ui fluid search dropdown" [(ngModel)]="selectedCountry" (change)='populateCities()'>
-            <option id="{{location.id}}" *ngFor="let location of locations" [ngValue]="location">{{location.name}}</option>
-        </select>
-      </div>
-        <div class="eight wide column">
-        <select class="ui fluid search dropdown">
-            <option id="{{city.id}}" *ngFor="let city of cities" [ngValue]="city">{{city.name}}</option>
-        </select>
-      </div>
-        <div class="eight wide column">
-        <select class="ui fluid search dropdown" [(ngModel)]="selectedBuilding" (change)='populateFloors()'>
-          <option id="{{building.id}}" *ngFor="let building of buildings" [ngValue]="building">{{building.name}}</option>
-        </select>
-      </div>
-        <div class="eight wide column">
-        <select class="ui fluid search dropdown">
-          <option id="{{floor.id}}" *ngFor="let floor of floors" [ngValue]="floor">{{floor.name}}</option>
+        <div class="eight wide column" *ngFor="let level of Arr(locationLevels).fill(1); let i = index" >
+        <select class="ui fluid search dropdown"  [(ngModel)]="selectedLocation[i]">
+            <option value="">Location Level {{i}}</option>
+            <option value="location" *ngFor="let location of getLocationLevel(i)">{{location.name}}</option>
         </select>
       </div>
       
@@ -63,13 +49,13 @@
       </div>
     </div>  				
     <div class="ui fluid" style="margin-top:5%;">
-      <div class="ui placeholder segment segment-grey left aligned">
+      <div *ngFor="let room of rooms | filter:{searchValue: searchText, capacity: selectedCapacity}" class="ui placeholder segment segment-grey left aligned" id="{{room.id}}">
         <div class="ui grid">
           <div class="six wide column">
-            <img src="../assets/conf.jpg" class="ui image">
+            <img src="../../../assets/conf.jpg" class="ui image">
           </div>
           <div class="eight wide column middle aligned">
-            <h3 class="ui header aligned left">Room 2</h3>						
+            <h3 class="ui header aligned left">{{room.name}}</h3>						
             <div class="aligned left"><i class="circle icon available"></i>Available</div>
             <p class="aligned left">France/Paris/Building1</p>
           </div>
