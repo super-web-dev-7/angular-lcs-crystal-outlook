@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 declare var $: any;
 import { CrystalService } from "./crystal.service";
 import { FilterPipe } from "./pipes/filter.pipe";
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: "app-home",
@@ -27,7 +28,13 @@ export class AppComponent {
   public allLocationAtLevel = {};
   public equipments;
   public services;
-  public showMoreFilters = false;
+  public showMoreFilters = true;
+  public dropdownList_equipments = [];
+  public selectedItems_equipments = [];
+  public dropdownSettings_equipments: IDropdownSettings = {};
+  public dropdownList_services = [];
+  public selectedItems_services = [];
+  public dropdownSettings_services: IDropdownSettings = {};
 
   constructor(private crystalService: CrystalService) {
     this.populateRooms();
@@ -54,8 +61,8 @@ export class AppComponent {
   }
 
   public populateRooms() {
-    this.crystalService.getResourceProfiles().subscribe(data => {
-      this.rooms = data["resource_profile"];
+    this.crystalService.getResources().subscribe(data => {
+      this.rooms = data["resources"];
       this.maxAvailableCapacity = Math.max.apply(
         Math,
         this.rooms.map(function (o) {
@@ -123,17 +130,6 @@ export class AppComponent {
     return length;
   }
 
-  public getDropdownList(obj, level){
-      if (level == 1) return obj;
-      obj.forEach(location => {
-        let loc = (location.children.length )
-
-      });
-      for(let i = 0; i<level; i++){
-
-      }
-  }
-
   public populateCities() {
     this.cities = this.selectedCountry["children"];
     this.getBuildings();
@@ -156,11 +152,36 @@ export class AppComponent {
   public getEquipments() {
     this.crystalService.getEquipments().subscribe(data => {
       this.equipments = data["equipments"];
+      this.dropdownList_equipments = this.equipments;
+      this.selectedItems_equipments = [];
+      this.dropdownSettings_equipments = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'name',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: false
+      };
     });
+
+    
   }
+
   public getServices() {
     this.crystalService.getServices().subscribe(data => {
       this.services = data;
+      this.dropdownList_services = this.services;
+      this.selectedItems_services = [];
+      this.dropdownSettings_services = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'name',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: false
+      };
     });
   }
 }

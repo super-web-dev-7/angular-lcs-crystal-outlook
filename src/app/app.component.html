@@ -7,9 +7,9 @@
         style="max-width: 300px;"
       />
     </div>
-    <div class="ui segment grid" style="border: 0px;">
-      <div class="sixteen wide column">
-        <div class="ui fluid input container">
+    <div class="ui segment grid mt-0 mb-0" style="border: 0px; min-height: 261px;">
+      <div class="sixteen wide column pb-0">
+        <div class="ui fluid input container" style="margin: 0px 0px 0px 0px !important;">
           <input
             placeholder="Enter Name"
             type="text"
@@ -18,19 +18,19 @@
           />
         </div>
       </div>
-      <div class="sixteen wide column">
-        <div class="ui fluid left aligned container">
+      <div class="sixteen wide column pb-0" style="min-height: 60px;">
+        <div class="ui fluid left aligned slider">
           <div>
-            Capacity:
-            <div class="ui input" style="float:right; margin-right: 1%;">
+            <div style="float:left;"><span>Capacity:</span></div>
+            <div class="ui input" style="float:right;">
                 <span>{{selectedCapacity}}</span>
             </div>
           </div>
-          <div class="ui blue range" id="range-3"></div>
+          <div class="ui blue range pb-0" id="range-3"></div>
         </div>
       </div>
       <div
-        class="eight wide column"
+        class="eight wide column pb-0"
         id="dropdowns"
         *ngFor="let level of Arr(locationLevels).fill(1); let i = index"
       >
@@ -54,44 +54,50 @@
         >
       </div>
     </div>
-    <div class="ui segment grid" style="border: 0px;" id="morefilters" *ngIf="showMoreFilters">
-      <div class="eight wide column">
-        <select name="equipments" multiple="" class="ui fluid search dropdown">
-          <option value="">Equipments</option>
-          <option
-            value="{{ equipment.name }}"
-            *ngFor="let equipment of equipments"
-            >{{ equipment.name }}</option
-          >
-        </select>
+    <div class="ui segment grid mt-0 mb-0" style="border: 0px; min-height: 50px;" id="morefilters" *ngIf="showMoreFilters">
+      <div class="eight wide column pt-0">
+        <ng-multiselect-dropdown
+          [placeholder]="'Equipments'"
+          [data]="dropdownList_equipments"
+          [(ngModel)]="selectedItems_equipments"
+          [settings]="dropdownSettings_equipments"
+        >
+        </ng-multiselect-dropdown>
       </div>
-      <div class="eight wide column">
-        <select class="ui fluid search dropdown">
-          <option value="">Services</option>
-          <option value="{{ service.name }}" *ngFor="let service of services">{{
-            service.name
-          }}</option>
-        </select>
+      <div class="eight wide column pt-0">
+        <ng-multiselect-dropdown
+          [placeholder]="'Services'"
+          [data]="dropdownList_services"
+          [(ngModel)]="selectedItems_services"
+          [settings]="dropdownSettings_services"
+        >
+        </ng-multiselect-dropdown>
       </div>
     </div>
-    <div class="ui segment" style="border: 0px;min-height: 340px;max-height: 340px;overflow-y: scroll;">
-      <div class="ui container fluid" style="margin-top:1%;">
+    <div class="ui segment" [ngClass]="showMoreFilters ? 'roomsPane-sm' : 'roomsPane-lg'">
+      <div class="ui fluid" style="margin-top:1%;">
         <div
           *ngFor="
             let room of rooms
-              | filter: { searchValue: searchText, capacity: selectedCapacity }
+              | filter: { 
+                  searchValue: searchText, 
+                  capacity: selectedCapacity,
+                  equipments: selectedItems_equipments,
+                  services: selectedItems_services
+                 }
           "
           class="ui placeholder segment segment-grey left aligned"
           id="{{ room.id }}"
+          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px;"
         >
-          <div class="ui grid">
-            <div class="six wide column">
+          <div class="ui grid" style="max-height: 120px; min-height: 120px;">
+            <div class="six wide column middle aligned">
               <img src="../../../assets/conf.jpg" class="ui image" />
             </div>
             <div class="eight wide column middle aligned">
               <h3 class="ui header aligned left">{{ room.name }}</h3>
               <div class="aligned left">
-                <i class="circle icon available"></i>{{ room.capacity }} Available
+                <i class="circle icon available"></i>Available
               </div>
               <p class="aligned left">France/Paris/Building1</p>
             </div>
