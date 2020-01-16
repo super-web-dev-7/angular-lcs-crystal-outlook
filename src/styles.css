@@ -44,32 +44,38 @@ body{
 }
 
 #morefilters > div > ng-multiselect-dropdown > div > div:nth-child(1) > span > span:nth-child(2){
-	float: right !important;
+	/* float: right !important; */
     padding-right: 0px !important;
     margin-right: -6px !important;
 }
 
 
-
-#morefilters > div > ng-multiselect-dropdown > div > div:nth-child(1) > span > span:nth-child(2) > span.dropdown-down
+span.dropdown-down
 {
-	display: inline-block;
-    top: 10px;
-    width: 0;
-    height: 0;
-    border-top: 8px solid #212121;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
+	display: inline-block !important;
+    top: 10px !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-top: 8px solid #212121 !important;
+    border-left: 4px solid transparent !important;
+    border-right: 4px solid transparent !important;
 }
 
-#morefilters > div > ng-multiselect-dropdown > div > div:nth-child(1) > span > span:nth-child(2) > span.dropdown-up
+span.dropdown-up
 {
-	display: inline-block;
-    width: 0;
-    height: 0;
-    border-bottom: 8px solid #212121;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
+	display: inline-block !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-bottom: 8px solid #212121 !important;
+    border-left: 4px solid transparent !important;
+    border-right: 4px solid transparent !important;
+}
+
+#morefiltersToggle{
+    color: #03A9F4;
+    font-weight: 600;
+    margin-left: 2px; 
+    cursor: pointer;
 }
 
 #morefilters > div > ng-multiselect-dropdown > div > div.dropdown-list{

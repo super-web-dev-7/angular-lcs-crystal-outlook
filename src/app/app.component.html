@@ -47,11 +47,11 @@
         </select>
       </div>
       <div class="sixteen wide column left aligned">
-        <span style="color: #03A9F4;font-weight: 600;margin-left: 2px;"
-          ><a (click)="showMoreFilters = !showMoreFilters"
-            >More Filters {{ showMoreFilters ? "▲" : "▼" }}</a
-          ></span
-        >
+        <span id="morefiltersToggle">
+          <a (click)="showMoreFilters = !showMoreFilters">
+            More Filters {{ showMoreFilters ? "▲" : "▼" }}
+          </a>
+        </span>
       </div>
     </div>
     <div class="ui segment grid mt-0 mb-0" style="border: 0px; min-height: 50px;" id="morefilters" *ngIf="showMoreFilters">

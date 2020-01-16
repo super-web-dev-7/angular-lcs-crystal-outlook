@@ -171,7 +171,14 @@ export class AppComponent {
   public getServices() {
     this.crystalService.getServices().subscribe(data => {
       this.services = data;
-      this.dropdownList_services = this.services;
+      //this.dropdownList_services = this.services;
+      this.dropdownList_services = [
+        { id: 1, name: 'service1' },
+        { id: 2, name: 'service2' },
+        { id: 3, name: 'service3' },
+        { id: 4, name: 'service4' },
+        { id: 5, name: 'service5' }
+      ];
       this.selectedItems_services = [];
       this.dropdownSettings_services = {
         singleSelection: false,
