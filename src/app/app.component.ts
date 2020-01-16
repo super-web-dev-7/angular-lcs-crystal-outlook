@@ -24,16 +24,20 @@ export class AppComponent {
   Arr = Array;
   public locationLevels;
   public selectedLocation = {};
+  public equipments;
+  public services;
+  public showMoreFilters = false;
 
   constructor(private crystalService: CrystalService) {
-   this.populateRooms();
-   this.getLocations();
+    this.populateRooms();
+    this.getLocations();
+    this.getEquipments();
+    this.getServices();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  public semanticInitialize(){
+  public semanticInitialize() {
     $(".ui.modal").modal("show");
     // Semantic UI Range
     $(".ui.range").range({
@@ -96,9 +100,10 @@ export class AppComponent {
       min: 0,
       max: this.maxAvailableCapacity,
       start: 5,
-      onChange: function(value) {
-        $("#display-3").html(value);
-      }
+      input: "#input-2",
+      // onChange: function(value) {
+      //   $("#display-3").html(value);
+      // }
     });
 
     // Set custom step
@@ -111,65 +116,84 @@ export class AppComponent {
     });
   }
 
-  public populateRooms(){
-    this.crystalService.getResourceProfiles().subscribe((data) => {
+  public populateRooms() {
+    this.crystalService.getResourceProfiles().subscribe(data => {
       this.rooms = data["resource_profile"];
-      this.maxAvailableCapacity = Math.max.apply(Math, this.rooms.map(function(o) { return o.capacity; }));
+      this.maxAvailableCapacity = Math.max.apply(
+        Math,
+        this.rooms.map(function(o) {
+          return o.capacity;
+        })
+      );
       this.semanticInitialize();
-    })
+    });
   }
 
-  public getLocations(){
-    this.crystalService.getLocations().subscribe((data) => {
+  public toggleMoreFilters(){
+    this.showMoreFilters = !this.showMoreFilters;
+  }
+
+  public getLocations() {
+    this.crystalService.getLocations().subscribe(data => {
       this.locations = data["location_level"];
       this.locationLevels = this.getRecursiveLength(this.locations);
-      });
+    });
   }
 
-  public locationLevelChanged(i, location){
+  public locationLevelChanged(i, location) {
     this.selectedLocation[i] = location;
   }
-  
-  public getLocationLevel(i:number){
-    if(i > 0){
-      if(!!this.selectedLocation[i-1]){
-        return this.selectedLocation[i-1].children;
-      } else{
+
+  public getLocationLevel(i: number) {
+    if (i > 0) {
+      if (!!this.selectedLocation[i - 1]) {
+        return this.selectedLocation[i - 1].children;
+      } else {
         return [];
       }
-    } else{
+    } else {
       return this.locations;
     }
   }
 
-  public getRecursiveLength(obj){
+  public getRecursiveLength(obj) {
     obj.forEach(location => {
-      if(location.children.length != 0){
-        length =  1 + this.getRecursiveLength(location.children);
-      } else{
+      if (location.children.length != 0) {
+        length = 1 + this.getRecursiveLength(location.children);
+      } else {
         length = 1;
       }
-  });
-  return length;
-}
+    });
+    return length;
+  }
 
-
-  public populateCities(){
+  public populateCities() {
     this.cities = this.selectedCountry["children"];
     this.getBuildings();
   }
 
-  public getBuildings(){
-    this.crystalService.getBuildings().subscribe((data) => {
+  public getBuildings() {
+    this.crystalService.getBuildings().subscribe(data => {
       this.buildings = data[0]["children"];
-    })
+    });
   }
 
-  public populateFloors(){
+  public populateFloors() {
     this.floors = this.selectedBuilding["children"];
   }
-  
-  public update(){
+
+  public update() {
     this.selectedCapacity = 15;
+  }
+
+  public getEquipments() {
+    this.crystalService.getEquipments().subscribe(data => {
+      this.equipments = data["equipments"];
+    });
+  }
+  public getServices() {
+    this.crystalService.getServices().subscribe(data => {
+      this.services = data;
+    });
   }
 }

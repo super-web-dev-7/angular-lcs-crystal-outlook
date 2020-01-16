@@ -12,9 +12,9 @@
         <div class="sixteen wide column">
         <div class="ui fluid left aligned container">
           <span style="margin-left:15px;">Capacity: <span  id="display-3"></span></span>
-          <div class="ui blue range" id="range-3" style="padding:0;"></div>      					
-        </div>
-      </div>
+          <div class="ui blue range" id="range-3" style="padding:0;"></div>
+          </div>      					
+        </div>  
         <div class="eight wide column" *ngFor="let level of Arr(locationLevels).fill(1); let i = index" >
         <select class="ui fluid search dropdown"  [(ngModel)]="selectedLocation[i]">
             <option value="">Location Level {{i}}</option>
@@ -23,33 +23,26 @@
       </div>
       
       <div class="sixteen wide column left aligned">
-        <span style="color: #03A9F4;font-weight: 600;margin-left: 2px;"><a href="#">More Filters ></a></span>			
+        <span style="color: #03A9F4;font-weight: 600;margin-left: 2px;"><a  (click)="showMoreFilters = !showMoreFilters">More Filters ></a></span>			
       </div>
     </div>	
-    <div class="ui grid" id="morefilters" >
-      <div class="sixteen wide column">
-        <select class="ui fluid search dropdown">
-          <option value="">Profile Filters</option>
-          <option value="AF">All Floor</option>
-        </select>
-      </div>
+    <div class="ui grid" id="morefilters" [hidden]="!showMoreFilters">
       <div class="eight wide column">
         <select name="equipments" multiple="" class="ui fluid search dropdown">
             <option value="">Equipments</option>
-            <option value="phone">Phone</option>
-          <option value="tv">TV</option>
-          <option value="speaker">Speaker</option>
+            <option value="{{equipment.name}}" *ngFor="let equipment of equipments">{{equipment.name}}</option>
         </select>
       </div>
       <div class="eight wide column">
         <select class="ui fluid search dropdown">
             <option value="">Services</option>
-            <option value="AF">All Floor</option>
+            <option value="{{service.name}}" *ngFor="let service of services">{{service.name}}</option>
         </select>
       </div>
     </div>  				
     <div class="ui fluid" style="margin-top:5%;">
-      <div *ngFor="let room of rooms | filter:{searchValue: searchText, capacity: selectedCapacity}" class="ui placeholder segment segment-grey left aligned" id="{{room.id}}">
+      <div *ngFor="let room of rooms | filter:{searchValue: searchText, capacity: selectedCapacity
+      }" class="ui placeholder segment segment-grey left aligned" id="{{room.id}}">
         <div class="ui grid">
           <div class="six wide column">
             <img src="../../../assets/conf.jpg" class="ui image">
