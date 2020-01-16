@@ -1,73 +1,119 @@
 <main class="ms-welcome__main">
   <div class="ui fluid center aligned container">
-    <div class="ui fluid container">
-        <img src="../../../assets/logo.png" class="ui fluid centered image" style="max-width: 368px;">
+    <div class="ui fluid container" style="border-bottom: 1px solid #F5F5F5">
+      <img
+        src="../../../assets/logo.png"
+        class="ui fluid centered image"
+        style="max-width: 300px;"
+      />
     </div>
-    <div class="ui grid" style="margin-top:5%;">
-        <div class="sixteen wide column">
-        <div class="ui fluid input container">	
-          <input placeholder="Enter Name" type="text" style="border-width: 0 0 1 0;" [(ngModel)]="searchText">
+    <div class="ui segment grid" style="border: 0px;">
+      <div class="sixteen wide column">
+        <div class="ui fluid input container">
+          <input
+            placeholder="Enter Name"
+            type="text"
+            style="border-width: 0 0 1 0;"
+            [(ngModel)]="searchText"
+          />
         </div>
       </div>
-        <div class="sixteen wide column">
+      <div class="sixteen wide column">
         <div class="ui fluid left aligned container">
-          <span style="margin-left:15px;">Capacity: <span  id="display-3"></span></span>
-          <div class="ui blue range" id="range-3" style="padding:0;"></div>
-          </div>      					
-        </div>  
-        <div class="eight wide column" *ngFor="let level of Arr(locationLevels).fill(1); let i = index" >
-        <select class="ui fluid search dropdown"  [(ngModel)]="selectedLocation[i]">
-            <option value="">Location Level {{i}}</option>
-            <option value="location" *ngFor="let location of getLocationLevel(i)">{{location.name}}</option>
+          <div>
+            Capacity:
+            <div class="ui input" style="float:right; margin-right: 1%;">
+                <span>{{selectedCapacity}}</span>
+            </div>
+          </div>
+          <div class="ui blue range" id="range-3"></div>
+        </div>
+      </div>
+      <div
+        class="eight wide column"
+        id="dropdowns"
+        *ngFor="let level of Arr(locationLevels).fill(1); let i = index"
+      >
+        <select
+          class="ui fluid search dropdown"
+          [(ngModel)]="selectedLocation[i]"
+        >
+          <option value="" selected>Select Level {{ i }}</option>
+          <option
+            [ngValue]="location"
+            *ngFor="let location of getLocationLevel(i)"
+            >{{ location.name }}</option
+          >
         </select>
       </div>
-      
       <div class="sixteen wide column left aligned">
-        <span style="color: #03A9F4;font-weight: 600;margin-left: 2px;"><a  (click)="showMoreFilters = !showMoreFilters">More Filters ></a></span>			
+        <span style="color: #03A9F4;font-weight: 600;margin-left: 2px;"
+          ><a (click)="showMoreFilters = !showMoreFilters"
+            >More Filters {{ showMoreFilters ? "▲" : "▼" }}</a
+          ></span
+        >
       </div>
-    </div>	
-    <div class="ui grid" id="morefilters" [hidden]="!showMoreFilters">
+    </div>
+    <div class="ui segment grid" style="border: 0px;" id="morefilters" *ngIf="showMoreFilters">
       <div class="eight wide column">
         <select name="equipments" multiple="" class="ui fluid search dropdown">
-            <option value="">Equipments</option>
-            <option value="{{equipment.name}}" *ngFor="let equipment of equipments">{{equipment.name}}</option>
+          <option value="">Equipments</option>
+          <option
+            value="{{ equipment.name }}"
+            *ngFor="let equipment of equipments"
+            >{{ equipment.name }}</option
+          >
         </select>
       </div>
       <div class="eight wide column">
         <select class="ui fluid search dropdown">
-            <option value="">Services</option>
-            <option value="{{service.name}}" *ngFor="let service of services">{{service.name}}</option>
+          <option value="">Services</option>
+          <option value="{{ service.name }}" *ngFor="let service of services">{{
+            service.name
+          }}</option>
         </select>
       </div>
-    </div>  				
-    <div class="ui fluid" style="margin-top:5%;">
-      <div *ngFor="let room of rooms | filter:{searchValue: searchText, capacity: selectedCapacity
-      }" class="ui placeholder segment segment-grey left aligned" id="{{room.id}}">
-        <div class="ui grid">
-          <div class="six wide column">
-            <img src="../../../assets/conf.jpg" class="ui image">
-          </div>
-          <div class="eight wide column middle aligned">
-            <h3 class="ui header aligned left">{{room.name}}</h3>						
-            <div class="aligned left"><i class="circle icon available"></i>Available</div>
-            <p class="aligned left">France/Paris/Building1</p>
-          </div>
-          <div class="two wide column right aligned" style="padding: 0 0 0;">
-            5<i class="user icon"></i>
+    </div>
+    <div class="ui segment" style="border: 0px;min-height: 340px;max-height: 340px;overflow-y: scroll;">
+      <div class="ui container fluid" style="margin-top:1%;">
+        <div
+          *ngFor="
+            let room of rooms
+              | filter: { searchValue: searchText, capacity: selectedCapacity }
+          "
+          class="ui placeholder segment segment-grey left aligned"
+          id="{{ room.id }}"
+        >
+          <div class="ui grid">
+            <div class="six wide column">
+              <img src="../../../assets/conf.jpg" class="ui image" />
+            </div>
+            <div class="eight wide column middle aligned">
+              <h3 class="ui header aligned left">{{ room.name }}</h3>
+              <div class="aligned left">
+                <i class="circle icon available"></i>{{ room.capacity }} Available
+              </div>
+              <p class="aligned left">France/Paris/Building1</p>
+            </div>
+            <div class="two wide column right aligned" style="padding: 0 0 0;">
+              {{ room.capacity }}<i class="user icon"></i>
+            </div>
           </div>
         </div>
-      </div>				
-    </div>
-    <div class="ui grid" style="margin-top:5%;" >
-      <div class="two wide column">
-        <i class="left chevron icon"></i>
-      </div>
-      <div class="twelve wide column">
-        <p id="page">1/1</p>
-      </div>
-      <div class="two wide column">
-        <i class="right chevron icon"></i>
       </div>
     </div>
-  </div>		
+    <footer>
+      <div class="ui grid">
+        <div class="two wide column">
+          <i class="left chevron icon"></i>
+        </div>
+        <div class="twelve wide column">
+          <p id="page">1/1</p>
+        </div>
+        <div class="two wide column">
+          <i class="right chevron icon"></i>
+        </div>
+      </div>
+    </footer>
+  </div>
 </main>

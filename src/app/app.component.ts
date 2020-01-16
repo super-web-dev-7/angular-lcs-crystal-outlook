@@ -20,10 +20,11 @@ export class AppComponent {
   public isLoaded = false;
   public searchText = "";
   public maxAvailableCapacity;
-  public selectedCapacity = 5;
+  public selectedCapacity = 1;
   Arr = Array;
   public locationLevels;
   public selectedLocation = {};
+  public allLocationAtLevel = {};
   public equipments;
   public services;
   public showMoreFilters = false;
@@ -35,85 +36,21 @@ export class AppComponent {
     this.getServices();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   public semanticInitialize() {
-    $(".ui.modal").modal("show");
     // Semantic UI Range
-    $(".ui.range").range({
-      min: 0,
-      max: 10,
-      start: 10,
-      step: 1
-    });
-
-    $("#smooth").range({
-      min: 0,
-      max: 10,
-      start: 5,
-      smooth: true
-    });
-
-    $("#double").range({
-      min: 0,
-      max: 10,
-      start: 5,
-      step: 1,
-      verbose: true,
-      debug: true,
-      onChange: function(value) {
-        var $self = $(this),
-          firstVal = $self.range("get thumb value"),
-          secVal = $self.range("get thumb value", "second");
-        $("#display-d").html("|" + firstVal + " - " + secVal + "| = " + value);
-      }
-    });
-
-    $("#range-0").range({
-      min: 0,
-      max: this.maxAvailableCapacity,
-      start: 5,
-      labelType: "letter"
-    });
-
-    // No Step
-    $("#range-1").range({
-      min: 0,
-      max: this.maxAvailableCapacity,
-      start: 5,
-      step: 0,
-      onChange: function(value) {
-        $("#display-1").html(value);
-      }
-    });
-
-    // Place value in an input
-    $("#range-2").range({
-      min: 0,
-      max: this.maxAvailableCapacity,
-      start: 5,
-      input: "#input-2"
-    });
-
-    // Or use a custom callback
     $("#range-3").range({
-      min: 0,
+      min: 1,
       max: this.maxAvailableCapacity,
-      start: 5,
-      input: "#input-2",
-      // onChange: function(value) {
-      //   $("#display-3").html(value);
-      // }
+      start: this.selectedCapacity,
+      step: 1,
+      onChange: value => this.updateSelectedCapacity(value)
     });
+  }
 
-    // Set custom step
-    $("#range-4").range({
-      min: 0,
-      max: this.maxAvailableCapacity,
-      start: 4,
-      step: 2,
-      input: "#input-4"
-    });
+  public updateSelectedCapacity(value) {
+    this.selectedCapacity = value;
   }
 
   public populateRooms() {
@@ -121,7 +58,7 @@ export class AppComponent {
       this.rooms = data["resource_profile"];
       this.maxAvailableCapacity = Math.max.apply(
         Math,
-        this.rooms.map(function(o) {
+        this.rooms.map(function (o) {
           return o.capacity;
         })
       );
@@ -129,7 +66,7 @@ export class AppComponent {
     });
   }
 
-  public toggleMoreFilters(){
+  public toggleMoreFilters() {
     this.showMoreFilters = !this.showMoreFilters;
   }
 
@@ -137,6 +74,9 @@ export class AppComponent {
     this.crystalService.getLocations().subscribe(data => {
       this.locations = data["location_level"];
       this.locationLevels = this.getRecursiveLength(this.locations);
+      for (let i = 0; i < this.locationLevels; i++) {
+        this.selectedLocation[i] = "";
+      }
     });
   }
 
@@ -146,7 +86,12 @@ export class AppComponent {
 
   public getLocationLevel(i: number) {
     if (i > 0) {
-      if (!!this.selectedLocation[i - 1]) {
+      if (
+        !this.containsObject(this.selectedLocation[i], this.selectedLocation[i - 1].children) 
+        || this.selectedLocation[i - 1] == ""
+      )
+        this.selectedLocation[i] = "";
+      if (this.selectedLocation[i - 1] != "") {
         return this.selectedLocation[i - 1].children;
       } else {
         return [];
@@ -154,6 +99,17 @@ export class AppComponent {
     } else {
       return this.locations;
     }
+  }
+
+  public containsObject(obj, list) {
+    if (!list) return false;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i] === obj) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public getRecursiveLength(obj) {
@@ -165,6 +121,17 @@ export class AppComponent {
       }
     });
     return length;
+  }
+
+  public getDropdownList(obj, level){
+      if (level == 1) return obj;
+      obj.forEach(location => {
+        let loc = (location.children.length )
+
+      });
+      for(let i = 0; i<level; i++){
+
+      }
   }
 
   public populateCities() {
