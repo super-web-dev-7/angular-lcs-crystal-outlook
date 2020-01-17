@@ -1,6 +1,6 @@
 <main class="ms-welcome__main">
   <div class="ui fluid center aligned container">
-    <div class="ui fluid container" style="border-bottom: 1px solid #F5F5F5">
+    <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
       <img
         src="../../../assets/logo.png"
         class="ui fluid centered image"
@@ -13,7 +13,7 @@
           <input
             placeholder="Enter Name"
             type="text"
-            style="border-width: 0 0 1 0;"
+            style="border-width: 0px 0px 1px 0px;"
             [(ngModel)]="searchText"
           />
         </div>
@@ -29,9 +29,21 @@
           <div class="ui blue range pb-0" id="range-3"></div>
         </div>
       </div>
+      <div class="sixteen wide column pb-0">
+        <select
+          class="ui fluid search dropdown"
+          [(ngModel)]="selectedResourceProfile"
+        >
+          <option value="" selected>Select Resource Profile</option>
+          <option
+            [ngValue]="RP"
+            *ngFor="let RP of resourceProfiles"
+            >{{ RP.name }}</option
+          >
+        </select>
+      </div>
       <div
-        class="eight wide column pb-0"
-        id="dropdowns"
+        class="eight wide column pb-0 locations"
         *ngFor="let level of Arr(locationLevels).fill(1); let i = index"
       >
         <select
@@ -48,8 +60,9 @@
       </div>
       <div class="sixteen wide column left aligned">
         <span id="morefiltersToggle">
-          <a (click)="showMoreFilters = !showMoreFilters">
-            More Filters {{ showMoreFilters ? "▲" : "▼" }}
+          <a (click)="resetFilters()">
+            More Filters 
+            <i [ngClass]= "showMoreFilters ? 'chevron icon down' : 'chevron icon right'"></i>
           </a>
         </span>
       </div>
@@ -81,6 +94,7 @@
             let room of rooms
               | filter: { 
                   searchValue: searchText, 
+                  resourceProfiles: selectedResourceProfile,
                   capacity: selectedCapacity,
                   equipments: selectedItems_equipments,
                   services: selectedItems_services
@@ -92,14 +106,14 @@
         >
           <div class="ui grid" style="max-height: 120px; min-height: 120px;">
             <div class="six wide column middle aligned">
-              <img src="../../../assets/conf.jpg" class="ui image" />
+              <img src="../../../assets/conf.jpg" class="ui image" style="max-height: 95px;"/>
             </div>
             <div class="eight wide column middle aligned">
               <h3 class="ui header aligned left">{{ room.name }}</h3>
               <div class="aligned left">
-                <i class="circle icon available"></i>Available
+                <i class="circle icon available"></i>{{room.isAvailable ? "Available" : "Not Available"}}
               </div>
-              <p class="aligned left">France/Paris/Building1</p>
+              <p class="aligned left">{{ getLocationPath("",room.location) }}</p>
             </div>
             <div class="two wide column right aligned" style="padding: 0 0 0;">
               {{ room.capacity }}<i class="user icon"></i>

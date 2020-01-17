@@ -9,7 +9,6 @@ if (environment.production) {
 }
 
 Office.initialize = reason => {
-  document.getElementById("sideload-msg").style.display = "none";
   platformBrowserDynamic()
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));

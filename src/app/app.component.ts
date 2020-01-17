@@ -18,6 +18,8 @@ export class AppComponent {
   public buildings;
   public floors;
   public rooms;
+  public resourceProfiles;
+  public selectedResourceProfile = "";
   public isLoaded = false;
   public searchText = "";
   public maxAvailableCapacity;
@@ -41,12 +43,13 @@ export class AppComponent {
     this.getLocations();
     this.getEquipments();
     this.getServices();
+    this.getResourceProfiles();
   }
 
   ngOnInit() { }
 
-  public semanticInitialize() {
-    // Semantic UI Range
+  public renderCapacitySlider() {
+    this.renderDropdowns();
     $("#range-3").range({
       min: 1,
       max: this.maxAvailableCapacity,
@@ -69,17 +72,14 @@ export class AppComponent {
           return o.capacity;
         })
       );
-      this.semanticInitialize();
+      this.renderCapacitySlider();
     });
-  }
-
-  public toggleMoreFilters() {
-    this.showMoreFilters = !this.showMoreFilters;
   }
 
   public getLocations() {
     this.crystalService.getLocations().subscribe(data => {
       this.locations = data["location_level"];
+      this.renderDropdowns();
       this.locationLevels = this.getRecursiveLength(this.locations);
       for (let i = 0; i < this.locationLevels; i++) {
         this.selectedLocation[i] = "";
@@ -96,8 +96,10 @@ export class AppComponent {
       if (
         !this.containsObject(this.selectedLocation[i], this.selectedLocation[i - 1].children) 
         || this.selectedLocation[i - 1] == ""
-      )
+      ){
         this.selectedLocation[i] = "";
+        $($('.locations>div')[i]).dropdown('clear');
+      }
       if (this.selectedLocation[i - 1] != "") {
         return this.selectedLocation[i - 1].children;
       } else {
@@ -191,4 +193,36 @@ export class AppComponent {
       };
     });
   }
-}
+
+  public getLocationPath(pathSoFar, location){
+    let path = pathSoFar;
+    path += path == "" ? location.name : "/" + location.name;
+    if(location.children == undefined){
+      return path;
+    }
+    else{
+      this.getLocationPath(path,location.children);
+    }
+  }
+
+  public getResourceProfiles() {
+    this.crystalService.getResourceProfiles().subscribe(data => {
+      this.resourceProfiles = data["resource_profile"];
+      this.renderDropdowns();
+    });
+  }
+  
+  resetFilters(){
+    this.showMoreFilters = !this.showMoreFilters;
+    this.selectedItems_equipments = [];
+    this.selectedItems_services = [];
+  }
+
+  renderDropdowns(){
+    $('.ui.dropdown').dropdown({
+      "clearable": true
+     });
+  }
+
+
+  }

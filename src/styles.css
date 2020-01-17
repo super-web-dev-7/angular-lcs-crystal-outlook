@@ -1,8 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-body{
-    max-width: 500px;
-}
-
 .roomsPane-lg{
     border: 0px;
     /* min-height: 340px;
@@ -85,7 +81,7 @@ span.dropdown-up
 
 #morefilters > div > ng-multiselect-dropdown > div > div:nth-child(1) > span {
 	border: 1px solid rgba(34, 36, 38, 0.15);
-    border-radius: 0px;
+    /* border-radius: 0px; */
 }
 
 .ui.grid > .column:not(.row), .ui.grid > .row > .column {
@@ -101,4 +97,26 @@ span.dropdown-up
 
 .slider > div{
     padding-bottom: 10px;
+}
+
+.multiselect-item-checkbox input[type=checkbox] + div:before{
+    color: #03A9F4 !important;
+    border: 2px solid #03A9F4 !important;
+    border-radius: 50px;
+}
+
+.selected-item{
+    background: #03A9F4 !important;
+}
+
+.multiselect-item-checkbox input[type=checkbox]:checked + div:after{
+    margin-left: -1px;
+}
+
+.multiselect-dropdown.dropdown-btn {
+    color:#03A9F4 !important;
+}
+
+.multiselect-dropdown {
+    color : rgba(191, 191, 191, 0.87);
 }

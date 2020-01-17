@@ -40,6 +40,13 @@ export class FilterPipe implements PipeTransform {
       });
     }
 
+    if (searchParams.resourceProfiles) {
+        itemsFiltered = itemsFiltered.filter(
+          item => { 
+            return item.type.id == searchParams.resourceProfiles.id;
+          });
+    }
+
     return itemsFiltered;
   }
 }
