@@ -113,7 +113,7 @@
               <div class="aligned left">
                 <i class="circle icon available"></i>{{room.isAvailable ? "Available" : "Not Available"}}
               </div>
-              <p class="aligned left">{{ getLocationPath("",room.location) }}</p>
+              <p class="aligned left">{{ locationPaths[room.id] }}</p>
             </div>
             <div class="two wide column right aligned" style="padding: 0 0 0;">
               {{ room.capacity }}<i class="user icon"></i>

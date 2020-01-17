@@ -28,6 +28,7 @@ export class AppComponent {
   public locationLevels;
   public selectedLocation = {};
   public allLocationAtLevel = {};
+  public locationPaths = {};
   public equipments;
   public services;
   public showMoreFilters = true;
@@ -40,28 +41,11 @@ export class AppComponent {
 
   constructor(private crystalService: CrystalService) {
     this.populateRooms();
-    this.getLocations();
     this.getEquipments();
-    this.getServices();
-    this.getResourceProfiles();
+    this.getServices();  
   }
 
   ngOnInit() { }
-
-  public renderCapacitySlider() {
-    this.renderDropdowns();
-    $("#range-3").range({
-      min: 1,
-      max: this.maxAvailableCapacity,
-      start: this.selectedCapacity,
-      step: 1,
-      onChange: value => this.updateSelectedCapacity(value)
-    });
-  }
-
-  public updateSelectedCapacity(value) {
-    this.selectedCapacity = value;
-  }
 
   public populateRooms() {
     this.crystalService.getResources().subscribe(data => {
@@ -76,6 +60,31 @@ export class AppComponent {
     });
   }
 
+  public renderCapacitySlider() {
+    this.renderDropdowns();
+    $("#range-3").range({
+      min: 1,
+      max: this.maxAvailableCapacity,
+      start: this.selectedCapacity,
+      step: 1,
+      onChange: value => this.updateSelectedCapacity(value)
+    });
+    this.getResourceProfiles();
+  }
+
+  public updateSelectedCapacity(value) {
+    this.selectedCapacity = value;
+  }
+
+  public getResourceProfiles() {
+    this.crystalService.getResourceProfiles().subscribe(data => {
+      this.resourceProfiles = data["resource_profile"];
+      this.renderDropdowns();
+      this.getLocations();
+    });
+  }
+
+
   public getLocations() {
     this.crystalService.getLocations().subscribe(data => {
       this.locations = data["location_level"];
@@ -84,11 +93,8 @@ export class AppComponent {
       for (let i = 0; i < this.locationLevels; i++) {
         this.selectedLocation[i] = "";
       }
+      this.setLocationPaths();
     });
-  }
-
-  public locationLevelChanged(i, location) {
-    this.selectedLocation[i] = location;
   }
 
   public getLocationLevel(i: number) {
@@ -194,23 +200,23 @@ export class AppComponent {
     });
   }
 
-  public getLocationPath(pathSoFar, location){
-    let path = pathSoFar;
-    path += path == "" ? location.name : "/" + location.name;
-    if(location.children == undefined){
-      return path;
-    }
-    else{
-      this.getLocationPath(path,location.children);
-    }
-  }
-
-  public getResourceProfiles() {
-    this.crystalService.getResourceProfiles().subscribe(data => {
-      this.resourceProfiles = data["resource_profile"];
-      this.renderDropdowns();
+  public setLocationPaths(){
+    this.rooms.forEach(room => {
+      let loc = room.location;
+      let path = loc.name;
+      for(let i = 0; i < this.locationLevels; i++){
+        if(loc.children && loc.children.name){
+          path += '/' + loc.children.name;
+          loc = loc.children;
+        }
+        else
+        break;
+      }
+      this.locationPaths[room.id] = path;
     });
   }
+
+  
   
   resetFilters(){
     this.showMoreFilters = !this.showMoreFilters;
