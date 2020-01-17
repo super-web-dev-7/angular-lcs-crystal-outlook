@@ -7,11 +7,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe} from './pipes/filter.pipe';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { RoomComponent } from './room/room.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent, FilterPipe 
+    AppComponent, FilterPipe, RoomComponent, HomeComponent 
   ],
   imports: [
     BrowserModule,
