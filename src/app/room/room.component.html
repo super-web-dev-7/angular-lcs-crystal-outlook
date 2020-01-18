@@ -46,7 +46,7 @@
           class="circle outline icon"
           *ngFor="let equipment of room.equipments"
         >
-        {{ equipmentsMap[equipment.id].name }}
+          {{ equipmentsMap[equipment.id].name }}
         </i>
       </div>
       <div style="margin-top:10%;">
@@ -72,16 +72,44 @@
 <div *ngIf="currentPage > 1">
   <!-- UI for Service Selection Page -->
   <div [hidden]="currentPage != 2" id="selectServices">
-    <div
-      class="ui checkbox"
-      *ngFor="let service of availableServices; let i = index"
-    >
-      <input
-        type="checkbox"
-        [checked]="this.selectedServices[service].isSelected"
-        (change)="updateAvailedServiceList(service)"
-      />
-      <label>{{ selectedServices[service].data.name }}</label>
+    <div class="ui fluid center aligned container">
+      <div
+        class="ui fluid"
+        style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
+      >
+        <img
+          src="../../assets/logo.png"
+          class="ui fluid centered image"
+          style="max-width: 300px;"
+        />
+      </div>
+      <div class="ui fluid container">
+        <img src="../../assets/check.jpg" class="ui fluid centered image" />
+      </div>
+    </div>
+    <div style="margin-left:5%; margin-top:2%">
+      <h1 style="margin-bottom: 0">{{room.name}}</h1>
+      <h6 style="margin-top: 0">Select the services you need</h6>
+    </div>
+    <div style="margin-left:5%; margin-top:2%">
+      <div>
+        <h4>
+          Services
+        </h4>
+      </div>
+      <div>
+        <div
+          class="ui checked checkbox"
+          *ngFor="let service of availableServices; let i = index"
+        >
+          <input
+            type="checkbox"
+            [checked]="this.selectedServices[service].isSelected"
+            (change)="updateAvailedServiceList(service)"
+          />
+          <label>{{ selectedServices[service].data.name }}</label>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -134,15 +162,29 @@
   </div>
 
   <!-- UI for Previous Next buttons -->
-  <footer class="footer" style="width:100%">
-    <button *ngIf="currentPage < totalPages" class="ui primary button " (click)="previousPage()">
+  <footer class="footer">
+    <button
+      *ngIf="currentPage < totalPages"
+      class="ui primary button "
+      (click)="previousPage()"
+      style="width:50%; height:100%; border-radius:0%; margin:0"
+    >
       Previous
     </button>
-    <button *ngIf="currentPage < totalPages" class="ui primary button " (click)="nextPage()">
+    <button
+      *ngIf="currentPage < totalPages"
+      class="ui primary button "
+      (click)="nextPage()"
+      style="width:49%; height:100%; border-radius:0%; margin:0"
+    >
       Next
     </button>
-    <button *ngIf="currentPage == totalPages" class="ui primary button ">
-        Confirm
+    <button
+      *ngIf="currentPage == totalPages"
+      class="ui positive  button "
+      style="width:99%; height:100%; border-radius:0%; margin:0"
+    >
+      Confirm
     </button>
   </footer>
 </div>
