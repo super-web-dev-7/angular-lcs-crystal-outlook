@@ -1,6 +1,8 @@
 import { Pipe, PipeTransform } from "@angular/core";
+import { filter } from 'rxjs/operators';
 @Pipe({
-  name: "filter"
+  name: "filter",
+  pure: false
 })
 export class FilterPipe implements PipeTransform {
   transform(items: any[], searchParams): any[] {
@@ -45,6 +47,32 @@ export class FilterPipe implements PipeTransform {
           item => { 
             return item.type.id == searchParams.resourceProfiles.id;
           });
+    }
+
+    if (searchParams.location[0] !== "") {
+      let filterLevels = 1;
+      let locationLevels = searchParams.location.length;
+      while(filterLevels <= locationLevels && searchParams.location[filterLevels-1] != ""){
+        filterLevels++;
+      };
+      filterLevels--;
+      itemsFiltered = itemsFiltered.filter(item => {
+        let location = item.location;
+        for(let i=0; i<filterLevels; i++){
+          if(location.id == searchParams.location[i].id){
+            if(location.children && location.children.id){
+              location = location.children;
+            }
+            else{
+              return false;
+            }
+          }
+          else{
+            return false;
+          }
+        }
+        return true;
+      });
     }
 
     return itemsFiltered;
