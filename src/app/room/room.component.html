@@ -44,8 +44,10 @@
       <div class="ui grid" style="margin-top:1%;">
         <i
           class="circle outline icon"
-          *ngFor="let equipment of room.equipment"
-        ></i>
+          *ngFor="let equipment of room.equipments"
+        >
+        {{ equipmentsMap[equipment.id].name }}
+        </i>
       </div>
       <div style="margin-top:10%;">
         <h4>
@@ -133,11 +135,14 @@
 
   <!-- UI for Previous Next buttons -->
   <footer class="footer" style="width:100%">
-    <button class="ui primary button " (click)="previousPage()">
+    <button *ngIf="currentPage < totalPages" class="ui primary button " (click)="previousPage()">
       Previous
     </button>
-    <button class="ui primary button " (click)="nextPage()">
+    <button *ngIf="currentPage < totalPages" class="ui primary button " (click)="nextPage()">
       Next
+    </button>
+    <button *ngIf="currentPage == totalPages" class="ui primary button ">
+        Confirm
     </button>
   </footer>
 </div>

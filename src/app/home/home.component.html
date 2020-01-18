@@ -105,7 +105,11 @@
           id="{{ room.id }}"
           style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px;"
         >
-        <a [routerLink] = "['/room', room.id]" [state]="{room: room, services: services, capacity: selectedCapacity}">
+        <a [routerLink] = "['/room', room.id]" 
+          [state]="{room: room, 
+                  services: services, 
+                  equipments: equipments, 
+                  capacity: selectedCapacity}">
           <div class="ui grid" style="max-height: 120px; min-height: 120px;">
             <div class="six wide column middle aligned">
               <img src="../../../assets/conf.jpg" class="ui image" style="max-height: 95px;"/>

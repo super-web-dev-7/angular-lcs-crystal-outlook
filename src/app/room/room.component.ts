@@ -13,6 +13,7 @@ export class RoomComponent implements OnInit {
   data: any;
   room: any;
   services: any;
+  equipmentsMap: any;
   selectedServices: any = [];
   availableServices: any = [];
   allServices: any = [];
@@ -26,6 +27,10 @@ export class RoomComponent implements OnInit {
     this.data = this.router.getCurrentNavigation().extras.state;
     this.room = this.data.room;
     this.services = this.data.services;
+    this.equipmentsMap = {};
+    for (let k = 0; k < this.data.equipments.length; k++) {
+          this.equipmentsMap[this.data.equipments[k].id] = this.data.equipments[k];
+    }
     this.currentPage = 1;
     this.availableServices = this.room.services;
     for(let i=0; i< this.availableServices.length; i++){
