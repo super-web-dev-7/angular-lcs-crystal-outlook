@@ -1,0 +1,53 @@
+<div style= "max-height:90%;">
+    <div class="ui fluid center aligned container">
+        <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
+            <img
+              src="../../assets/logo.png"
+              class="ui fluid centered image"
+              style="max-width: 300px;"
+            />
+          </div>
+        <div class="ui fluid ml-0 mr-0">
+            <img src="../../assets/conf.jpg" class="ui fluid centered image roomImage">
+        </div>
+    </div>
+    <div style="margin-left:10%; margin-right:10%">
+    <div class="ui grid" style="margin-top:2%;">
+        <div class="thirteen wide column">
+        <h1>{{ room.name }}</h1>
+        </div>
+        <div class="three wide column">
+            <i class="user icon"></i>
+            <span>{{ room.capacity }}</span>
+        </div>
+    </div>
+    <div>
+        <i class="circle icon available"></i>
+        {{room.isAvailable ? "Available" : "Not Available"}}
+    </div>
+    <div style="margin-top:2%;">
+        <p>{{ getLocationPath() }}</p>
+    </div>
+    <div style="margin-top:5%;">
+        <h4>
+            Equipments
+        </h4>
+    </div>
+    <div class="ui grid" style="margin-top:1%;">
+        <i class="circle outline icon" *ngFor="let equipment of room.equipment"></i>
+    </div>
+    <div style="margin-top:10%;">
+        <h4>
+            Services
+        </h4>
+    </div>
+    <div>
+        <div class="aligned left" *ngFor="let service of room.services"><i class="circle outline icon"></i>{{ service }}</div>
+    </div>	
+</div>
+</div>
+<footer class="footer" style="width:100%">
+    <button class="ui primary button ">
+        Select
+    </button>
+</footer>
