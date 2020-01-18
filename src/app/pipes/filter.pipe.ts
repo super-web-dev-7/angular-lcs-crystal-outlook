@@ -19,7 +19,7 @@ export class FilterPipe implements PipeTransform {
       });
     }
 
-    if (searchParams.equipments.length > 0) {
+     if (searchParams.equipments.length > 0) {
       searchParams.equipments.forEach(equipment => {
         itemsFiltered = itemsFiltered.filter(
           item => { 
@@ -60,7 +60,10 @@ export class FilterPipe implements PipeTransform {
         let location = item.location;
         for(let i=0; i<filterLevels; i++){
           if(location.id == searchParams.location[i].id){
-            if(location.children && location.children.id){
+            if(i == (filterLevels-1)){
+              return true;
+            }
+            else if(location.children && location.children.id){
               location = location.children;
             }
             else{
