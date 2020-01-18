@@ -1,53 +1,266 @@
-<div style= "max-height:90%;">
+<!-- UI for Room Details Page -->
+<div *ngIf="currentPage == 1">
+  <div style="max-height:90%;">
     <div class="ui fluid center aligned container">
-        <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
-            <img
-              src="../../assets/logo.png"
-              class="ui fluid centered image"
-              style="max-width: 300px;"
-            />
-          </div>
-        <div class="ui fluid ml-0 mr-0">
-            <img src="../../assets/conf.jpg" class="ui fluid centered image roomImage">
-        </div>
+      <div
+        class="ui fluid"
+        style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
+      >
+        <img
+          src="../../assets/logo.png"
+          class="ui fluid centered image"
+          style="max-width: 300px;"
+        />
+      </div>
+      <div class="ui fluid ml-0 mr-0">
+        <img
+          src="../../assets/conf.jpg"
+          class="ui fluid centered image roomImage"
+        />
+      </div>
     </div>
     <div style="margin-left:10%; margin-right:10%">
-    <div class="ui grid" style="margin-top:2%;">
+      <div class="ui grid" style="margin-top:2%;">
         <div class="thirteen wide column">
-        <h1>{{ room.name }}</h1>
+          <h1>{{ room.name }}</h1>
         </div>
         <div class="three wide column">
-            <i class="user icon"></i>
-            <span>{{ room.capacity }}</span>
+          <i class="user icon"></i>
+          <span>{{ room.capacity }}</span>
         </div>
-    </div>
-    <div>
+      </div>
+      <div>
         <i class="circle icon available"></i>
-        {{room.isAvailable ? "Available" : "Not Available"}}
-    </div>
-    <div style="margin-top:2%;">
+        {{ room.isAvailable ? "Available" : "Not Available" }}
+      </div>
+      <div style="margin-top:2%;">
         <p>{{ getLocationPath() }}</p>
-    </div>
-    <div style="margin-top:5%;">
+      </div>
+      <div style="margin-top:5%;">
         <h4>
-            Equipments
+          Equipments
         </h4>
-    </div>
-    <div class="ui grid" style="margin-top:1%;">
-        <i class="circle outline icon" *ngFor="let equipment of room.equipment"></i>
-    </div>
-    <div style="margin-top:10%;">
+      </div>
+      <div class="ui grid" style="margin-top:1%;">
+        <i
+          class="circle outline icon"
+          *ngFor="let equipment of room.equipments"
+        >
+          {{ equipmentsMap[equipment.id].name }}
+        </i>
+      </div>
+      <div style="margin-top:10%;">
         <h4>
-            Services
+          Services
         </h4>
+      </div>
+      <div>
+        <div class="aligned left" *ngFor="let service of allServices">
+          <i class="circle outline icon"></i>{{ service.data.name }}
+        </div>
+      </div>
     </div>
-    <div>
-        <div class="aligned left" *ngFor="let service of room.services"><i class="circle outline icon"></i>{{ service }}</div>
-    </div>	
-</div>
-</div>
-<footer class="footer" style="width:100%">
-    <button class="ui primary button ">
-        Select
+  </div>
+  <footer class="footer" style="width:100%">
+    <button class="ui primary button " (click)="nextPage()">
+      Select
     </button>
-</footer>
+  </footer>
+</div>
+
+<!-- UI for Service Selection, Modification & Checkout Page -->
+<div *ngIf="currentPage > 1">
+  <!-- UI for Service Selection Page -->
+  <div [hidden]="currentPage != 2" id="selectServices">
+    <div class="ui fluid center aligned container">
+      <div
+        class="ui fluid"
+        style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
+      >
+        <img
+          src="../../assets/logo.png"
+          class="ui fluid centered image"
+          style="max-width: 300px;"
+        />
+      </div>
+      <div class="ui fluid container">
+        <img src="../../assets/check.jpg" class="ui fluid centered image" />
+      </div>
+    </div>
+    <div style="margin-left:5%; margin-top:2%">
+      <h1 style="margin-bottom: 0">{{ room.name }}</h1>
+      <h6 style="margin-top: 0">Select the services you need</h6>
+    </div>
+    <div style="margin-left:5%; margin-top:2%">
+      <div>
+        <h4>
+          Services
+        </h4>
+      </div>
+      <div>
+        <div
+          class="ui checked checkbox"
+          *ngFor="let service of availableServices; let i = index"
+        >
+          <input
+            type="checkbox"
+            [checked]="this.selectedServices[service].isSelected"
+            (change)="updateAvailedServiceList(service)"
+          />
+          <label>{{ selectedServices[service].data.name }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UI for Service Modification & Remarks Page -->
+  <div
+    *ngIf="currentPage > 2 && currentPage != totalPages"
+    id="#serviceModification"
+  >
+    <div
+      style="max-height:90%; overflow-y:auto; overflow-x:hidden;"
+      *ngFor="let availedService of availedServices; let i = index"
+      [hidden]="currentPage != 3 + i"
+    >
+      <div class="ui fluid center aligned">
+        <div
+          class="ui fluid background-blue"
+          style="border-bottom: 1px solid #F5F5F5;"
+        >
+          <img
+            src="../../assets/logo.png"
+            class="ui fluid centered image"
+            style="max-width: 300px;"
+          />
+        </div>
+        <div class="ui fluid" style="background-color:#F5F5F5;">
+          <img
+            src="../../assets/conf.jpg"
+            class="ui fluid centered image"
+            style="max-height:261px; max-width:477px;"
+          />
+        </div>
+      </div>
+      <div class="mt-5p" style="margin-left:5%; margin-right:5%;">
+        <h2 class="mb-0">{{ room.name }}</h2>
+        <h4 class="text-blue" style="margin-top:0px">
+          {{ availedService.data.name }}
+        </h4>
+        <p class="text-grey">{{ availedService.data.description }}</p>
+      </div>
+      <div
+        style="max-height: 25%;overflow-y: auto;overflow-x: hidden;"
+        class="ui container mt-5p mb-5p"
+      >
+        <div class="ui grid">
+          <div *ngFor="let serviceItem of availedService.data.service_items">
+            <div class="custom-counter-left one wide column "></div>
+            <div
+              class="two wide column custom-counter center aligned pb-5 pt-5 pl-0 pr-0"
+            >
+              <Button
+                class="text-grey custom-button"
+                (click)="addQuantity(availedService.data.id, serviceItem.id)"
+                >+</Button
+              >
+              <h3 class="text-blue mb-10 mt-10" style="font-weight:100;">
+                {{
+                  orderDetails.services[availedService.data.id][serviceItem.id]
+                    .quantity
+                }}
+              </h3>
+              <Button
+                class="text-grey custom-button"
+                (click)="removeQuantity(availedService.data.id, serviceItem.id)"
+                >-</Button
+              >
+            </div>
+            <div class="custom-counter-right twelve wide column">
+              <h5 class="text-blue mb-5">{{ serviceItem.name }}</h5>
+              <p class="text-grey mb-0">{{ serviceItem.description }}</p>
+              <p class="text-grey mb-0">
+                <i class="ui icon clock mb-0"></i>Preparation:
+                {{ serviceItem.preparationTime }}
+              </p>
+              <div class="ui fluid">
+                <input
+                  placeholder="Remarks"
+                  style="width:100%;"
+                  [(ngModel)]="
+                    this.orderDetails.services[availedService.data.id][
+                      serviceItem.id
+                    ].itemRemarks
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui fluid container mt-5p mb-5p">
+        <h3 class="text-grey mb-0">Remarks</h3>
+        <div class="field ui form">
+          <textarea
+            [(ngModel)]="
+              this.orderDetails.services[availedService.data.id].orderRemarks
+            "
+          >
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UI for Checkout page -->
+  <div *ngIf="currentPage == totalPages">
+    {{ JSON.stringify(orderDetails) }}
+  </div>
+
+  <!-- UI for Previous Next buttons -->
+  <footer class="footer" style="width:100%">
+    <div
+      class="container ui fluid mt-5p mb-5p"
+      style="margin:0px !important; height:50%;"
+    >
+      <ul class="progressbar" style="margin-left:-15%">
+        <li class="active" [ngStyle]="{ width: 100 / totalPages + '%' }"></li>
+        <li
+          [ngStyle]="{ width: 100 / totalPages + '%' }"
+          [ngClass]="currentPage > 2 ? 'active' : ''"
+        ></li>
+        <li
+          [ngStyle]="{ width: 100 / totalPages + '%' }"
+          [ngClass]="i < currentPage - 3 ? 'active' : ''"
+          *ngFor="let service of availedServices; let i = index"
+        ></li>
+        <li [ngStyle]="{ width: 100 / totalPages + '%' }"></li>
+      </ul>
+    </div>
+    <div class="ui buttons fluid" style="height:50%;">
+      <button
+        *ngIf="currentPage < totalPages"
+        (click)="previousPage()"
+        class="ui button background-light-blue"
+        style="border-radius:0px; color: white; height:80%;"
+      >
+        Previous
+      </button>
+      <button
+        *ngIf="currentPage < totalPages"
+        (click)="nextPage()"
+        class="ui button background-blue"
+        style="border-radius:0px; color: white; height:80%;"
+      >
+        Next
+      </button>
+      <button
+        *ngIf="currentPage == totalPages"
+        class="ui positive button "
+        style="width:99%; height:80%; border-radius:0%; margin:0"
+      >
+        Confirm
+      </button>
+    </div>
+  </footer>
+</div>
