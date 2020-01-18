@@ -1,53 +1,143 @@
-<div style= "max-height:90%;">
+<!-- UI for Room Details Page -->
+<div *ngIf="currentPage == 1">
+  <div style="max-height:90%;">
     <div class="ui fluid center aligned container">
-        <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
-            <img
-              src="../../assets/logo.png"
-              class="ui fluid centered image"
-              style="max-width: 300px;"
-            />
-          </div>
-        <div class="ui fluid ml-0 mr-0">
-            <img src="../../assets/conf.jpg" class="ui fluid centered image roomImage">
-        </div>
+      <div
+        class="ui fluid"
+        style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
+      >
+        <img
+          src="../../assets/logo.png"
+          class="ui fluid centered image"
+          style="max-width: 300px;"
+        />
+      </div>
+      <div class="ui fluid ml-0 mr-0">
+        <img
+          src="../../assets/conf.jpg"
+          class="ui fluid centered image roomImage"
+        />
+      </div>
     </div>
     <div style="margin-left:10%; margin-right:10%">
-    <div class="ui grid" style="margin-top:2%;">
+      <div class="ui grid" style="margin-top:2%;">
         <div class="thirteen wide column">
-        <h1>{{ room.name }}</h1>
+          <h1>{{ room.name }}</h1>
         </div>
         <div class="three wide column">
-            <i class="user icon"></i>
-            <span>{{ room.capacity }}</span>
+          <i class="user icon"></i>
+          <span>{{ room.capacity }}</span>
         </div>
-    </div>
-    <div>
+      </div>
+      <div>
         <i class="circle icon available"></i>
-        {{room.isAvailable ? "Available" : "Not Available"}}
-    </div>
-    <div style="margin-top:2%;">
+        {{ room.isAvailable ? "Available" : "Not Available" }}
+      </div>
+      <div style="margin-top:2%;">
         <p>{{ getLocationPath() }}</p>
-    </div>
-    <div style="margin-top:5%;">
+      </div>
+      <div style="margin-top:5%;">
         <h4>
-            Equipments
+          Equipments
         </h4>
-    </div>
-    <div class="ui grid" style="margin-top:1%;">
-        <i class="circle outline icon" *ngFor="let equipment of room.equipment"></i>
-    </div>
-    <div style="margin-top:10%;">
+      </div>
+      <div class="ui grid" style="margin-top:1%;">
+        <i
+          class="circle outline icon"
+          *ngFor="let equipment of room.equipment"
+        ></i>
+      </div>
+      <div style="margin-top:10%;">
         <h4>
-            Services
+          Services
         </h4>
+      </div>
+      <div>
+        <div class="aligned left" *ngFor="let service of allServices">
+          <i class="circle outline icon"></i>{{ service.data.name }}
+        </div>
+      </div>
     </div>
-    <div>
-        <div class="aligned left" *ngFor="let service of room.services"><i class="circle outline icon"></i>{{ service }}</div>
-    </div>	
-</div>
-</div>
-<footer class="footer" style="width:100%">
-    <button class="ui primary button ">
-        Select
+  </div>
+  <footer class="footer" style="width:100%">
+    <button class="ui primary button " (click)="nextPage()">
+      Select
     </button>
-</footer>
+  </footer>
+</div>
+
+<!-- UI for Service Selection, Modification & Checkout Page -->
+<div *ngIf="currentPage > 1">
+  <!-- UI for Service Selection Page -->
+  <div [hidden]="currentPage != 2" id="selectServices">
+    <div
+      class="ui checkbox"
+      *ngFor="let service of availableServices; let i = index"
+    >
+      <input
+        type="checkbox"
+        [checked]="this.selectedServices[service].isSelected"
+        (change)="updateAvailedServiceList(service)"
+      />
+      <label>{{ selectedServices[service].data.name }}</label>
+    </div>
+  </div>
+
+  <!-- UI for Service Modification & Remarks Page -->
+  <div *ngIf="currentPage > 2 && currentPage != totalPages">
+    <div
+      *ngFor="let availedService of availedServices; let i = index"
+      [hidden]="currentPage != 3 + i"
+    >
+      <label>{{ availedService.data.name }}</label>
+      <label>{{ availedService.data.description }}</label>
+      <label>{{ availedService.data.service_items.length }}</label>
+    </div>
+  </div>
+
+  <!-- UI for Checkout page -->
+  <div *ngIf="currentPage == totalPages">
+    Checkout!
+  </div>
+
+  <!-- UI for Steps Progress -->
+  <div id="steps">
+    <div class="ui ordered steps">
+      <div class="completed step"></div>
+      <div
+        [ngClass]="
+          currentPage == 2
+            ? 'step active'
+            : currentPage > 2
+            ? 'completed step'
+            : step
+        "
+      ></div>
+      <div
+        class="step"
+        [ngClass]="{
+          step: true,
+          completed: currentPage - 3 > i,
+          active: currentPage - 3 == i
+        }"
+        *ngFor="let service of availedServices; let i = index"
+      ></div>
+      <div
+        class="step"
+        [ngClass]="currentPage == totalPages ? 'step active' : 'step'"
+      >
+        confirm
+      </div>
+    </div>
+  </div>
+
+  <!-- UI for Previous Next buttons -->
+  <footer class="footer" style="width:100%">
+    <button class="ui primary button " (click)="previousPage()">
+      Previous
+    </button>
+    <button class="ui primary button " (click)="nextPage()">
+      Next
+    </button>
+  </footer>
+</div>
