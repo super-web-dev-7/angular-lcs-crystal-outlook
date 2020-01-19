@@ -27,10 +27,15 @@
 </body>
 <script>
     setTimeout(() => {
-      console.log('index');
       $('.ui.dropdown').dropdown({
       "clearable": true
      });
     }, 3500); 
+
+    setInterval(() => {
+      $('.ui.dropdown').dropdown({
+      "clearable": true
+     });
+    }, 10000); 
 </script>
 </html>
