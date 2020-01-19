@@ -25,5 +25,12 @@
 <body class="ms-font-m ms-welcome">
     <app-home></app-home>
 </body>
-
+<script>
+    setTimeout(() => {
+      console.log('index');
+      $('.ui.dropdown').dropdown({
+      "clearable": true
+     });
+    }, 3500); 
+</script>
 </html>

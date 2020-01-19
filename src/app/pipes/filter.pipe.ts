@@ -42,10 +42,15 @@ export class FilterPipe implements PipeTransform {
       });
     }
 
-    if (searchParams.resourceProfiles) {
+    if (searchParams.resourceProfiles.length > 0) {
         itemsFiltered = itemsFiltered.filter(
           item => { 
-            return item.type.id == searchParams.resourceProfiles.id;
+            for(let i=0; i<searchParams.resourceProfiles.length; i++){
+              if(searchParams.resourceProfiles[i].id == item.type.id){
+                return true;
+              }
+            }
+            return false;
           });
     }
 

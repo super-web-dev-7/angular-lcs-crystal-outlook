@@ -296,3 +296,9 @@ span.dropdown-up {
     padding-right: 1rem;
     vertical-align: top;
 }
+
+.ngx-pagination {
+  margin-left: 0;
+  margin-bottom: 1rem;
+  padding-left: 0px !important;
+}
