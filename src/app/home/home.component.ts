@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   public searchText = "";
   public maxAvailableCapacity;
   public selectedCapacity = 1;
+  public selectedRoomData = {};
   Arr = Array;
   public locationLevels;
   public selectedLocation = [];
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit {
   public dropdownList_services = [];
   public selectedItems_services = [];
   public dropdownSettings_services: IDropdownSettings = {};
+  public showRoomDetails:boolean = false;
 
   constructor(private crystalService: CrystalService) {
     this.populateRooms();
@@ -230,7 +232,10 @@ export class HomeComponent implements OnInit {
      });
   }
 
-
+  roomSelected(data){
+    this.selectedRoomData = data;
+    this.showRoomDetails = true;
+  }
 
 
 }
