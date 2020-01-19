@@ -1,5 +1,5 @@
 <main *ngIf="!showRoomDetails" class="ms-welcome__main">
-  <div class="ui fluid center aligned container">
+  <div class="ui fluid center aligned container ml-0 mr-0" style="margin-right: 0px !important;margin-left: 0px !important;">
     <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
       <img
         src="../../../assets/logo.png"
@@ -66,27 +66,28 @@
           </a>
         </span>
       </div>
-    </div>
-    <div class="ui segment grid mt-0 mb-0" style="border: 0px; min-height: 50px;" id="morefilters" *ngIf="showMoreFilters">
-      <div class="eight wide column pt-0">
-        <ng-multiselect-dropdown
-          [placeholder]="'Equipments'"
-          [data]="dropdownList_equipments"
-          [(ngModel)]="selectedItems_equipments"
-          [settings]="dropdownSettings_equipments"
-        >
-        </ng-multiselect-dropdown>
+      <div class="ui segment grid mt-0 mb-0 pl-0 pr-0" style="border: 0px; min-height: 50px; width: 100%;" id="morefilters" *ngIf="showMoreFilters">
+        <div class="eight wide column pt-0">
+          <ng-multiselect-dropdown
+            [placeholder]="'Equipments'"
+            [data]="dropdownList_equipments"
+            [(ngModel)]="selectedItems_equipments"
+            [settings]="dropdownSettings_equipments"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="eight wide column pt-0">
+          <ng-multiselect-dropdown
+            [placeholder]="'Services'"
+            [data]="dropdownList_services"
+            [(ngModel)]="selectedItems_services"
+            [settings]="dropdownSettings_services"
+          >
+          </ng-multiselect-dropdown>
+        </div>
       </div>
-      <div class="eight wide column pt-0">
-        <ng-multiselect-dropdown
-          [placeholder]="'Services'"
-          [data]="dropdownList_services"
-          [(ngModel)]="selectedItems_services"
-          [settings]="dropdownSettings_services"
-        >
-        </ng-multiselect-dropdown>
-      </div>
     </div>
+    
     <div class="ui segment" [ngClass]="showMoreFilters ? 'roomsPane-sm' : 'roomsPane-lg'">
       <div class="ui fluid" style="margin-top:1%;">
         <div
@@ -103,7 +104,7 @@
           "
           class="ui placeholder segment segment-grey left aligned"
           id="{{ room.id }}"
-          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px;"
+          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer;"
         >
         <a 
             (click)="roomSelected({room: room, 

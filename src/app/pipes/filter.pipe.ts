@@ -37,7 +37,7 @@ export class FilterPipe implements PipeTransform {
       searchParams.services.forEach(service => {
         itemsFiltered = itemsFiltered.filter(
           item => { 
-            return item.services.includes(service.name);
+            return item.services.includes(service.id);
           });
       });
     }

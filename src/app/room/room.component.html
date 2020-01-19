@@ -1,7 +1,7 @@
 <!-- UI for Room Details Page -->
 <div *ngIf="currentPage == 1">
   <div style="max-height:90%;">
-    <div class="ui fluid center aligned container">
+    <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
       <div
         class="ui fluid"
         style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
@@ -19,14 +19,14 @@
         />
       </div>
     </div>
-    <div style="margin-left:10%; margin-right:10%">
+    <div style="margin-left:5%; margin-right:5%">
       <div class="ui grid" style="margin-top:2%;">
         <div class="thirteen wide column">
           <h1>{{ room.name }}</h1>
         </div>
         <div class="three wide column">
           <i class="user icon"></i>
-          <span>{{ room.capacity }}</span>
+          <span>{{ this.data.capacity }}</span>
         </div>
       </div>
       <div>
@@ -62,9 +62,21 @@
     </div>
   </div>
   <footer class="footer" style="width:100%">
-    <button class="ui primary button " (click)="nextPage()">
+    <div
+      class="container ui fluid mt-5p mb-5p"
+      style="margin:0px !important; height:50%;"
+    >
+    </div>
+    <div class="ui buttons fluid" style="height:50%;">
+      <button
+        *ngIf="currentPage < totalPages"
+        (click)="nextPage()"
+        class="ui button background-blue"
+        style="border-radius:0px; color: white; height:100%;"
+      >
       Select
-    </button>
+      </button>
+    </div>
   </footer>
 </div>
 
@@ -72,7 +84,7 @@
 <div *ngIf="currentPage > 1">
   <!-- UI for Service Selection Page -->
   <div [hidden]="currentPage != 2" id="selectServices">
-    <div class="ui fluid center aligned container">
+    <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
       <div
         class="ui fluid"
         style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
@@ -150,7 +162,7 @@
         <p class="text-grey">{{ availedService.data.description }}</p>
       </div>
       <div
-        style="max-height: 25%;overflow-y: auto;overflow-x: hidden;"
+        style="height: 215px;overflow-y: auto;overflow-x: hidden;"
         class="ui container mt-5p mb-5p"
       >
         <div class="ui grid">
@@ -200,7 +212,7 @@
       </div>
       <div class="ui fluid container mt-5p mb-5p">
         <h3 class="text-grey mb-0">Remarks</h3>
-        <div class="field ui form">
+        <div class="field ui form" style="padding-bottom: 50px;">
           <textarea
             [(ngModel)]="
               this.orderDetails.services[availedService.data.id].orderRemarks
@@ -214,7 +226,33 @@
 
   <!-- UI for Checkout page -->
   <div *ngIf="currentPage == totalPages">
-    {{ JSON.stringify(orderDetails) }}
+    <div style= "max-height:90%; overflow-y:auto; overflow-x:hidden;">
+      <div class="ui fluid center aligned">
+        <div class="ui fluid background-blue" style="border-bottom: 1px solid #F5F5F5;">
+          <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;"/>
+        </div>
+        <div class="ui fluid" style='background-color:#F5F5F5;'>
+          <img src="../../assets/check.jpg" class="ui fluid centered image" style='max-height:261px; max-width:477px;'>
+        </div>
+      </div>
+      <div class='mt-5p' style="margin-left:5%; margin-right:5%; padding-bottom: 70px;">
+        <h2 class='mb-5p text-blue'>Booking Confirmation</h2>			
+        <h4 class='mb-5 text-blue'>{{ room.name }}</h4>
+        <p class='mb-0'>{{ getLocationPath()}}</p>
+        <p class='mb-5p'><i class='ui icon user'></i>{{this.data.capacity}}</p>
+        <h4 class='mb-0 text-blue' style="padding-bottom: 5px;">Services</h4>
+        <div *ngFor="let service of orderDetails.services | keyvalue" style="padding-bottom: 5px;">
+          <h4 class='mb-0 mt-10 text-grey'><i class='ui icon clock'></i>{{service.value.name}}</h4>
+          <div *ngFor="let item of service.value | keyvalue">
+            <div *ngIf="item.value.name" style="padding-bottom: 2px;"> 
+              <p class='mb-0 text-grey'>{{item.value.name}} : quantity {{item.value.quantity}}</p>
+              <p class='mb-5 text-grey' *ngIf="item.value.itemRemarks != ''"><i>{{item.value.itemRemarks}}(remarks)</i></p>
+            </div>
+          </div>
+        </div>
+        
+      </div>	
+    </div>
   </div>
 
   <!-- UI for Previous Next buttons -->
