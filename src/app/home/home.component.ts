@@ -39,15 +39,20 @@ export class HomeComponent implements OnInit {
   public dropdownList_services = [];
   public selectedItems_services = [];
   public dropdownSettings_services: IDropdownSettings = {};
+  public dropdownList_resourceProfiles = [];
+  public selectedItems_resourceProfiles = [];
+  public dropdownSettings_resourceProfiles: IDropdownSettings = {};
   public showRoomDetails:boolean = false;
 
   constructor(private crystalService: CrystalService) {
     this.populateRooms();
     this.getEquipments();
-    this.getServices();  
+    this.getServices(); 
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    
+  }
 
   public populateRooms() {
     this.crystalService.getResources().subscribe(data => {
@@ -77,15 +82,6 @@ export class HomeComponent implements OnInit {
   public updateSelectedCapacity(value) {
     this.selectedCapacity = value;
   }
-
-  public getResourceProfiles() {
-    this.crystalService.getResourceProfiles().subscribe(data => {
-      this.resourceProfiles = data["resource_profile"];
-      this.renderDropdowns();
-      this.getLocations();
-    });
-  }
-
 
   public getLocations() {
     this.crystalService.getLocations().subscribe(data => {
@@ -157,6 +153,25 @@ export class HomeComponent implements OnInit {
 
   public update() {
     this.selectedCapacity = 15;
+  }
+
+  public getResourceProfiles() {
+    this.crystalService.getResourceProfiles().subscribe(data => {
+      this.resourceProfiles = data["resource_profile"];
+      this.dropdownList_resourceProfiles = this.resourceProfiles;
+      this.selectedItems_resourceProfiles = [];
+      this.dropdownSettings_resourceProfiles = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'name',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: false
+      };
+      this.renderDropdowns();
+      this.getLocations();
+    });
   }
 
   public getEquipments() {

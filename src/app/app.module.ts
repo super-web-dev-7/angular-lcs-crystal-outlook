@@ -9,7 +9,7 @@ import { FilterPipe} from './pipes/filter.pipe';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RoomComponent } from './room/room.component';
 import { HomeComponent } from './home/home.component';
-
+import {NgxPaginationModule} from 'ngx-pagination'; 
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgxPaginationModule,
     NgMultiSelectDropDownModule.forRoot()   
   ],
   providers: [{provide: APP_BASE_HREF, useValue : '/' }],

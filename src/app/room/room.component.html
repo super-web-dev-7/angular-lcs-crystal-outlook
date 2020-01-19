@@ -45,6 +45,7 @@
         <i
           class="circle outline icon"
           *ngFor="let equipment of room.equipments"
+          style="width: 30%;"
         >
           {{ equipmentsMap[equipment.id].name }}
         </i>
@@ -95,7 +96,7 @@
           style="max-width: 300px;"
         />
       </div>
-      <div class="ui fluid container">
+      <div class="ui fluid container" style="margin-right: 0px !important;margin-left: 0px !important;">
         <img src="../../assets/check.jpg" class="ui fluid centered image" />
       </div>
     </div>
@@ -113,6 +114,7 @@
         <div
           class="ui checked checkbox"
           *ngFor="let service of availableServices; let i = index"
+          style="width: 100%;"
         >
           <input
             type="checkbox"

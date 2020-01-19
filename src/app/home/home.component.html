@@ -1,15 +1,27 @@
 <main *ngIf="!showRoomDetails" class="ms-welcome__main">
-  <div class="ui fluid center aligned container ml-0 mr-0" style="margin-right: 0px !important;margin-left: 0px !important;">
-    <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
+  <div
+    class="ui fluid center aligned container ml-0 mr-0"
+    style="margin-right: 0px !important;margin-left: 0px !important;"
+  >
+    <div
+      class="ui fluid"
+      style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
+    >
       <img
         src="../../../assets/logo.png"
         class="ui fluid centered image"
         style="max-width: 300px;"
       />
     </div>
-    <div class="ui segment grid mt-0 mb-0" style="border: 0px; min-height: 261px;">
+    <div
+      class="ui segment grid mt-0 mb-0"
+      style="border: 0px; min-height: 261px;"
+    >
       <div class="sixteen wide column pb-0">
-        <div class="ui fluid input container" style="margin: 0px 0px 0px 0px !important;">
+        <div
+          class="ui fluid input container"
+          style="margin: 0px 0px 0px 0px !important;"
+        >
           <input
             placeholder="Enter Name"
             type="text"
@@ -23,25 +35,13 @@
           <div>
             <div style="float:left;"><span>Capacity:</span></div>
             <div class="ui input" style="float:right;">
-                <span>{{selectedCapacity}}</span>
+              <span>{{ selectedCapacity }}</span>
             </div>
           </div>
           <div class="ui blue range pb-0" id="range-3"></div>
         </div>
       </div>
-      <div class="sixteen wide column pb-0">
-        <select
-          class="ui fluid search dropdown"
-          [(ngModel)]="selectedResourceProfile"
-        >
-          <option value="" selected>Select Resource Profile</option>
-          <option
-            [ngValue]="RP"
-            *ngFor="let RP of resourceProfiles"
-            >{{ RP.name }}</option
-          >
-        </select>
-      </div>
+      
       <div
         class="eight wide column pb-0 locations"
         *ngFor="let level of Arr(locationLevels).fill(1); let i = index"
@@ -61,12 +61,30 @@
       <div class="sixteen wide column left aligned">
         <span id="morefiltersToggle">
           <a (click)="resetFilters()">
-            More Filters 
-            <i [ngClass]= "showMoreFilters ? 'chevron icon down' : 'chevron icon right'"></i>
+            More Filters
+            <i
+              [ngClass]="
+                showMoreFilters ? 'chevron icon down' : 'chevron icon right'
+              "
+            ></i>
           </a>
         </span>
       </div>
-      <div class="ui segment grid mt-0 mb-0 pl-0 pr-0" style="border: 0px; min-height: 50px; width: 100%;" id="morefilters" *ngIf="showMoreFilters">
+      <div
+        class="ui segment grid mt-0 mb-0 pl-0 pr-0"
+        style="border: 0px; min-height: 50px; width: 100%;"
+        id="morefilters"
+        *ngIf="showMoreFilters"
+      >
+        <div class="sixteen wide column pt-0">
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Resource Profile'"
+            [data]="dropdownList_resourceProfiles"
+            [(ngModel)]="selectedItems_resourceProfiles"
+            [settings]="dropdownSettings_resourceProfiles"
+          >
+          </ng-multiselect-dropdown>
+        </div>
         <div class="eight wide column pt-0">
           <ng-multiselect-dropdown
             [placeholder]="'Equipments'"
@@ -87,69 +105,80 @@
         </div>
       </div>
     </div>
-    
-    <div class="ui segment" [ngClass]="showMoreFilters ? 'roomsPane-sm' : 'roomsPane-lg'">
+
+    <div
+      class="ui segment"
+      [ngClass]="showMoreFilters ? 'roomsPane-sm' : 'roomsPane-lg'"
+    >
       <div class="ui fluid" style="margin-top:1%;">
         <div
           *ngFor="
             let room of rooms
-              | filter: { 
-                  searchValue: searchText, 
-                  resourceProfiles: selectedResourceProfile,
-                  capacity: selectedCapacity,
-                  equipments: selectedItems_equipments,
-                  services: selectedItems_services,
-                  location: selectedLocation
-                 }
+              | filter
+                : {
+                    searchValue: searchText,
+                    resourceProfiles: selectedItems_resourceProfiles,
+                    capacity: selectedCapacity,
+                    equipments: selectedItems_equipments,
+                    services: selectedItems_services,
+                    location: selectedLocation
+                  }
+              | paginate: { itemsPerPage: 10, currentPage: p }
           "
           class="ui placeholder segment segment-grey left aligned"
           id="{{ room.id }}"
           style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer;"
         >
-        <a 
-            (click)="roomSelected({room: room, 
-              services: services, 
-              equipments: equipments, 
-              capacity: selectedCapacity})"
-                  >
-          <div class="ui grid" style="max-height: 120px; min-height: 120px;">
-            <div class="six wide column middle aligned">
-              <img src="../../../assets/conf.jpg" class="ui image" style="max-height: 95px;"/>
-            </div>
-            <div class="eight wide column middle aligned">
-              <h3 class="ui header aligned left">{{ room.name }}</h3>
-              <div class="aligned left">
-                <i class="circle icon available"></i>
-                <span class="availability">
-                  {{room.isAvailable ? "Available" : "Not Available"}}
-                </span>
+          <a
+            (click)="
+              roomSelected({
+                room: room,
+                services: services,
+                equipments: equipments,
+                capacity: selectedCapacity
+              })
+            "
+          >
+            <div class="ui grid" style="max-height: 120px; min-height: 120px;">
+              <div class="six wide column middle aligned">
+                <img
+                  src="../../../assets/conf.jpg"
+                  class="ui image"
+                  style="max-height: 95px;"
+                />
               </div>
-              <p class="aligned left">{{ locationPaths[room.id] }}</p>
+              <div class="eight wide column middle aligned">
+                <h3 class="ui header aligned left">{{ room.name }}</h3>
+                <div class="aligned left">
+                  <i class="circle icon available"></i>
+                  <span class="availability">
+                    {{ room.isAvailable ? "Available" : "Not Available" }}
+                  </span>
+                </div>
+                <p class="aligned left">{{ locationPaths[room.id] }}</p>
+              </div>
+              <div
+                class="two wide column right aligned availableCount"
+                style="padding: 0 0 0;"
+              >
+                {{ room.capacity }}<i class="user icon"></i>
+              </div>
             </div>
-            <div class="two wide column right aligned availableCount" style="padding: 0 0 0;">
-              {{ room.capacity }}<i class="user icon"></i>
-            </div>
-          </div>
-        </a>
+          </a>
         </div>
       </div>
     </div>
     <footer>
-      <div class="ui grid">
-        <div class="two wide column">
-          <i class="left chevron icon"></i>
-        </div>
-        <div class="twelve wide column">
-          <p id="page">1/1</p>
-        </div>
-        <div class="two wide column">
-          <i class="right chevron icon"></i>
-        </div>
-      </div>
+          <pagination-controls
+            (pageChange)="p = $event"
+            responsive="true"
+            previousLabel="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            nextLabel="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            directionLinks="true"
+          ></pagination-controls>
     </footer>
   </div>
 </main>
-<div *ngIf="showRoomDetails" >
+<div *ngIf="showRoomDetails">
   <app-room [data]="selectedRoomData"></app-room>
 </div>
-
