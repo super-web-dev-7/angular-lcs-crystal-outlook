@@ -105,6 +105,7 @@ export class RoomComponent implements OnInit {
     for (let i = 0; i < this.availedServices.length; i++) {
       this.orderDetails.services[this.availedServices[i].id] = {};
       this.orderDetails.services[this.availedServices[i].id].orderRemarks = "";
+      this.orderDetails.services[this.availedServices[i].id].name = this.availedServices[i].data.name;
       for (let j = 0; j < this.availedServices[i].data.service_items.length; j++) {
         this.orderDetails.services[this.availedServices[i].id][this.availedServices[i].data.service_items[j].id] = {
           name: this.availedServices[i].data.service_items[j].name,
