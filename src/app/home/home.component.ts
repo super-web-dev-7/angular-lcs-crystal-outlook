@@ -239,6 +239,7 @@ export class HomeComponent implements OnInit {
     this.showMoreFilters = !this.showMoreFilters;
     this.selectedItems_equipments = [];
     this.selectedItems_services = [];
+    this.selectedItems_resourceProfiles = [];
   }
 
   renderDropdowns(){
