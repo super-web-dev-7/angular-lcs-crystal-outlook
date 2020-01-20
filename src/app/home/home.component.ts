@@ -44,6 +44,9 @@ export class HomeComponent implements OnInit {
   public selectedItems_resourceProfiles = [];
   public dropdownSettings_resourceProfiles: IDropdownSettings = {};
   public showRoomDetails:boolean = false;
+  public appointmentStartTime: string;
+  public appointmentEndTime: string;
+  public currentCulture: string = "en-US";
 
   constructor(private crystalService: CrystalService) {
     this.populateRooms();
@@ -51,8 +54,21 @@ export class HomeComponent implements OnInit {
     this.getServices(); 
   }
 
-  ngOnInit() { 
-    
+  ngOnInit() {
+   this.setLocale()  
+   let promise1 = Office.context.mailbox.item.start.getAsync((data)=>{
+     this.appointmentStartTime = data.value.toLocaleString();
+   });
+   let promise2 = Office.context.mailbox.item.end.getAsync((data)=>{
+    this.appointmentEndTime = data.value.toLocaleString();
+  });
+  Promise.all([promise1,promise2]).then(()=>{
+    this.getLocations();
+  })
+  }
+
+  public setLocale(){
+    this.currentCulture = Office.context.displayLanguage;
   }
 
   public populateRooms() {
@@ -173,7 +189,6 @@ export class HomeComponent implements OnInit {
         allowSearchFilter: false
       };
       this.renderDropdowns();
-      this.getLocations();
     });
   }
 
