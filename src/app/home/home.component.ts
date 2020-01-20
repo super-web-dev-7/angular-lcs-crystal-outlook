@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
 
   public getRecursiveLength(obj) {
     obj.forEach(location => {
-      if (location.children.length != 0) {
+      if (location.children && location.children.length != 0) {
         length = 1 + this.getRecursiveLength(location.children);
       } else {
         length = 1;
