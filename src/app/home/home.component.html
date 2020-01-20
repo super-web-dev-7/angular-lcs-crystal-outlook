@@ -49,11 +49,12 @@
         <select
           class="ui fluid search dropdown"
           [(ngModel)]="selectedLocation[i]"
+          (change)="setLocationLevel(i+1)"
         >
           <option value="" selected>Select Level {{ i }}</option>
           <option
             [ngValue]="location"
-            *ngFor="let location of getLocationLevel(i)"
+            *ngFor="let location of locationLevelDropdowns[i]"
             >{{ location.name }}</option
           >
         </select>
