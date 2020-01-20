@@ -256,5 +256,8 @@ export class HomeComponent implements OnInit {
     this.showRoomDetails = true;
   }
 
+  home(event) {
+    this.showRoomDetails = !this.showRoomDetails;
+  }
 
 }

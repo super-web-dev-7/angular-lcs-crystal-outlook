@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { map, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs/observable';
@@ -12,6 +12,9 @@ export class RoomComponent implements OnInit {
 
   @Input()
   data: any = {};
+
+  @Output()
+  goBack: EventEmitter<number> = new EventEmitter<number>();
 
   room: any;
   services: any;
@@ -128,6 +131,10 @@ export class RoomComponent implements OnInit {
       this.orderDetails.services[serviceID][itemID].quantity--;
       this.orderDetails.services[serviceID][itemID].cost = this.orderDetails.services[serviceID][itemID].quantity * this.orderDetails.services[serviceID][itemID].price;
     }
+  }
+
+  goHome(){
+    this.goBack.emit(0);
   }
 
 }

@@ -181,5 +181,6 @@
   </div>
 </main>
 <div *ngIf="showRoomDetails">
-  <app-room [data]="selectedRoomData"></app-room>
+  <app-room [data]="selectedRoomData"
+  (goBack)="home($event)"></app-room>
 </div>
