@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   public selectedRoomData = {};
   Arr = Array;
   public locationLevels;
+  public locationLevelDropdowns: any = [];
   public selectedLocation = [];
   public allLocationAtLevel = {};
   public locationPaths = {};
@@ -90,13 +91,16 @@ export class HomeComponent implements OnInit {
       this.locationLevels = this.getRecursiveLength(this.locations);
       for (let i = 0; i < this.locationLevels; i++) {
         this.selectedLocation[i] = "";
+        this.locationLevelDropdowns[i] = [];
       }
+      this.locationLevelDropdowns[0] = this.locations;
       this.setLocationPaths();
     });
   }
 
-  public getLocationLevel(i: number) {
-    if (i > 0) {
+  public setLocationLevel(i: number) {
+    if (i > 0 && i < this.locationLevels) {
+      // reset filter
       if (
         !this.containsObject(this.selectedLocation[i], this.selectedLocation[i - 1].children) 
         || this.selectedLocation[i - 1] == ""
@@ -104,14 +108,13 @@ export class HomeComponent implements OnInit {
         this.selectedLocation[i] = "";
         $($('.locations>div')[i]).dropdown('clear');
       }
+      // generate list
       if (this.selectedLocation[i - 1] != "") {
-        return this.selectedLocation[i - 1].children;
+        this.locationLevelDropdowns[i] = this.selectedLocation[i - 1].children;
       } else {
-        return [];
+        this.locationLevelDropdowns[i] = [];
       }
-    } else {
-      return this.locations;
-    }
+    } 
   }
 
   public containsObject(obj, list) {
