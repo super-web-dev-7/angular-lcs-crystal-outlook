@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit {
   public appointmentStartTime: string;
   public appointmentEndTime: string;
   public currentCulture: string;
+  private readonly supportedCultures = ["en-US","fr-FR"]
 
   constructor(private crystalService: CrystalService, private translateService: TranslateService) {
     this.getLocations();
@@ -70,6 +71,11 @@ export class HomeComponent implements OnInit {
 
   public setLocale(){
     this.currentCulture =  Office.context ? Office.context.displayLanguage : "en-US";
+    // fallback to en-US if culture not supported
+    if(this.supportedCultures.indexOf(this.currentCulture) === -1)
+    {
+      this.currentCulture = "en-US";
+    }
     this.translateService.use(this.currentCulture);
   }
 

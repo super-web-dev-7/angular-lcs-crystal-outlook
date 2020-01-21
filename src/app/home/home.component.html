@@ -1,33 +1,14 @@
 <main *ngIf="!showRoomDetails" class="ms-welcome__main">
-  <div
-    class="ui fluid center aligned container ml-0 mr-0"
-    style="margin-right: 0px !important;margin-left: 0px !important;"
-  >
-    <div
-      class="ui fluid"
-      style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;"
-    >
-      <img
-        src="../../../assets/logo.png"
-        class="ui fluid centered image"
-        style="max-width: 300px;"
-      />
+  <div class="ui fluid center aligned container ml-0 mr-0"
+    style="margin-right: 0px !important;margin-left: 0px !important;">
+    <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
+      <img src="../../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
     </div>
-    <div
-      class="ui segment grid mt-0 mb-0"
-      style="border: 0px; min-height: 261px;"
-    >
+    <div class="ui segment grid mt-0 mb-0" style="border: 0px; min-height: 261px;">
       <div class="sixteen wide column pb-0">
-        <div
-          class="ui fluid input container"
-          style="margin: 0px 0px 0px 0px !important;"
-        >
-          <input
-            [placeholder]="'enterName' | translate"
-            type="text"
-            style="border-width: 0px 0px 1px 0px;"
-            [(ngModel)]="searchText"
-          />
+        <div class="ui fluid input container" style="margin: 0px 0px 0px 0px !important;">
+          <input [placeholder]="'enterName' | translate" type="text" style="border-width: 0px 0px 1px 0px;"
+            [(ngModel)]="searchText" />
         </div>
       </div>
       <div class="sixteen wide column pb-0" style="min-height: 60px;">
@@ -41,79 +22,47 @@
           <div class="ui blue range pb-0" id="range-3"></div>
         </div>
       </div>
-      
-      <div
-        class="eight wide column pb-0 locations"
-        *ngFor="let level of Arr(locationLevels).fill(1); let i = index"
-      >
-        <select
-          class="ui fluid search dropdown"
-          [(ngModel)]="selectedLocation[i]"
-          (change)="setLocationLevel(i+1)"
-        >
-          <option value="" selected>Select Level {{ i }}</option>
-          <option
-            [ngValue]="location"
-            *ngFor="let location of locationLevelDropdowns[i]"
-            >{{ location.name }}</option
-          >
+
+      <div class="eight wide column pb-0 locations" *ngFor="let level of Arr(locationLevels).fill(1); let i = index">
+        <select class="ui fluid search dropdown" [(ngModel)]="selectedLocation[i]" (change)="setLocationLevel(i+1)">
+          <option value="" selected> {{'selectLocationLevel'|translate}} {{i}}</option>
+          <option [ngValue]="location" *ngFor="let location of locationLevelDropdowns[i]">{{ location.name }}</option>
         </select>
       </div>
       <div class="sixteen wide column left aligned">
         <span id="morefiltersToggle">
           <a (click)="resetFilters()">
             {{'moreFilters' | translate}}
-            <i
-              [ngClass]="
+            <i [ngClass]="
                 showMoreFilters ? 'chevron icon down' : 'chevron icon right'
-              "
-            ></i>
+              "></i>
           </a>
         </span>
       </div>
-      <div
-        class="ui segment grid mt-0 mb-0 pl-0 pr-0"
-        style="border: 0px; min-height: 50px; width: 100%;"
-        id="morefilters"
-        *ngIf="showMoreFilters"
-      >
+      <div class="ui segment grid mt-0 mb-0 pl-0 pr-0" style="border: 0px; min-height: 50px; width: 100%;"
+        id="morefilters" *ngIf="showMoreFilters">
         <div class="sixteen wide column pt-0">
-          <ng-multiselect-dropdown
-            [placeholder]="'selectResourceProfile' | translate"
-            [data]="dropdownList_resourceProfiles"
-            [(ngModel)]="selectedItems_resourceProfiles"
-            [settings]="dropdownSettings_resourceProfiles"
-          >
+          <ng-multiselect-dropdown [placeholder]="'selectResourceProfile' | translate"
+            [data]="dropdownList_resourceProfiles" [(ngModel)]="selectedItems_resourceProfiles"
+            [settings]="dropdownSettings_resourceProfiles">
           </ng-multiselect-dropdown>
         </div>
         <div class="eight wide column pt-0">
-          <ng-multiselect-dropdown
-            [placeholder]="'equipments' | translate"
-            [data]="dropdownList_equipments"
-            [(ngModel)]="selectedItems_equipments"
-            [settings]="dropdownSettings_equipments"
-          >
+          <ng-multiselect-dropdown [placeholder]="'equipments' | translate" [data]="dropdownList_equipments"
+            [(ngModel)]="selectedItems_equipments" [settings]="dropdownSettings_equipments">
           </ng-multiselect-dropdown>
         </div>
         <div class="eight wide column pt-0">
-          <ng-multiselect-dropdown
-            [placeholder]="'services' | translate"
-            [data]="dropdownList_services"
-            [(ngModel)]="selectedItems_services"
-            [settings]="dropdownSettings_services"
-          >
+          <ng-multiselect-dropdown [placeholder]="'services' | translate" [data]="dropdownList_services"
+            [(ngModel)]="selectedItems_services" [settings]="dropdownSettings_services">
           </ng-multiselect-dropdown>
         </div>
       </div>
     </div>
 
-    <div
-      class="ui segment"
-      [ngClass]="showMoreFilters ? 'roomsPane-sm' : 'roomsPane-lg'"
-    >
+    <div class="ui segment" [ngClass]="showMoreFilters ? 'roomsPane-sm' : 'roomsPane-lg'">
       <div class="ui fluid" style="margin-top:1%;">
-        <div
-          *ngFor="
+        <div *ngFor="
             let room of rooms
               | filter
                 : {
@@ -125,43 +74,31 @@
                     location: selectedLocation
                   }
               | paginate: { itemsPerPage: 10, currentPage: p }
-          "
-          class="ui placeholder segment segment-grey left aligned"
-          id="{{ room.id }}"
-          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer;"
-        >
-          <a
-            (click)="
+          " class="ui placeholder segment segment-grey left aligned" id="{{ room.id }}"
+          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer;">
+          <a (click)="
               roomSelected({
                 room: room,
                 services: services,
                 equipments: equipments,
                 capacity: selectedCapacity
               })
-            "
-          >
+            ">
             <div class="ui grid" style="max-height: 120px; min-height: 120px;">
               <div class="six wide column middle aligned">
-                <img
-                  src="../../../assets/conf.jpg"
-                  class="ui image"
-                  style="max-height: 95px;"
-                />
+                <img src="../../../assets/conf.jpg" class="ui image" style="max-height: 95px;" />
               </div>
               <div class="eight wide column middle aligned">
                 <h3 class="ui header aligned left">{{ room.name }}</h3>
                 <div class="aligned left">
                   <i class="circle icon available"></i>
                   <span class="availability">
-                    {{ room.isAvailable ? "Available" : "Not Available" }}
+                    {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
                   </span>
                 </div>
                 <p class="aligned left">{{ locationPaths[room.id] }}</p>
               </div>
-              <div
-                class="two wide column right aligned availableCount"
-                style="padding: 0 0 0;"
-              >
+              <div class="two wide column right aligned availableCount" style="padding: 0 0 0;">
                 {{ room.capacity }}<i class="user icon"></i>
               </div>
             </div>
@@ -170,17 +107,13 @@
       </div>
     </div>
     <footer>
-          <pagination-controls
-            (pageChange)="p = $event"
-            responsive="true"
-            previousLabel="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            nextLabel="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            directionLinks="true"
-          ></pagination-controls>
+      <pagination-controls (pageChange)="p = $event" responsive="true"
+        previousLabel="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        nextLabel="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" directionLinks="true">
+      </pagination-controls>
     </footer>
   </div>
 </main>
 <div *ngIf="showRoomDetails">
-  <app-room [data]="selectedRoomData"
-  (goBack)="home($event)"></app-room>
+  <app-room [data]="selectedRoomData" (goBack)="home($event)"></app-room>
 </div>
