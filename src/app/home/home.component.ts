@@ -50,13 +50,13 @@ export class HomeComponent implements OnInit {
   public currentCulture: string;
 
   constructor(private crystalService: CrystalService, private translateService: TranslateService) {
-    this.populateRooms();
+    this.getLocations();
     this.getEquipments();
     this.getServices(); 
   }
 
   ngOnInit() {
-   this.setLocale()
+   this.setLocale();
    let promise1 = Office.context.mailbox.item.start.getAsync((data)=>{
      this.appointmentStartTime = data.value.toLocaleString();
    });
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
     this.appointmentEndTime = data.value.toLocaleString();
   });
   Promise.all([promise1,promise2]).then(()=>{
-    this.getLocations();
+    this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
   })
   }
 
@@ -73,8 +73,8 @@ export class HomeComponent implements OnInit {
     this.translateService.use(this.currentCulture);
   }
 
-  public populateRooms() {
-    this.crystalService.getResources().subscribe(data => {
+  public populateRooms(start, end) {
+    this.crystalService.getResources(start, end).subscribe(data => {
       this.rooms = data["resources"];
       this.maxAvailableCapacity = Math.max.apply(
         Math,

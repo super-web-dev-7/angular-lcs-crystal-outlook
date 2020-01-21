@@ -21,8 +21,8 @@ export class CrystalService {
     return this.httpClient.get(this.apiUrl+"/resource_profiles");
   }
 
-  public getResources(){
-    return this.httpClient.get(this.apiUrl+"/resources");
+  public getResources(start: string, end: string){
+    return this.httpClient.get(this.apiUrl+"/resources?start="+start+"?end="+end);
   }
 
   public getServices(){
