@@ -3,6 +3,7 @@ declare var $: any;
 import { CrystalService } from "../crystal.service";
 import { FilterPipe } from "../pipes/filter.pipe";
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -46,16 +47,16 @@ export class HomeComponent implements OnInit {
   public showRoomDetails:boolean = false;
   public appointmentStartTime: string;
   public appointmentEndTime: string;
-  public currentCulture: string = "en-US";
+  public currentCulture: string;
 
-  constructor(private crystalService: CrystalService) {
+  constructor(private crystalService: CrystalService, private translateService: TranslateService) {
     this.populateRooms();
     this.getEquipments();
     this.getServices(); 
   }
 
   ngOnInit() {
-   this.setLocale()  
+   this.setLocale()
    let promise1 = Office.context.mailbox.item.start.getAsync((data)=>{
      this.appointmentStartTime = data.value.toLocaleString();
    });
@@ -68,7 +69,8 @@ export class HomeComponent implements OnInit {
   }
 
   public setLocale(){
-    this.currentCulture = Office.context.displayLanguage;
+    this.currentCulture =  Office.context ? Office.context.displayLanguage : "en-US";
+    this.translateService.use(this.currentCulture);
   }
 
   public populateRooms() {

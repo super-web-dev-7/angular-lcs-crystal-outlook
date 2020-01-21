@@ -1,0 +1,14 @@
+{
+    "demo": {
+        "title": "Translation demo",
+        "text": "This is a simple demonstration app for ngx-translate"
+    },
+    "capacityWithColon": "Capacity:",
+    "moreFilters": "More Filters",
+    "selectResourceProfile": "Select Resource Profile",
+    "equipments": "Equipments",
+    "services": "Services",
+    "enterName": "Enter Name",
+    "available": "Available",
+    "notAvailable": "Not Available"
+}

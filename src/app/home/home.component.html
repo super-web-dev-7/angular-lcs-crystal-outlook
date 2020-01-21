@@ -23,7 +23,7 @@
           style="margin: 0px 0px 0px 0px !important;"
         >
           <input
-            placeholder="Enter Name"
+            [placeholder]="'enterName' | translate"
             type="text"
             style="border-width: 0px 0px 1px 0px;"
             [(ngModel)]="searchText"
@@ -33,7 +33,7 @@
       <div class="sixteen wide column pb-0" style="min-height: 60px;">
         <div class="ui fluid left aligned slider">
           <div>
-            <div style="float:left;"><span>Capacity:</span></div>
+            <div style="float:left;"><span>{{'capacityWithColon' | translate}}</span></div>
             <div class="ui input" style="float:right;">
               <span>{{ selectedCapacity }}</span>
             </div>
@@ -62,7 +62,7 @@
       <div class="sixteen wide column left aligned">
         <span id="morefiltersToggle">
           <a (click)="resetFilters()">
-            More Filters
+            {{'moreFilters' | translate}}
             <i
               [ngClass]="
                 showMoreFilters ? 'chevron icon down' : 'chevron icon right'
@@ -79,7 +79,7 @@
       >
         <div class="sixteen wide column pt-0">
           <ng-multiselect-dropdown
-            [placeholder]="'Select Resource Profile'"
+            [placeholder]="'selectResourceProfile' | translate"
             [data]="dropdownList_resourceProfiles"
             [(ngModel)]="selectedItems_resourceProfiles"
             [settings]="dropdownSettings_resourceProfiles"
@@ -88,7 +88,7 @@
         </div>
         <div class="eight wide column pt-0">
           <ng-multiselect-dropdown
-            [placeholder]="'Equipments'"
+            [placeholder]="'equipments' | translate"
             [data]="dropdownList_equipments"
             [(ngModel)]="selectedItems_equipments"
             [settings]="dropdownSettings_equipments"
@@ -97,7 +97,7 @@
         </div>
         <div class="eight wide column pt-0">
           <ng-multiselect-dropdown
-            [placeholder]="'Services'"
+            [placeholder]="'services' | translate"
             [data]="dropdownList_services"
             [(ngModel)]="selectedItems_services"
             [settings]="dropdownSettings_services"
