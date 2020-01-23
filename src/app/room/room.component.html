@@ -15,7 +15,7 @@
           <h1>{{ room.name }}</h1>
         </div>
         <div class="three wide column">
-          <i class="user icon"></i>
+          <i class="user icon" style='margin-top:12%;'></i>
           <span>{{ this.data.capacity }}</span>
         </div>
       </div>
@@ -28,18 +28,18 @@
       </div>
       <div style="margin-top:5%;">
         <h4>
-          {{'equipments' | translate}}
+          {{'Equipments' | translate}}
         </h4>
       </div>
       <div class="ui grid" style="margin-top:1%;">
         <div class="five wide column align centered" *ngFor="let equipment of room.equipments" style="width: 75%; text-align: center">
-          <img class="ui centered image" style='height:32px; width:32px; border:#757575; border-radius:50px;' src='../../assets/conf.jpg'/><br/>
+          <img class="ui centered image" style='height:45px; width:45px; border:2px solid #757575; border-radius:50px;' src='../../assets/conf.jpg'/><br/>
           {{ equipmentsMap[equipment.id].name }}
         </div>
       </div>
       <div style="margin-top:10%;">
         <h4>
-          {{'services' | translate}}
+          {{'Services' | translate}}
         </h4>
       </div>
       <div>
@@ -55,11 +55,11 @@
     <div class="ui buttons fluid" style="height:50%;">
       <button *ngIf="currentPage < totalPages" (click)="goHome()" class="ui button background-light-blue"
         style="border-radius:0px; color: white; height:80%;">
-        {{'previous' | translate}}
+        {{'Previous' | translate}}
       </button>
       <button *ngIf="currentPage < totalPages" (click)="nextPage()" class="ui button background-blue"
         style="border-radius:0px; color: white; height:100%;">
-        {{'select' | translate}}
+        {{'Select' | translate}}
       </button>
     </div>
   </footer>
@@ -68,7 +68,7 @@
 <!-- UI for Service Selection, Modification & Checkout Page -->
 <div *ngIf="currentPage > 1">
   <!-- UI for Service Selection Page -->
-  <div [hidden]="currentPage != 2" id="selectServices">
+  <div [hidden]="currentPage != 2" id="selectServices" style="max-height: 85%;overflow: auto;">
     <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
       <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
         <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
@@ -79,7 +79,7 @@
     </div>
     <div style="margin-left:5%; margin-top:2%">
       <h1 style="margin-bottom: 0">{{ room.name }}</h1>
-      <h6 style="margin-top: 0">Select the services you need</h6>
+      <h5 style="margin-top: 0; font-weight: 100;">Select the services you need</h5>
     </div>
     <div style="margin-left:5%; margin-top:2%">
       <div>
@@ -91,7 +91,7 @@
         <div class="ui checked checkbox" *ngFor="let service of availableServices; let i = index" style="width: 100%;">
           <input type="checkbox" [checked]="this.selectedServices[service].isSelected"
             (change)="updateAvailedServiceList(service)" />
-          <label>{{ selectedServices[service].data.name }}</label>
+          <label><i class='icon coffee text-grey'></i>{{ selectedServices[service].data.name }}</label>
         </div>
       </div>
     </div>
