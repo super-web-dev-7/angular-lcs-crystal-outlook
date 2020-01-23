@@ -1,3 +1,24 @@
+body {
+  font-family: Roboto;
+  min-width: 200px;
+  color: #757575;
+}
+
+.ui.checkbox label:before {
+  border-radius: 50px;
+  border-color: #03a9f4;
+}
+
+.ui.checkbox label:after {
+  border-radius: 50px;
+  border-color: #03a9f4;
+  background-color: #03a9f4;
+}
+
+input:checked ~ label:after {
+  color: white !important;
+}
+
 .ui.grid > .row > [class*="one wide"].column, .ui.grid > .column.row > [class*="one wide"].column, .ui.grid > [class*="one wide"].column, .ui.column.grid > [class*="one wide"].column {
     width: 6.25% !important;
 }
@@ -121,9 +142,13 @@
 }
 .progressbar li.active {
   color: #03a9f4;
+  cursor: pointer;
 }
 .progressbar li.active:before {
   border-color: #03a9f4;
+  background-color: #03a9f4;
+  color: white;
+  content: '✓';
 }
 .progressbar li.active + li:after {
   background-color: #03a9f4;
@@ -301,4 +326,12 @@ span.dropdown-up {
   margin-left: 0;
   margin-bottom: 1rem;
   padding-left: 0px !important;
+}
+
+.notpointer{
+  cursor: default !important;
+}
+
+footer.footer {
+  background: rgba(255, 255, 255, 0.75);
 }

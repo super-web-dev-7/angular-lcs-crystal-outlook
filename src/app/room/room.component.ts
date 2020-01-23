@@ -77,6 +77,11 @@ export class RoomComponent implements OnInit {
     return path;
   }
 
+  public setPage(i){
+    if(i<this.currentPage)
+      this.currentPage = i;
+  }
+
   public previousPage() {
     this.currentPage--;
   }
