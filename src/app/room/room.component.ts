@@ -71,7 +71,7 @@ export class RoomComponent implements OnInit {
     let loc = this.room.location;
     let path = loc.name;
     while (loc.children && loc.children.name) {
-      path += '/' + loc.children.name;
+      path += ' / ' + loc.children.name;
       loc = loc.children;
     }
     return path;
