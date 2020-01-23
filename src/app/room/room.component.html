@@ -140,7 +140,7 @@
                 {{ serviceItem.preparationTime }}
               </p>
               <div class="ui fluid">
-                <input placeholder="Remarks" style="width:100%;" [(ngModel)]="
+                <input [placeholder]="'remarks' | translate" style="width:100%;" [(ngModel)]="
                     this.orderDetails.services[availedService.data.id][
                       serviceItem.id
                     ].itemRemarks
@@ -151,7 +151,7 @@
         </div>
       </div>
       <div class="ui fluid container mt-5p mb-5p">
-        <h3 class="text-grey mb-0">{{'remarks' | translate}</h3>
+        <h3 class="text-grey mb-0">{{'remarks' | translate}}</h3>
         <div class="field ui form" style="padding-bottom: 80px;">
           <textarea [(ngModel)]="
               this.orderDetails.services[availedService.data.id].orderRemarks
