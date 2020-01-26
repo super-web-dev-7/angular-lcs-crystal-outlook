@@ -8,10 +8,13 @@
     "available": "Disponible",
     "notAvailable": "Indisponible",
     "selectLocationLevel": "Sélectionnez le niveau d'emplacement",
-    "previous": "Previous",
-    "select": "Select",
-    "next": "Next",
-    "confirm": "Confirm",
-    "bookingConfirmation": "Booking Confirmation",
-    "remarks": "Remarks"
+    "previous": "Précédent",
+    "select": "Sélectionner",
+    "next": "Prochain",
+    "confirm": "Confirmer",
+    "bookingConfirmation": "Confirmation de réservation",
+    "remarks": "Remarques",
+    "selectTheServicesYouNeed" : "Sélectionnez les services dont vous avez besoin",
+    "preparationWithColon": "Préparation:",
+    "quantity": "quantité"
 }

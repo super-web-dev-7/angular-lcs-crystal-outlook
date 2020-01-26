@@ -13,5 +13,8 @@
     "next": "Next",
     "confirm": "Confirm",
     "bookingConfirmation": "Booking Confirmation",
-    "remarks": "Remarks"
+    "remarks": "Remarks",
+    "selectTheServicesYouNeed" : "Select the services you need",
+    "preparationWithColon": "Preparation:",
+    "quantity": "quantity"
 }

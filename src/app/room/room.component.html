@@ -21,7 +21,7 @@
       </div>
       <div>
         <i class="circle icon available"></i>
-        {{ room.isAvailable ? "Available" : "Not Available" }}
+        {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
       </div>
       <div style="margin-top:2%;">
         <p>{{ getLocationPath() }}</p>
@@ -55,7 +55,7 @@
     <div class="ui buttons fluid" style="height:50%;">
       <button *ngIf="currentPage < totalPages" (click)="goHome()" class="ui button background-light-blue"
         style="border-radius:0px; color: white; height:80%;">
-        {{'Previous' | translate}}
+        {{'previous' | translate}}
       </button>
       <button *ngIf="currentPage < totalPages" (click)="nextPage()" class="ui button background-blue"
         style="border-radius:0px; color: white; height:100%;">
@@ -79,12 +79,12 @@
     </div>
     <div style="margin-left:5%; margin-top:2%">
       <h1 style="margin-bottom: 0">{{ room.name }}</h1>
-      <h5 style="margin-top: 0; font-weight: 100;">Select the services you need</h5>
+      <h5 style="margin-top: 0; font-weight: 100;">{{'selectTheServicesYouNeed' | translate}}</h5>
     </div>
     <div style="margin-left:5%; margin-top:2%">
       <div>
         <h4>
-          Services
+          {{'services' | translate}}
         </h4>
       </div>
       <div>
@@ -136,8 +136,7 @@
               <h5 class="text-blue mb-5">{{ serviceItem.name }}</h5>
               <p class="text-grey mb-0">{{ serviceItem.description }}</p>
               <p class="text-grey mb-0">
-                <i class="ui icon clock mb-0"></i>Preparation:
-                {{ serviceItem.preparationTime }}
+                <i class="ui icon clock mb-0"></i>{{'preparationWithColon' | translate}} {{ serviceItem.preparationTime }}
               </p>
               <div class="ui fluid">
                 <input [placeholder]="'remarks' | translate" style="width:100%;" [(ngModel)]="
@@ -183,7 +182,7 @@
           <h4 class='mb-0 mt-10 text-grey'><i class='ui icon clock'></i>{{service.value.name}}</h4>
           <div *ngFor="let item of service.value | keyvalue">
             <div *ngIf="item.value.name" style="padding-bottom: 2px;">
-              <p class='mb-0 text-grey'>{{item.value.name}} : quantity {{item.value.quantity}}</p>
+              <p class='mb-0 text-grey'>{{item.value.name}} : {{'quantity' | translate}} {{item.value.quantity}}</p>
               <p class='mb-5 text-grey' *ngIf="item.value.itemRemarks != ''"><i>{{item.value.itemRemarks}}(remarks)</i>
               </p>
             </div>
