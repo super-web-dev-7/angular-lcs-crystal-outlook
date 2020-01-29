@@ -75,7 +75,7 @@
                   }
               | paginate: { itemsPerPage: 10, currentPage: p }
           " class="ui placeholder segment segment-grey left aligned" id="{{ room.id }}"
-          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer;">
+          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer; border-style: none; background: #FAFAFA;">
           <a (click)="
               roomSelected({
                 room: room,
@@ -98,7 +98,7 @@
                 </div>
                 <p class="aligned left">{{ locationPaths[room.id] }}</p>
               </div>
-              <div class="two wide column right aligned availableCount" style="padding: 0 0 0; color:#757575">
+              <div class="two wide column right aligned availableCount" style="padding: 0 0 0; color:#757575;">
                 {{ room.capacity }}<i class="user icon"></i>
               </div>
             </div>

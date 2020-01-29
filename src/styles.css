@@ -112,7 +112,7 @@ input:checked ~ label:after {
   position: relative;
   text-align: center;
   text-transform: uppercase;
-  color: #7d7d7d;
+  color: white;
 }
 .progressbar li:before {
   width: 15px;
@@ -125,7 +125,7 @@ input:checked ~ label:after {
   text-align: center;
   margin: 8px auto 10px auto;
   border-radius: 50%;
-  background-color: white;
+  background-color: #7d7d7d;
 }
 .progressbar li:after {
   width: 100%;
