@@ -9,27 +9,27 @@ export class CrystalService {
   constructor(private httpClient: HttpClient) { }
 
   public apiUrl = " https://lcs.mockable.io";
-  public getLocations(userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/locations?userEmail="+userEmail+"?userTimezone="+userTimezone+"?userLocale="+userLocale);
+  public getLocations(){
+    return this.httpClient.get(this.apiUrl+"/locations");
   }
 
-  public getEquipments(userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/equipments?userEmail="+userEmail+"?userTimezone="+userTimezone+"?userLocale="+userLocale);
+  public getEquipments(){
+    return this.httpClient.get(this.apiUrl+"/equipments");
   }
 
-  public getResourceProfiles(userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/resource_profiles?userEmail="+userEmail+"?userTimezone="+userTimezone+"?userLocale="+userLocale);
+  public getResourceProfiles(){
+    return this.httpClient.get(this.apiUrl+"/resource_profiles");
   }
 
-  public getResources(start: string, end: string, userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/resources?start="+start+"?end="+end+"?userEmail="+userEmail+"?userTimezone="+userTimezone+"?userLocale="+userLocale);
+  public getResources(start: string, end: string){
+    return this.httpClient.get(this.apiUrl+"/resources?start="+start+"?end="+end);
   }
 
-  public getServices(userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/services?userEmail="+userEmail+"?userTimezone="+userTimezone+"?userLocale="+userLocale);
+  public getServices(){
+    return this.httpClient.get(this.apiUrl+"/services");
   }
 
-  public getBuildings(userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/buildings?userEmail="+userEmail+"?userTimezone="+userTimezone+"?userLocale="+userLocale);
+  public getBuildings(){
+    return this.httpClient.get(this.apiUrl+"/buildings");
   }
 }
