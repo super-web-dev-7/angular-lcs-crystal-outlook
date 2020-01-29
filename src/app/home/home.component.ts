@@ -48,7 +48,10 @@ export class HomeComponent implements OnInit {
   public appointmentStartTime: string;
   public appointmentEndTime: string;
   public currentCulture: string;
-  private readonly supportedCultures = ["en-US","fr-FR"]
+  public isOutlookWeb: boolean = false;
+  public organizerEmail: string;
+  public userTimezone: string;
+  private readonly supportedCultures = ["en-US","fr-FR"];
 
   constructor(private crystalService: CrystalService, private translateService: TranslateService) {
     this.getLocations();
@@ -64,6 +67,11 @@ export class HomeComponent implements OnInit {
    let promise2 = Office.context.mailbox.item.end.getAsync((data)=>{
     this.appointmentEndTime = data.value.toLocaleString();
   });
+  let promise3 = Office.context.mailbox.item.organizer.getAsync((data)=>{
+    this.organizerEmail = data.value.emailAddress;
+  });
+  this.userTimezone =  Office.context.mailbox.userProfile.timeZone;
+  console.log(this.userTimezone);
   Promise.all([promise1,promise2]).then(()=>{
     this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
   })
@@ -77,10 +85,13 @@ export class HomeComponent implements OnInit {
       this.currentCulture = "en-US";
     }
     this.translateService.use(this.currentCulture);
+    if(Office.context.mailbox.diagnostics.hostName === "OutlookWebApp"){
+      this.isOutlookWeb = true;
+    }
   }
 
   public populateRooms(start, end) {
-    this.crystalService.getResources(start, end).subscribe(data => {
+    this.crystalService.getResources(start, end, this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
       this.rooms = data["resources"];
       this.maxAvailableCapacity = Math.max.apply(
         Math,
@@ -109,7 +120,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getLocations() {
-    this.crystalService.getLocations().subscribe(data => {
+    this.crystalService.getLocations(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
       this.locations = data["location_level"];
       this.renderDropdowns();
       this.locationLevels = this.getRecursiveLength(this.locations);
@@ -169,7 +180,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getBuildings() {
-    this.crystalService.getBuildings().subscribe(data => {
+    this.crystalService.getBuildings(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
       this.buildings = data[0]["children"];
     });
   }
@@ -183,7 +194,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getResourceProfiles() {
-    this.crystalService.getResourceProfiles().subscribe(data => {
+    this.crystalService.getResourceProfiles(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
       this.resourceProfiles = data["resource_profile"];
       this.dropdownList_resourceProfiles = this.resourceProfiles;
       this.selectedItems_resourceProfiles = [];
@@ -201,7 +212,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getEquipments() {
-    this.crystalService.getEquipments().subscribe(data => {
+    this.crystalService.getEquipments(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
       this.equipments = data["equipments"];
       this.dropdownList_equipments = this.equipments;
       this.selectedItems_equipments = [];
@@ -220,7 +231,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getServices() {
-    this.crystalService.getServices().subscribe(data => {
+    this.crystalService.getServices(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
       this.services = data;
       this.dropdownList_services = this.services;
       // this.dropdownList_services = [
@@ -263,9 +274,9 @@ export class HomeComponent implements OnInit {
   
   resetFilters(){
     this.showMoreFilters = !this.showMoreFilters;
-    this.selectedItems_equipments = [];
-    this.selectedItems_services = [];
-    this.selectedItems_resourceProfiles = [];
+    // this.selectedItems_equipments = [];
+    // this.selectedItems_services = [];
+    // this.selectedItems_resourceProfiles = [];
   }
 
   renderDropdowns(){
