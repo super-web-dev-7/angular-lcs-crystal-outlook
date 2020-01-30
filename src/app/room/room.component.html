@@ -19,16 +19,22 @@
           <span>{{ this.data.capacity }}</span>
         </div>
       </div>
-      <div>
+      <div style="margin-top: 2%;">
         <i class="circle icon available"></i>
         {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
       </div>
-      <div style="margin-top:2%;">
-        <p>{{ getLocationPath() }}</p>
+      <div class="ui grid" style="margin-top:2%;">
+        <p class="twelve wide column">{{ getLocationPath() }}</p>
+        <div class="four wide column" style="text-align: center;">
+          <div style="color: #8BC3FA;">
+            Floor map
+          </div>
+          <i class="map marker alternate icon" style="color: #8BC3FA; padding: 0 0 0;"></i>
+          </div>
       </div>
       <div style="margin-top:5%;">
         <h4>
-          {{'equipments' | translate}}
+          {{'Equipments' | translate}}
         </h4>
       </div>
       <div class="ui grid" style="margin-top:1%;">
@@ -39,10 +45,10 @@
       </div>
       <div style="margin-top:10%;">
         <h4>
-          {{'services' | translate}}
+          {{'Services' | translate}}
         </h4>
       </div>
-      <div>
+      <div style="margin-top: 2%;">
         <div class="aligned left" *ngFor="let service of allServices">
           <i class="coffee icon"></i>{{ service.data.name }}
         </div>
@@ -59,7 +65,7 @@
       </button>
       <button *ngIf="currentPage < totalPages" (click)="nextPage()" class="ui button background-blue"
         style="border-radius:0px; color: white; height:100%;">
-        {{'select' | translate}}
+        {{'Select' | translate}}
       </button>
     </div>
   </footer>
@@ -87,7 +93,7 @@
           {{'services' | translate}}
         </h4>
       </div>
-      <div>
+      <div style="margin-top: 2%;">
         <div class="ui checked checkbox" *ngFor="let service of availableServices; let i = index" style="width: 100%;">
           <input type="checkbox" [checked]="this.selectedServices[service].isSelected"
             (change)="updateAvailedServiceList(service)" />
@@ -169,7 +175,7 @@
           <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
         </div>
         <div class="ui fluid" style='background-color:#F5F5F5;'>
-          <img src="../../assets/check.jpg" class="ui fluid centered image" style='max-height:261px; max-width:477px;'>
+          <img src="../../assets/GreenCheck.jpeg" class="ui fluid centered image" style='max-height:261px; max-width:477px;'>
         </div>
       </div>
       <div class='mt-5p' style="margin-left:5%; margin-right:5%; padding-bottom: 70px;">
@@ -213,7 +219,7 @@
         style="border-radius:0px; color: white; height:80%;">
         {{'next' | translate}}
       </button>
-      <button *ngIf="currentPage == totalPages" class="ui positive button " style="border-radius:0%; margin:0">
+      <button *ngIf="currentPage == totalPages" class="ui positive button " style="border-radius:0%; margin:0; background-color: #8BC34A;">
         {{'confirm' | translate}}
       </button>
     </div>

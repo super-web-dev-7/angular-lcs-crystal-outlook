@@ -31,7 +31,7 @@
       </div>
       <div class="sixteen wide column left aligned">
         <span id="morefiltersToggle">
-          <a (click)="resetFilters()">
+          <a (click)="resetFilters()" style="color: #03A9F4;">
             {{'moreFilters' | translate}}
             <i [ngClass]="
                 showMoreFilters ? 'chevron icon down' : 'chevron icon right'
@@ -75,7 +75,7 @@
                   }
               | paginate: { itemsPerPage: 10, currentPage: p }
           " class="ui placeholder segment segment-grey left aligned" id="{{ room.id }}"
-          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer;">
+          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer; border-style: none; background: #FAFAFA;">
           <a (click)="
               roomSelected({
                 room: room,
@@ -89,16 +89,16 @@
                 <img src="../../../assets/conf.jpg" class="ui image" style="max-height: 95px;" />
               </div>
               <div class="eight wide column middle aligned">
-                <h3 class="ui header aligned left">{{ room.name }}</h3>
+                <h3 class="ui header aligned left" style="color:#757575">{{ room.name }}</h3>
                 <div class="aligned left">
                   <i class="circle icon available"></i>
-                  <span class="availability">
+                  <span class="availability" style="color:#757575">
                     {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
                   </span>
                 </div>
                 <p class="aligned left">{{ locationPaths[room.id] }}</p>
               </div>
-              <div class="two wide column right aligned availableCount" style="padding: 0 0 0;">
+              <div class="two wide column right aligned availableCount" style="padding: 0 0 0; color:#757575;">
                 {{ room.capacity }}<i class="user icon"></i>
               </div>
             </div>
