@@ -3,7 +3,7 @@
   <div style="max-height:90%;">
     <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
       <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
-        <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
+        <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
       </div>
       <div class="ui fluid ml-0 mr-0">
         <img src="../../assets/conf.jpg" class="ui fluid centered image roomImage"/>
@@ -16,7 +16,7 @@
         </div>
         <div class="three wide column">
           <i class="user icon" style='margin-top:12%;'></i>
-          <span>{{ this.data.capacity }}</span>
+          <span>{{ this.data.room.capacity }}</span>
         </div>
       </div>
       <div style="margin-top: 2%;">
@@ -27,14 +27,14 @@
         <p class="twelve wide column">{{ getLocationPath() }}</p>
         <div class="four wide column" style="text-align: center;">
           <div style="color: #8BC3FA;">
-            Floor map
+            {{'floormap' | translate}}
           </div>
           <i class="map marker alternate icon" style="color: #8BC3FA; padding: 0 0 0;"></i>
           </div>
       </div>
       <div style="margin-top:5%;">
         <h4>
-          {{'Equipments' | translate}}
+          {{'equipments' | translate}}
         </h4>
       </div>
       <div class="ui grid" style="margin-top:1%;">
@@ -45,7 +45,7 @@
       </div>
       <div style="margin-top:10%;">
         <h4>
-          {{'Services' | translate}}
+          {{'services' | translate}}
         </h4>
       </div>
       <div style="margin-top: 2%;">
@@ -65,7 +65,7 @@
       </button>
       <button *ngIf="currentPage < totalPages" (click)="nextPage()" class="ui button background-blue"
         style="border-radius:0px; color: white; height:100%;">
-        {{'Select' | translate}}
+        {{'select' | translate}}
       </button>
     </div>
   </footer>
@@ -77,7 +77,7 @@
   <div [hidden]="currentPage != 2" id="selectServices" style="max-height: 85%;overflow: auto;">
     <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
       <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
-        <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
+        <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
       </div>
       <div class="ui fluid container" style="margin-right: 0px !important;margin-left: 0px !important;">
         <img src="../../assets/check.jpg" class="ui fluid centered image" style="max-height:261px; max-width:477px; background-color: #F5F5F5;" />
@@ -109,7 +109,7 @@
       *ngFor="let availedService of availedServices; let i = index" [hidden]="currentPage != 3 + i">
       <div class="ui fluid center aligned">
         <div class="ui fluid background-blue" style="border-bottom: 1px solid #F5F5F5;">
-          <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
+          <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
         </div>
         <div class="ui fluid" style="background-color:#F5F5F5;">
           <img src="../../assets/conf.jpg" class="ui fluid centered image" style="max-height:261px; max-width:477px;" />
@@ -172,7 +172,7 @@
     <div style="max-height:90%; overflow-y:auto; overflow-x:hidden;">
       <div class="ui fluid center aligned">
         <div class="ui fluid background-blue" style="border-bottom: 1px solid #F5F5F5;">
-          <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
+          <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
         </div>
         <div class="ui fluid" style='background-color:#F5F5F5;'>
           <img src="../../assets/GreenCheck.jpeg" class="ui fluid centered image" style='max-height:261px; max-width:477px;'>
@@ -182,7 +182,7 @@
         <h2 class='mb-5p text-blue'>{{'bookingConfirmation' | translate}}</h2>
         <h4 class='mb-5 text-blue'>{{ room.name }}</h4>
         <p class='mb-0'>{{ getLocationPath()}}</p>
-        <p class='mb-5p'><i class='ui icon user'></i>{{this.data.capacity}}</p>
+        <p class='mb-5p'><i class='ui icon user'></i>{{this.data.room.capacity}}</p>
         <h4 class='mb-0 text-blue' style="padding-bottom: 5px;">{{'services' | translate}}</h4>
         <div *ngFor="let service of orderDetails.services | keyvalue" style="padding-bottom: 5px;">
           <h4 class='mb-0 mt-10 text-grey'><i class='ui icon clock'></i>{{service.value.name}}</h4>

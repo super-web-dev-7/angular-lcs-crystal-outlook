@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
   public userTimezone: string;
   public currentLocation: any;
   private readonly supportedCultures = ["en-US", "fr-FR"];
+  public filteredServices = [];
 
   constructor(
     private crystalService: CrystalService,
@@ -264,6 +265,7 @@ export class HomeComponent implements OnInit {
       .subscribe(data => {
         this.services = data;
         this.dropdownList_services = this.services;
+        this.filteredServices = this.services;
         // this.dropdownList_services = [
         //   { id: 1, name: 'service1' },
         //   { id: 2, name: 'service2' },
@@ -282,6 +284,21 @@ export class HomeComponent implements OnInit {
           allowSearchFilter: false
         };
       });
+  }
+
+  filterServices() {
+    this.filteredServices = this.dropdownList_services;
+    this.selectedItems_resourceProfiles.forEach((item) => {
+      let currentResourceProfile = this.dropdownList_resourceProfiles.filter(
+        r => r.id === item.id
+      );
+      this.filteredServices = this.filteredServices.filter(f => {
+        if (currentResourceProfile[0].services.indexOf(f.id.toString()) !== -1)
+          return f;
+      });
+    }) 
+
+    return this.filteredServices;
   }
 
   public setLocationPaths() {
@@ -324,6 +341,7 @@ export class HomeComponent implements OnInit {
       asyncContext
     );
     this.selectedRoomData = data;
+    console.log(data);
     this.showRoomDetails = true;
   }
 

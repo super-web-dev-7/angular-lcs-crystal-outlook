@@ -53,7 +53,7 @@
           </ng-multiselect-dropdown>
         </div>
         <div class="eight wide column pt-0">
-          <ng-multiselect-dropdown [placeholder]="'services' | translate" [data]="dropdownList_services"
+          <ng-multiselect-dropdown [placeholder]="'services' | translate" [data]="filterServices()"
             [(ngModel)]="selectedItems_services" [settings]="dropdownSettings_services">
           </ng-multiselect-dropdown>
         </div>
@@ -115,5 +115,5 @@
   </div>
 </main>
 <div *ngIf="showRoomDetails">
-  <app-room [data]="selectedRoomData" [currentLocation]="currentLocation" (goBack)="home($event)"></app-room>
+  <app-room [data]="selectedRoomData" [currentLocation]="currentLocation" [isOutlookWeb]="isOutlookWeb" (goBack)="home($event)"></app-room>
 </div>

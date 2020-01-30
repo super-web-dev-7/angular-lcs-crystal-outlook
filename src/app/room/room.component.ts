@@ -20,6 +20,8 @@ export class RoomComponent implements OnInit {
   data: any = {};
   @Input()
   currentLocation: any;
+  @Input()
+  isOutlookWeb: boolean;
 
   @Output()
   goBack: EventEmitter<number> = new EventEmitter<number>();
