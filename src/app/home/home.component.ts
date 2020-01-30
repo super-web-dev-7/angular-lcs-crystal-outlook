@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
   public isOutlookWeb: boolean = false;
   public organizerEmail: string;
   public userTimezone: string;
+  public currentLocation;
   private readonly supportedCultures = ["en-US","fr-FR"];
 
   constructor(private crystalService: CrystalService, private translateService: TranslateService) {
@@ -286,6 +287,14 @@ export class HomeComponent implements OnInit {
   }
 
   roomSelected(data){
+    this.currentLocation = [
+      {
+          "id": data.room.mail,
+          "type": Office.MailboxEnums.LocationType.Room
+      }
+  ];
+  let asyncContext = data.room;
+    Office.context.mailbox.item.enhancedLocation.addAsync(this.currentLocation, asyncContext);
     this.selectedRoomData = data;
     this.showRoomDetails = true;
   }
