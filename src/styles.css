@@ -181,7 +181,7 @@ input:checked ~ label:after {
 
 .availableCount,
 .availability {
-  color: #000 !important;
+  color: #757575 !important;
 }
 
 .mt-0 {
