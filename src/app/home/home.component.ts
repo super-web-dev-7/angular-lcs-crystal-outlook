@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 declare var $: any;
 import { CrystalService } from "../crystal.service";
 import { FilterPipe } from "../pipes/filter.pipe";
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import {TranslateService} from '@ngx-translate/core';
+import { IDropdownSettings } from "ng-multiselect-dropdown";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
   title = "lcs-crystal-outlook-plugin";
@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
   public floors;
   public rooms;
   public resourceProfiles;
-  public selectedResourceProfile = "";
   public isLoaded = false;
   public searchText = "";
   public maxAvailableCapacity;
@@ -44,63 +43,75 @@ export class HomeComponent implements OnInit {
   public dropdownList_resourceProfiles = [];
   public selectedItems_resourceProfiles = [];
   public dropdownSettings_resourceProfiles: IDropdownSettings = {};
-  public showRoomDetails:boolean = false;
+  public showRoomDetails: boolean = false;
   public appointmentStartTime: string;
   public appointmentEndTime: string;
   public currentCulture: string;
   public isOutlookWeb: boolean = false;
   public organizerEmail: string;
   public userTimezone: string;
-  private readonly supportedCultures = ["en-US","fr-FR"];
+  public currentLocation: any;
+  private readonly supportedCultures = ["en-US", "fr-FR"];
 
-  constructor(private crystalService: CrystalService, private translateService: TranslateService) {
+  constructor(
+    private crystalService: CrystalService,
+    private translateService: TranslateService
+  ) {
     this.getLocations();
     this.getEquipments();
-    this.getServices(); 
+    this.getServices();
   }
 
   ngOnInit() {
-   this.setLocale();
-   let promise1 = Office.context.mailbox.item.start.getAsync((data)=>{
-     this.appointmentStartTime = data.value.toLocaleString();
-   });
-   let promise2 = Office.context.mailbox.item.end.getAsync((data)=>{
-    this.appointmentEndTime = data.value.toLocaleString();
-  });
-  let promise3 = Office.context.mailbox.item.organizer.getAsync((data)=>{
-    this.organizerEmail = data.value.emailAddress;
-  });
-  this.userTimezone =  Office.context.mailbox.userProfile.timeZone;
-  console.log(this.userTimezone);
-  Promise.all([promise1,promise2]).then(()=>{
-    this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
-  })
+    this.setLocale();
+    let promise1 = Office.context.mailbox.item.start.getAsync(data => {
+      this.appointmentStartTime = data.value.toLocaleString();
+    });
+    let promise2 = Office.context.mailbox.item.end.getAsync(data => {
+      this.appointmentEndTime = data.value.toLocaleString();
+    });
+    let promise3 = Office.context.mailbox.item.organizer.getAsync(data => {
+      this.organizerEmail = data.value.emailAddress;
+    });
+    this.userTimezone = Office.context.mailbox.userProfile.timeZone;
+    Promise.all([promise1, promise2]).then(() => {
+      this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
+    });
   }
 
-  public setLocale(){
-    this.currentCulture =  Office.context ? Office.context.displayLanguage : "en-US";
+  public setLocale() {
+    this.currentCulture = Office.context
+      ? Office.context.displayLanguage
+      : "en-US";
     // fallback to en-US if culture not supported
-    if(this.supportedCultures.indexOf(this.currentCulture) === -1)
-    {
+    if (this.supportedCultures.indexOf(this.currentCulture) === -1) {
       this.currentCulture = "en-US";
     }
     this.translateService.use(this.currentCulture);
-    if(Office.context.mailbox.diagnostics.hostName === "OutlookWebApp"){
+    if (Office.context.mailbox.diagnostics.hostName === "OutlookWebApp") {
       this.isOutlookWeb = true;
     }
   }
 
   public populateRooms(start, end) {
-    this.crystalService.getResources(start, end, this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
-      this.rooms = data["resources"];
-      this.maxAvailableCapacity = Math.max.apply(
-        Math,
-        this.rooms.map(function (o) {
-          return o.capacity;
-        })
-      );
-      this.renderCapacitySlider();
-    });
+    this.crystalService
+      .getResources(
+        start,
+        end,
+        this.organizerEmail,
+        this.userTimezone,
+        this.currentCulture
+      )
+      .subscribe(data => {
+        this.rooms = data["resources"];
+        this.maxAvailableCapacity = Math.max.apply(
+          Math,
+          this.rooms.map(function(o) {
+            return o.capacity;
+          })
+        );
+        this.renderCapacitySlider();
+      });
   }
 
   public renderCapacitySlider() {
@@ -120,28 +131,33 @@ export class HomeComponent implements OnInit {
   }
 
   public getLocations() {
-    this.crystalService.getLocations(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
-      this.locations = data["location_level"];
-      this.renderDropdowns();
-      this.locationLevels = this.getRecursiveLength(this.locations);
-      for (let i = 0; i < this.locationLevels; i++) {
-        this.selectedLocation[i] = "";
-        this.locationLevelDropdowns[i] = [];
-      }
-      this.locationLevelDropdowns[0] = this.locations;
-      this.setLocationPaths();
-    });
+    this.crystalService
+      .getLocations(this.organizerEmail, this.userTimezone, this.currentCulture)
+      .subscribe(data => {
+        this.locations = data["location_level"];
+        this.renderDropdowns();
+        this.locationLevels = this.getRecursiveLength(this.locations);
+        for (let i = 0; i < this.locationLevels; i++) {
+          this.selectedLocation[i] = "";
+          this.locationLevelDropdowns[i] = [];
+        }
+        this.locationLevelDropdowns[0] = this.locations;
+        this.setLocationPaths();
+      });
   }
 
   public setLocationLevel(i: number) {
     if (i > 0 && i < this.locationLevels) {
       // reset filter
       if (
-        !this.containsObject(this.selectedLocation[i], this.selectedLocation[i - 1].children) 
-        || this.selectedLocation[i - 1] == ""
-      ){
+        !this.containsObject(
+          this.selectedLocation[i],
+          this.selectedLocation[i - 1].children
+        ) ||
+        this.selectedLocation[i - 1] == ""
+      ) {
         this.selectedLocation[i] = "";
-        $($('.locations>div')[i]).dropdown('clear');
+        $($(".locations>div")[i]).dropdown("clear");
       }
       // generate list
       if (this.selectedLocation[i - 1] != "") {
@@ -149,7 +165,7 @@ export class HomeComponent implements OnInit {
       } else {
         this.locationLevelDropdowns[i] = [];
       }
-    } 
+    }
   }
 
   public containsObject(obj, list) {
@@ -180,9 +196,11 @@ export class HomeComponent implements OnInit {
   }
 
   public getBuildings() {
-    this.crystalService.getBuildings(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
-      this.buildings = data[0]["children"];
-    });
+    this.crystalService
+      .getBuildings(this.organizerEmail, this.userTimezone, this.currentCulture)
+      .subscribe(data => {
+        this.buildings = data[0]["children"];
+      });
   }
 
   public populateFloors() {
@@ -194,98 +212,117 @@ export class HomeComponent implements OnInit {
   }
 
   public getResourceProfiles() {
-    this.crystalService.getResourceProfiles(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
-      this.resourceProfiles = data["resource_profile"];
-      this.dropdownList_resourceProfiles = this.resourceProfiles;
-      this.selectedItems_resourceProfiles = [];
-      this.dropdownSettings_resourceProfiles = {
-        singleSelection: false,
-        idField: 'id',
-        textField: 'name',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        itemsShowLimit: 3,
-        allowSearchFilter: false
-      };
-      this.renderDropdowns();
-    });
+    this.crystalService
+      .getResourceProfiles(
+        this.organizerEmail,
+        this.userTimezone,
+        this.currentCulture
+      )
+      .subscribe(data => {
+        this.resourceProfiles = data["resource_profile"];
+        this.dropdownList_resourceProfiles = this.resourceProfiles;
+        this.selectedItems_resourceProfiles = [];
+        this.dropdownSettings_resourceProfiles = {
+          singleSelection: false,
+          idField: "id",
+          textField: "name",
+          selectAllText: "Select All",
+          unSelectAllText: "UnSelect All",
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
+        this.renderDropdowns();
+      });
   }
 
   public getEquipments() {
-    this.crystalService.getEquipments(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
-      this.equipments = data["equipments"];
-      this.dropdownList_equipments = this.equipments;
-      this.selectedItems_equipments = [];
-      this.dropdownSettings_equipments = {
-        singleSelection: false,
-        idField: 'id',
-        textField: 'name',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        itemsShowLimit: 3,
-        allowSearchFilter: false
-      };
-    });
-
-    
+    this.crystalService
+      .getEquipments(
+        this.organizerEmail,
+        this.userTimezone,
+        this.currentCulture
+      )
+      .subscribe(data => {
+        this.equipments = data["equipments"];
+        this.dropdownList_equipments = this.equipments;
+        this.selectedItems_equipments = [];
+        this.dropdownSettings_equipments = {
+          singleSelection: false,
+          idField: "id",
+          textField: "name",
+          selectAllText: "Select All",
+          unSelectAllText: "UnSelect All",
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
+      });
   }
 
   public getServices() {
-    this.crystalService.getServices(this.organizerEmail, this.userTimezone, this.currentCulture).subscribe(data => {
-      this.services = data;
-      this.dropdownList_services = this.services;
-      // this.dropdownList_services = [
-      //   { id: 1, name: 'service1' },
-      //   { id: 2, name: 'service2' },
-      //   { id: 3, name: 'service3' },
-      //   { id: 4, name: 'service4' },
-      //   { id: 5, name: 'service5' }
-      // ];
-      this.selectedItems_services = [];
-      this.dropdownSettings_services = {
-        singleSelection: false,
-        idField: 'id',
-        textField: 'name',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        itemsShowLimit: 3,
-        allowSearchFilter: false
-      };
-    });
+    this.crystalService
+      .getServices(this.organizerEmail, this.userTimezone, this.currentCulture)
+      .subscribe(data => {
+        this.services = data;
+        this.dropdownList_services = this.services;
+        // this.dropdownList_services = [
+        //   { id: 1, name: 'service1' },
+        //   { id: 2, name: 'service2' },
+        //   { id: 3, name: 'service3' },
+        //   { id: 4, name: 'service4' },
+        //   { id: 5, name: 'service5' }
+        // ];
+        this.selectedItems_services = [];
+        this.dropdownSettings_services = {
+          singleSelection: false,
+          idField: "id",
+          textField: "name",
+          selectAllText: "Select All",
+          unSelectAllText: "UnSelect All",
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
+      });
   }
 
-  public setLocationPaths(){
+  public setLocationPaths() {
     this.rooms.forEach(room => {
       let loc = room.location;
       let path = loc.name;
-      for(let i = 0; i < this.locationLevels; i++){
-        if(loc.children && loc.children.name){
-          path += '/' + loc.children.name;
+      for (let i = 0; i < this.locationLevels; i++) {
+        if (loc.children && loc.children.name) {
+          path += "/" + loc.children.name;
           loc = loc.children;
-        }
-        else
-        break;
+        } else break;
       }
       this.locationPaths[room.id] = path;
     });
   }
 
-  
-  
-  resetFilters(){
+  resetFilters() {
     this.showMoreFilters = !this.showMoreFilters;
     // this.selectedItems_equipments = [];
     // this.selectedItems_services = [];
     // this.selectedItems_resourceProfiles = [];
   }
 
-  renderDropdowns(){
-    $('.ui.dropdown').dropdown({
-      "clearable": true
-     });
+  renderDropdowns() {
+    $(".ui.dropdown").dropdown({
+      clearable: true
+    });
   }
 
-  roomSelected(data){
+  roomSelected(data) {
+    this.currentLocation = [
+      {
+        id: data.room.mail,
+        type: Office.MailboxEnums.LocationType.Room
+      }
+    ];
+    let asyncContext = data.room;
+    Office.context.mailbox.item.enhancedLocation.addAsync(
+      this.currentLocation,
+      asyncContext
+    );
     this.selectedRoomData = data;
     this.showRoomDetails = true;
   }
@@ -293,5 +330,4 @@ export class HomeComponent implements OnInit {
   home(event) {
     this.showRoomDetails = !this.showRoomDetails;
   }
-
 }
