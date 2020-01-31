@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { map, filter } from "rxjs/operators";
 import { Observable } from "rxjs/observable";
+import { CrystalService } from "../crystal.service";
 
 @Component({
   selector: "app-room",
@@ -40,7 +41,7 @@ export class RoomComponent implements OnInit {
   orderDetails: any;
   JSON: any;
 
-  constructor() {}
+  constructor(private crystalService: CrystalService) {}
 
   ngOnInit() {
     if (this.data) {
@@ -163,7 +164,15 @@ export class RoomComponent implements OnInit {
   }
 
   goHome() {
-    Office.context.mailbox.item.enhancedLocation.removeAsync(this.currentLocation);
+    Office.context.mailbox.item.enhancedLocation.removeAsync(
+      this.currentLocation
+    );
     this.goBack.emit(0);
+  }
+
+  createMeetingAsync() {
+    this.crystalService.createMeetingAsync(this.orderDetails).subscribe((data)=>{
+      console.log(data);
+    });
   }
 }

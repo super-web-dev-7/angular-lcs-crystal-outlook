@@ -108,8 +108,8 @@
     <div style="max-height:90%; overflow-y:auto; overflow-x:hidden;"
       *ngFor="let availedService of availedServices; let i = index" [hidden]="currentPage != 3 + i">
       <div class="ui fluid center aligned">
-        <div class="ui fluid background-blue" style="border-bottom: 1px solid #F5F5F5;padding: 10%;width: auto;height: auto;">
-          <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
+        <div class="ui fluid background-blue" *ngIf="!isOutlookWeb" style="border-bottom: 1px solid #F5F5F5;padding: 10%;width: auto;height: auto;">
+          <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
         </div>
         <div class="ui fluid">
           <img src="../../assets/conf.jpg" class="ui fluid centered image" style="max-height:261px; max-width:477px;" />
@@ -219,7 +219,7 @@
         style="border-radius:0px; color: white; height:80%;">
         {{'next' | translate}}
       </button>
-      <button *ngIf="currentPage == totalPages" class="ui positive button " style="border-radius:0%; margin:0; background-color: #8BC34A;">
+      <button *ngIf="currentPage == totalPages" (click)="createMeetingAsync()" class="ui positive button " style="border-radius:0%; margin:0; background-color: #8BC34A;">
         {{'confirm' | translate}}
       </button>
     </div>
