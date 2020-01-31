@@ -4,7 +4,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>LCS</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Crystal Meet"/>
+  <DisplayName DefaultValue="Crystal Workspace"/>
   <Description DefaultValue="Allows users to schedule meetings on the crystal platform."/>
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
