@@ -3,10 +3,11 @@
   <div style="max-height:90%;">
     <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
       <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
-        <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
+        <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image"
+          style="max-width: 300px;" />
       </div>
       <div class="ui fluid ml-0 mr-0">
-        <img src="../../assets/conf.jpg" class="ui fluid centered image roomImage"/>
+        <img src="../../assets/conf.jpg" class="ui fluid centered image roomImage" />
       </div>
     </div>
     <div style="margin-left:5%; margin-right:5%">
@@ -29,8 +30,8 @@
           <div style="color: #03A9F4;">
             {{'floormap' | translate}}
           </div>
-          <i class="map marker alternate icon" style="color: #03A9F4; padding: 0 0 0;"></i>
-          </div>
+            <i class="map marker alternate icon" style="color: #03A9F4; padding: 0 0 0;"></i>
+        </div>
       </div>
       <div style="margin-top:5%;">
         <h4>
@@ -38,8 +39,11 @@
         </h4>
       </div>
       <div class="ui grid" style="margin-top:1%;">
-        <div class="five wide column align centered" *ngFor="let equipment of room.equipments" style="width: 75%; text-align: center">
-          <img class="ui centered image" style='height:45px; width:45px; border:2px solid #757575; border-radius:50px; padding:5%' src='../../assets/conf.jpg'/><br/>
+        <div class="five wide column align centered" *ngFor="let equipment of room.equipments"
+          style="width: 75%; text-align: center">
+          <img class="ui centered image"
+            style='height:45px; width:45px; border:2px solid #757575; border-radius:50px; padding:5%'
+            src='{{ equipmentsMap[equipment.id].image }}' /><br />
           {{ equipmentsMap[equipment.id].name }}
         </div>
       </div>
@@ -77,10 +81,12 @@
   <div [hidden]="currentPage != 2" id="selectServices" style="max-height: 85%;overflow: auto;">
     <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
       <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
-        <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
+        <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image"
+          style="max-width: 300px;" />
       </div>
       <div class="ui fluid container" style="margin-right: 0px !important;margin-left: 0px !important;">
-        <img src="../../assets/check.jpg" class="ui fluid centered image" style="max-height:261px; max-width:477px; background-color: #F5F5F5;" />
+        <img src="../../assets/check.jpg" class="ui fluid centered image"
+          style="max-height:261px; max-width:477px; background-color: #F5F5F5;" />
       </div>
     </div>
     <div style="margin-left:5%; margin-top:2%">
@@ -108,7 +114,8 @@
     <div style="max-height:90%; overflow-y:auto; overflow-x:hidden;"
       *ngFor="let availedService of availedServices; let i = index" [hidden]="currentPage != 3 + i">
       <div class="ui fluid center aligned">
-        <div class="ui fluid background-blue" *ngIf="!isOutlookWeb" style="border-bottom: 1px solid #F5F5F5;padding: 10%;width: auto;height: auto;">
+        <div class="ui fluid background-blue" *ngIf="!isOutlookWeb"
+          style="border-bottom: 1px solid #F5F5F5;padding: 10%;width: auto;height: auto;">
           <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
         </div>
         <div class="ui fluid">
@@ -142,7 +149,8 @@
               <h5 class="text-blue mb-5">{{ serviceItem.name }}</h5>
               <p class="text-grey mb-0">{{ serviceItem.description }}</p>
               <p class="text-grey mb-0">
-                <i class="ui icon clock mb-0"></i>{{'preparationWithColon' | translate}} {{ serviceItem.preparationTime }}
+                <i class="ui icon clock mb-0"></i>{{'preparationWithColon' | translate}}
+                {{ serviceItem.preparationTime }}
               </p>
               <div class="ui fluid">
                 <input [placeholder]="'remarks' | translate" style="width:100%;" [(ngModel)]="
@@ -172,10 +180,12 @@
     <div style="max-height:90%; overflow-y:auto; overflow-x:hidden;">
       <div class="ui fluid center aligned">
         <div class="ui fluid background-blue" style="border-bottom: 1px solid #F5F5F5;">
-          <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image" style="max-width: 300px;" />
+          <img src="../../assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image"
+            style="max-width: 300px;" />
         </div>
         <div class="ui fluid" style='background-color:#F5F5F5;'>
-          <img src="../../assets/GreenCheck.jpeg" class="ui fluid centered image" style='max-height:261px; max-width:477px;'>
+          <img src="../../assets/GreenCheck.jpeg" class="ui fluid centered image"
+            style='max-height:261px; max-width:477px;'>
         </div>
       </div>
       <div class='mt-5p' style="margin-left:5%; margin-right:5%; padding-bottom: 70px;">
@@ -204,9 +214,10 @@
     <div class="container ui fluid mt-5p mb-5p" style="margin:0px !important; height:50%;">
       <ul class="progressbar" style="margin-left:-15%">
         <li class="active notpointer" [ngStyle]="{ width: 100 / totalPages + '%' }"></li>
-        <li [ngStyle]="{ width: 100 / totalPages + '%' }" [ngClass]="currentPage > 2 ? 'active' : ''" (click)="setPage(2)"></li>
+        <li [ngStyle]="{ width: 100 / totalPages + '%' }" [ngClass]="currentPage > 2 ? 'active' : ''"
+          (click)="setPage(2)"></li>
         <li [ngStyle]="{ width: 100 / totalPages + '%' }" [ngClass]="i < currentPage - 3 ? 'active' : ''"
-          *ngFor="let service of availedServices; let i = index"  (click)="setPage(i + 3)"></li>
+          *ngFor="let service of availedServices; let i = index" (click)="setPage(i + 3)"></li>
         <li [ngStyle]="{ width: 100 / totalPages + '%' }"></li>
       </ul>
     </div>
@@ -219,7 +230,8 @@
         style="border-radius:0px; color: white; height:80%;">
         {{'next' | translate}}
       </button>
-      <button *ngIf="currentPage == totalPages" (click)="createMeetingAsync()" class="ui positive button " style="border-radius:0%; margin:0; background-color: #8BC34A;">
+      <button *ngIf="currentPage == totalPages" (click)="createMeetingAsync()" class="ui positive button "
+        style="border-radius:0%; margin:0; background-color: #8BC34A;">
         {{'confirm' | translate}}
       </button>
     </div>
