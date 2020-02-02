@@ -13,7 +13,3 @@ Office.initialize = reason => {
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));
 };
-
-platformBrowserDynamic()
-    .bootstrapModule(AppModule)
-    .catch(err => console.error(err));

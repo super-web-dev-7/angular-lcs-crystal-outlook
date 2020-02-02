@@ -65,19 +65,21 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.setLocale();
-    let promise1 = Office.context.mailbox.item.start.getAsync(data => {
-      this.appointmentStartTime = data.value.toLocaleString();
-    });
-    let promise2 = Office.context.mailbox.item.end.getAsync(data => {
-      this.appointmentEndTime = data.value.toLocaleString();
-    });
-    let promise3 = Office.context.mailbox.item.organizer.getAsync(data => {
-      this.organizerEmail = data.value.emailAddress;
-    });
-    this.userTimezone = Office.context.mailbox.userProfile.timeZone;
-    Promise.all([promise1, promise2]).then(() => {
-      this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
-    });
+    if (!!Office.context) {
+      let promise1 = Office.context.mailbox.item.start.getAsync(data => {
+        this.appointmentStartTime = data.value.toLocaleString();
+      });
+      let promise2 = Office.context.mailbox.item.end.getAsync(data => {
+        this.appointmentEndTime = data.value.toLocaleString();
+      });
+      let promise3 = Office.context.mailbox.item.organizer.getAsync(data => {
+        this.organizerEmail = data.value.emailAddress;
+      });
+      this.userTimezone = Office.context.mailbox.userProfile.timeZone;
+      Promise.all([promise1, promise2]).then(() => {
+        this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
+      });
+    }
   }
 
   public setLocale() {
@@ -89,7 +91,10 @@ export class HomeComponent implements OnInit {
       this.currentCulture = "en-US";
     }
     this.translateService.use(this.currentCulture);
-    if (Office.context.mailbox.diagnostics.hostName === "OutlookWebApp") {
+    if (
+      !!Office.context &&
+      Office.context.mailbox.diagnostics.hostName === "OutlookWebApp"
+    ) {
       this.isOutlookWeb = true;
     }
   }
@@ -288,7 +293,7 @@ export class HomeComponent implements OnInit {
 
   filterServices() {
     this.filteredServices = this.dropdownList_services;
-    this.selectedItems_resourceProfiles.forEach((item) => {
+    this.selectedItems_resourceProfiles.forEach(item => {
       let currentResourceProfile = this.dropdownList_resourceProfiles.filter(
         r => r.id === item.id
       );
@@ -296,23 +301,25 @@ export class HomeComponent implements OnInit {
         if (currentResourceProfile[0].services.indexOf(f.id.toString()) !== -1)
           return f;
       });
-    }) 
+    });
 
     return this.filteredServices;
   }
 
   public setLocationPaths() {
-    this.rooms.forEach(room => {
-      let loc = room.location;
-      let path = loc.name;
-      for (let i = 0; i < this.locationLevels; i++) {
-        if (loc.children && loc.children.name) {
-          path += "/" + loc.children.name;
-          loc = loc.children;
-        } else break;
-      }
-      this.locationPaths[room.id] = path;
-    });
+    if(!!this.rooms){
+      this.rooms.forEach(room => {
+        let loc = room.location;
+        let path = loc.name;
+        for (let i = 0; i < this.locationLevels; i++) {
+          if (loc.children && loc.children.name) {
+            path += "/" + loc.children.name;
+            loc = loc.children;
+          } else break;
+        }
+        this.locationPaths[room.id] = path;
+      });
+    }
   }
 
   resetFilters() {
@@ -341,7 +348,6 @@ export class HomeComponent implements OnInit {
       asyncContext
     );
     this.selectedRoomData = data;
-    console.log(data);
     this.showRoomDetails = true;
   }
 

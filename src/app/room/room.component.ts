@@ -6,6 +6,7 @@ import {
   Output,
   EventEmitter
 } from "@angular/core";
+declare var $: any;
 import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { map, filter } from "rxjs/operators";
 import { Observable } from "rxjs/observable";
@@ -78,6 +79,13 @@ export class RoomComponent implements OnInit {
       this.totalPages = 3 + this.availedServicesCount;
       this.updateAvailedServiceList("__intialload__");
     }
+  }
+
+  ngAfterViewInit(){
+    $('[data-toggle="tooltip"]').popup({
+      on: 'hover',
+      position : 'left center'
+    });
   }
 
   public getLocationPath() {
@@ -172,7 +180,6 @@ export class RoomComponent implements OnInit {
 
   createMeetingAsync() {
     this.crystalService.createMeetingAsync(this.orderDetails).subscribe((data)=>{
-      console.log(data);
     });
   }
 }
