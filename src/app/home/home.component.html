@@ -91,7 +91,7 @@
               <div class="eight wide column middle aligned">
                 <h3 class="ui header aligned left" style="color:#757575">{{ room.name }}</h3>
                 <div class="aligned left">
-                  <i class="circle icon available"></i>
+                  <i class="circle icon" [ngClass]="room.isAvailable ? 'available' : 'notAvailable'"></i>
                   <span class="availability" style="color:#757575">
                     {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
                   </span>

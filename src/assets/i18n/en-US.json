@@ -17,5 +17,7 @@
     "selectTheServicesYouNeed" : "Select the services you need",
     "preparationWithColon": "Preparation:",
     "quantity": "quantity",
-    "floormap": "Floor map"
+    "floormap": "Floor map",
+    "confirmationMessage": "The booking is confirmed. You can now send the meeting invite and close the window.",
+    "errorMessage": "We were unable to confirm your booking."
 }

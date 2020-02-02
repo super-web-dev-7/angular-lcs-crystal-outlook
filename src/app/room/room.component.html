@@ -21,7 +21,7 @@
         </div>
       </div>
       <div style="margin-top: 2%;">
-        <i class="circle icon available"></i>
+        <i class="circle icon" [ngClass]="room.isAvailable ? 'available' : 'notAvailable'"></i>
         {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
       </div>
       <div class="ui grid" style="margin-top:2%;">
@@ -54,7 +54,8 @@
       </div>
       <div style="margin-top: 2%;">
         <div class="aligned left" *ngFor="let service of allServices">
-          <i class="coffee icon"></i>{{ service.data.name }}
+          <img class="serviceName" src="{{service.data.image}}">
+          <span>{{ service.data.name }}</span>
         </div>
       </div>
     </div>
@@ -67,7 +68,7 @@
         style="border-radius:0px; color: white; height:80%;">
         {{'previous' | translate}}
       </button>
-      <button *ngIf="currentPage < totalPages" (click)="nextPage()" class="ui button background-blue"
+      <button [disabled]="!room.isAvailable" *ngIf="currentPage < totalPages" (click)="nextPage()" class="ui button background-blue"
         style="border-radius:0px; color: white; height:100%;">
         {{'select' | translate}}
       </button>
@@ -103,7 +104,7 @@
         <div class="ui checked checkbox" *ngFor="let service of availableServices; let i = index" style="width: 100%;">
           <input type="checkbox" [checked]="this.selectedServices[service].isSelected"
             (change)="updateAvailedServiceList(service)" />
-          <label><i class='icon coffee text-grey'></i>{{ selectedServices[service].data.name }}</label>
+          <label><img class="serviceName" src="{{selectedServices[service].data.image}}">{{ selectedServices[service].data.name }}</label>
         </div>
       </div>
     </div>
@@ -119,7 +120,7 @@
           <img src="../../assets/logo.png" class="ui fluid centered image" style="max-width: 300px;" />
         </div>
         <div class="ui fluid">
-          <img src="../../assets/conf.jpg" class="ui fluid centered image" style="max-height:261px; max-width:477px;" />
+          <img src="{{availedService.data.image}}" class="ui fluid centered image" style="max-height:261px; max-width:477px;" />
         </div>
       </div>
       <div class="mt-5p" style="margin-left:5%; margin-right:5%;">
@@ -195,7 +196,7 @@
         <p class='mb-5p'><i class='ui icon user'></i>{{this.data.room.capacity}}</p>
         <h4 class='mb-0 text-blue' style="padding-bottom: 5px;">{{'services' | translate}}</h4>
         <div *ngFor="let service of orderDetails.services | keyvalue" style="padding-bottom: 5px;">
-          <h4 class='mb-0 mt-10 text-grey'><i class='ui icon clock'></i>{{service.value.name}}</h4>
+          <h4 class='mb-0 mt-10 text-grey'><img class="serviceName" src="{{service.value.image}}">{{service.value.name}}</h4>
           <div *ngFor="let item of service.value | keyvalue">
             <div *ngIf="item.value.name" style="padding-bottom: 2px;">
               <p class='mb-0 text-grey'>{{item.value.name}} : {{'quantity' | translate}} {{item.value.quantity}}</p>
@@ -221,8 +222,10 @@
         <li [ngStyle]="{ width: 100 / totalPages + '%' }"></li>
       </ul>
     </div>
+    <span class="successMessage" *ngIf="bookingConfirmed">{{'confirmationMessage' | translate}}</span>
+    <span class="errorMessage" *ngIf="errorOcurred">{{'errorMessage' | translate}}</span>
     <div class="ui buttons fluid" style="height:50%;">
-      <button *ngIf="currentPage <= totalPages" (click)="previousPage()" class="ui button background-light-blue"
+      <button *ngIf="currentPage <= totalPages" [disabled]="bookingConfirmed" (click)="previousPage()" class="ui button background-light-blue"
         style="border-radius:0px; color: white; height:80%;">
         {{'previous' | translate}}
       </button>
@@ -230,7 +233,7 @@
         style="border-radius:0px; color: white; height:80%;">
         {{'next' | translate}}
       </button>
-      <button *ngIf="currentPage == totalPages" (click)="createMeetingAsync()" class="ui positive button "
+      <button *ngIf="currentPage == totalPages" [disabled]="bookingConfirmed" (click)="createMeetingAsync()" class="ui positive button "
         style="border-radius:0%; margin:0; background-color: #8BC34A;">
         {{'confirm' | translate}}
       </button>

@@ -41,6 +41,8 @@ export class RoomComponent implements OnInit {
   availedServicesCount: number;
   orderDetails: any;
   JSON: any;
+  bookingConfirmed: boolean = false;
+  errorOcurred: boolean = false;
 
   constructor(private crystalService: CrystalService) {}
 
@@ -137,6 +139,9 @@ export class RoomComponent implements OnInit {
       this.orderDetails.services[
         this.availedServices[i].id
       ].name = this.availedServices[i].data.name;
+      this.orderDetails.services[
+        this.availedServices[i].id
+      ].image = this.availedServices[i].data.image;
       for (
         let j = 0;
         j < this.availedServices[i].data.service_items.length;
@@ -180,6 +185,9 @@ export class RoomComponent implements OnInit {
 
   createMeetingAsync() {
     this.crystalService.createMeetingAsync(this.orderDetails).subscribe((data)=>{
+      this.bookingConfirmed = true;
+    }, error => {
+      this.errorOcurred = true;
     });
   }
 }

@@ -30,6 +30,9 @@ input:checked ~ label:after {
 .circle.icon.available {
   color: #8bc34a;
 }
+.circle.icon.notAvailable {
+  color: red;
+}
 .ui.header.aligned.left {
   margin-bottom: 5px;
 }
@@ -334,4 +337,18 @@ span.dropdown-up {
 
 footer.footer {
   background: rgba(255, 255, 255, 0.75);
+}
+
+.successMessage {
+color: #8BC34A;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.serviceName {
+height: 40px;
+width: 40px;
+padding: 5px;
 }
