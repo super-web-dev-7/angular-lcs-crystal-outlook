@@ -348,7 +348,11 @@ color: #8BC34A;
 }
 
 .serviceName {
-height: 40px;
-width: 40px;
-padding: 5px;
+height: 25px;
+width: 25px;
+padding: 2px;
+}
+
+.serviceNameSpan {
+  vertical-align: super;
 }

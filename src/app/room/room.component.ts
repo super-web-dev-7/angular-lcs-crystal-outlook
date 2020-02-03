@@ -183,6 +183,10 @@ export class RoomComponent implements OnInit {
     this.goBack.emit(0);
   }
 
+  getImageHTML(room){
+    return "<img style='width:90%;' src='"+room.floormapImage+"'>";
+  }
+
   createMeetingAsync() {
     this.crystalService.createMeetingAsync(this.orderDetails).subscribe((data)=>{
       this.bookingConfirmed = true;

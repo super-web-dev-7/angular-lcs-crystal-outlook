@@ -7,7 +7,7 @@
           style="max-width: 300px;" />
       </div>
       <div class="ui fluid ml-0 mr-0">
-        <img src="../../assets/conf.jpg" class="ui fluid centered image roomImage" />
+        <img src="{{room.visual}}" class="ui fluid centered image roomImage" />
       </div>
     </div>
     <div style="margin-left:5%; margin-right:5%">
@@ -30,7 +30,7 @@
           <div style="color: #03A9F4;">
             {{'floormap' | translate}}
           </div>
-            <i data-toggle="tooltip" data-html="<img style='width:90%;' src='https://lh3.googleusercontent.com/-pTG5lnYiXrU/WIdxMc6i4DI/AAAAAAAAAtM/OxQz3R9u-LUGbfsvTq50hX7scO9QZorNwCLcB/s1600/Screen%2BShot%2B2016-12-28%2Bat%2B16.09.46.png'>" class="map marker alternate icon" style="color: #03A9F4; padding: 0 0 0;"></i>
+            <i data-toggle="tooltip" [attr.data-html]="getImageHTML(room)" class="map marker alternate icon" style="color: #03A9F4; padding: 0 0 0;"></i>
         </div>
       </div>
       <div style="margin-top:5%;">
@@ -55,7 +55,7 @@
       <div style="margin-top: 2%;">
         <div class="aligned left" *ngFor="let service of allServices">
           <img class="serviceName" src="{{service.data.image}}">
-          <span>{{ service.data.name }}</span>
+          <span class="serviceNameSpan">{{ service.data.name }}</span>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
         <div class="ui checked checkbox" *ngFor="let service of availableServices; let i = index" style="width: 100%;">
           <input type="checkbox" [checked]="this.selectedServices[service].isSelected"
             (change)="updateAvailedServiceList(service)" />
-          <label><img class="serviceName" src="{{selectedServices[service].data.image}}">{{ selectedServices[service].data.name }}</label>
+          <label><img class="serviceName" src="{{selectedServices[service].data.image}}"><span class="serviceNameSpan">{{ selectedServices[service].data.name }}</span></label>
         </div>
       </div>
     </div>
