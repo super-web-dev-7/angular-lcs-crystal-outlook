@@ -43,6 +43,8 @@ export class RoomComponent implements OnInit {
   JSON: any;
   bookingConfirmed: boolean = false;
   errorOcurred: boolean = false;
+  requestInProgress: boolean = false;
+  responseMessage: string = "";
 
   constructor(private crystalService: CrystalService) {}
 
@@ -106,6 +108,9 @@ export class RoomComponent implements OnInit {
 
   public previousPage() {
     this.currentPage--;
+    if(this.errorOcurred === true){
+      this.errorOcurred = false;
+    }
   }
 
   public nextPage() {
@@ -184,14 +189,20 @@ export class RoomComponent implements OnInit {
   }
 
   getImageHTML(room){
-    return "<img style='width:90%;' src='"+room.floormapImage+"'>";
+    return "<img style='width:90%;' src='"+room.floorMapLocation+"'>";
   }
 
   createMeetingAsync() {
+    this.requestInProgress = true;
+    if(this.errorOcurred){
+      this.errorOcurred = false;
+    }
     this.crystalService.createMeetingAsync(this.orderDetails).subscribe((data)=>{
       this.bookingConfirmed = true;
     }, error => {
+      this.responseMessage = error.error.responseMessage;
       this.errorOcurred = true;
+      this.requestInProgress = false; 
     });
   }
 }

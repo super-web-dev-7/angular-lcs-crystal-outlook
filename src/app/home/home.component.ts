@@ -66,19 +66,17 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.setLocale();
     if (!!Office.context) {
-      let promise1 = Office.context.mailbox.item.start.getAsync(data => {
+      Office.context.mailbox.item.start.getAsync(data => {
         this.appointmentStartTime = data.value.toLocaleString();
       });
-      let promise2 = Office.context.mailbox.item.end.getAsync(data => {
+      Office.context.mailbox.item.end.getAsync(data => {
         this.appointmentEndTime = data.value.toLocaleString();
       });
-      let promise3 = Office.context.mailbox.item.organizer.getAsync(data => {
+      Office.context.mailbox.item.organizer.getAsync(data => {
         this.organizerEmail = data.value.emailAddress;
       });
       this.userTimezone = Office.context.mailbox.userProfile.timeZone;
-      Promise.all([promise1, promise2]).then(() => {
-        this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
-      });
+      this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
     }
   }
 
