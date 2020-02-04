@@ -77,6 +77,19 @@ export class HomeComponent implements OnInit {
         this.getLocations();
       });
       this.userTimezone = Office.context.mailbox.userProfile.timeZone;
+
+      setInterval(() => {
+        Office.context.mailbox.item.start.getAsync(data => {
+          if(data.value.toLocaleString() != this.appointmentStartTime){
+            location.reload();
+          }
+        });
+        Office.context.mailbox.item.end.getAsync(data => {
+          if(data.value.toLocaleString() != this.appointmentEndTime){
+            location.reload();
+          }
+        });
+      }, 5000)
     }
   }
 
