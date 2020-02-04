@@ -86,10 +86,10 @@ export class RoomComponent implements OnInit {
     }
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     $('[data-toggle="tooltip"]').popup({
-      on: 'hover',
-      position : 'left center'
+      on: "hover",
+      position: "left center"
     });
   }
 
@@ -109,7 +109,7 @@ export class RoomComponent implements OnInit {
 
   public previousPage() {
     this.currentPage--;
-    if(this.errorOcurred === true){
+    if (this.errorOcurred === true) {
       this.errorOcurred = false;
     }
   }
@@ -189,34 +189,54 @@ export class RoomComponent implements OnInit {
     this.goBack.emit(0);
   }
 
-  getImageHTML(room){
-    return "<img style='width:90%;' src='"+room.floorMapLocation+"'>";
+  getImageHTML(room) {
+    return "<img style='width:90%;' src='" + room.floorMapLocation + "'>";
   }
 
   createOrderObject() {
     this.finalOrderObj.resource = {};
     this.finalOrderObj.resource.id = this.orderDetails.room.id;
-    this.finalOrderObj.resource.capacity = this.orderDetails.room.capacity;
     this.finalOrderObj.resource.email = this.data.userEmail;
     this.finalOrderObj.resource.start_time = this.data.start;
     this.finalOrderObj.resource.end_time = this.data.end;
     this.finalOrderObj.resource.timezone = this.data.timezone;
     this.finalOrderObj.resource.language = this.data.currentCulture;
-    this.finalOrderObj.resource.services = this.orderDetails.services;
+    this.finalOrderObj.resource.services = {};
+    Object.keys(this.orderDetails.services).forEach(key => {
+      this.finalOrderObj.resource.services[key] = {};
+      this.finalOrderObj.resource.services[
+        key
+      ].remarks = this.orderDetails.services[key].orderRemarks;
+      this.finalOrderObj.resource.services[key].items = {};
+      Object.keys(this.orderDetails.services[key]).forEach(item => {
+        if (item !== "image" && item !== "name" && item !== "orderRemarks") {
+          this.finalOrderObj.resource.services[key].items.item_id = item;
+          this.finalOrderObj.resource.services[
+            key
+          ].items.qty = this.orderDetails.services[key][item].quantity;
+          this.finalOrderObj.resource.services[
+            key
+          ].items.remarks = this.orderDetails.services[key][item].itemRemarks;
+        }
+      });
+    });
   }
 
   createMeetingAsync() {
     this.createOrderObject();
     this.requestInProgress = true;
-    if(this.errorOcurred){
+    if (this.errorOcurred) {
       this.errorOcurred = false;
     }
-    this.crystalService.createMeetingAsync(this.finalOrderObj).subscribe((data)=>{
-      this.bookingConfirmed = true;
-    }, error => {
-      this.responseMessage = error.error.responseMessage;
-      this.errorOcurred = true;
-      this.requestInProgress = false; 
-    });
+    this.crystalService.createMeetingAsync(this.finalOrderObj).subscribe(
+      data => {
+        this.bookingConfirmed = true;
+      },
+      error => {
+        this.responseMessage = error.error.responseMessage;
+        this.errorOcurred = true;
+        this.requestInProgress = false;
+      }
+    );
   }
 }

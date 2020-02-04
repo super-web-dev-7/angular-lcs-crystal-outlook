@@ -58,7 +58,6 @@ export class HomeComponent implements OnInit {
     private crystalService: CrystalService,
     private translateService: TranslateService
   ) {
-      this.getLocations();
       this.getEquipments();
       this.getServices();
   }
@@ -75,6 +74,7 @@ export class HomeComponent implements OnInit {
       Office.context.mailbox.item.organizer.getAsync(data => {
         this.organizerEmail = data.value.emailAddress;
         this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
+        this.getLocations();
       });
       this.userTimezone = Office.context.mailbox.userProfile.timeZone;
     }
