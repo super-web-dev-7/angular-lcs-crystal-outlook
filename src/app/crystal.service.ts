@@ -19,7 +19,7 @@ export class CrystalService {
 
   public apiUrl = " https://lcs.mockable.io";
   public getLocations(userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/locations?userEmail="+userEmail+"&userTimezone="+userTimezone+"&userLocale="+userLocale, httpOptions);
+    return this.httpClient.get(this.apiUrl+"/locations?email="+userEmail+"&timezone="+userTimezone+"&language="+userLocale, httpOptions);
   }
 
   public getEquipments(){
@@ -31,7 +31,7 @@ export class CrystalService {
   }
 
   public getResources(start: string, end: string, userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/resources?start="+start+"&end="+end+"&userEmail="+userEmail+"&userTimezone="+userTimezone+"&userLocale="+userLocale, httpOptions);
+    return this.httpClient.get(this.apiUrl+"/resources?start="+start+"&end="+end+"&email="+userEmail+"&timezone="+userTimezone+"&language="+userLocale, httpOptions);
   }
 
   public getServices(){
@@ -39,7 +39,7 @@ export class CrystalService {
   }
 
   public getBuildings(userEmail: string, userTimezone: string, userLocale: string){
-    return this.httpClient.get(this.apiUrl+"/buildings?userEmail="+userEmail+"&userTimezone="+userTimezone+"&userLocale="+userLocale, httpOptions);
+    return this.httpClient.get(this.apiUrl+"/buildings?email="+userEmail+"&timezone="+userTimezone+"&language="+userLocale, httpOptions);
   }
 
   public createMeetingAsync(data: Array<Object>): Observable<Object>{
