@@ -45,6 +45,7 @@ export class RoomComponent implements OnInit {
   errorOcurred: boolean = false;
   requestInProgress: boolean = false;
   responseMessage: string = "";
+  finalOrderObj: any = {};
 
   constructor(private crystalService: CrystalService) {}
 
@@ -192,12 +193,25 @@ export class RoomComponent implements OnInit {
     return "<img style='width:90%;' src='"+room.floorMapLocation+"'>";
   }
 
+  createOrderObject() {
+    this.finalOrderObj.resource = {};
+    this.finalOrderObj.resource.id = this.orderDetails.room.id;
+    this.finalOrderObj.resource.capacity = this.orderDetails.room.capacity;
+    this.finalOrderObj.resource.email = this.data.userEmail;
+    this.finalOrderObj.resource.start_time = this.data.start;
+    this.finalOrderObj.resource.end_time = this.data.end;
+    this.finalOrderObj.resource.timezone = this.data.timezone;
+    this.finalOrderObj.resource.language = this.data.currentCulture;
+    this.finalOrderObj.resource.services = this.orderDetails.services;
+  }
+
   createMeetingAsync() {
+    this.createOrderObject();
     this.requestInProgress = true;
     if(this.errorOcurred){
       this.errorOcurred = false;
     }
-    this.crystalService.createMeetingAsync(this.orderDetails).subscribe((data)=>{
+    this.crystalService.createMeetingAsync(this.finalOrderObj).subscribe((data)=>{
       this.bookingConfirmed = true;
     }, error => {
       this.responseMessage = error.error.responseMessage;

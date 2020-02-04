@@ -58,9 +58,9 @@ export class HomeComponent implements OnInit {
     private crystalService: CrystalService,
     private translateService: TranslateService
   ) {
-    this.getLocations();
-    this.getEquipments();
-    this.getServices();
+      this.getLocations();
+      this.getEquipments();
+      this.getServices();
   }
 
   ngOnInit() {
@@ -74,9 +74,9 @@ export class HomeComponent implements OnInit {
       });
       Office.context.mailbox.item.organizer.getAsync(data => {
         this.organizerEmail = data.value.emailAddress;
+        this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
       });
       this.userTimezone = Office.context.mailbox.userProfile.timeZone;
-      this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
     }
   }
 
@@ -217,11 +217,7 @@ export class HomeComponent implements OnInit {
 
   public getResourceProfiles() {
     this.crystalService
-      .getResourceProfiles(
-        this.organizerEmail,
-        this.userTimezone,
-        this.currentCulture
-      )
+      .getResourceProfiles()
       .subscribe(data => {
         this.resourceProfiles = data["resource_profile"];
         this.dropdownList_resourceProfiles = this.resourceProfiles;
@@ -241,11 +237,7 @@ export class HomeComponent implements OnInit {
 
   public getEquipments() {
     this.crystalService
-      .getEquipments(
-        this.organizerEmail,
-        this.userTimezone,
-        this.currentCulture
-      )
+      .getEquipments()
       .subscribe(data => {
         this.equipments = data["equipments"];
         this.dropdownList_equipments = this.equipments;
@@ -264,7 +256,7 @@ export class HomeComponent implements OnInit {
 
   public getServices() {
     this.crystalService
-      .getServices(this.organizerEmail, this.userTimezone, this.currentCulture)
+      .getServices()
       .subscribe(data => {
         this.services = data;
         this.dropdownList_services = this.services;
@@ -341,10 +333,30 @@ export class HomeComponent implements OnInit {
       }
     ];
     let asyncContext = data.room;
-    Office.context.mailbox.item.enhancedLocation.addAsync(
-      this.currentLocation,
-      asyncContext
-    );
+    let existingLocations = [];
+    Office.context.mailbox.item.enhancedLocation.getAsync(data => {
+      if(data.value.length > 0){
+        data.value.forEach(item => {
+          existingLocations.push(item.locationIdentifier);
+        });
+        Office.context.mailbox.item.enhancedLocation.removeAsync(
+          existingLocations,
+          result => {
+            if (result) {
+              Office.context.mailbox.item.enhancedLocation.addAsync(
+                this.currentLocation,
+                asyncContext
+              );
+            }
+          }
+        );
+      } else {
+        Office.context.mailbox.item.enhancedLocation.addAsync(
+          this.currentLocation,
+          asyncContext
+        );
+      }
+    });
     this.selectedRoomData = data;
     this.showRoomDetails = true;
   }
