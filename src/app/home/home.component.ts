@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   public locationPaths = {};
   public equipments;
   public services;
-  public showMoreFilters = true;
+  public showMoreFilters = false;
   public dropdownList_equipments = [];
   public selectedItems_equipments = [];
   public dropdownSettings_equipments: IDropdownSettings = {};

@@ -135,16 +135,16 @@
           <div *ngFor="let serviceItem of availedService.data.service_items">
             <div class="custom-counter-left one wide column "></div>
             <div class="two wide column custom-counter center aligned pb-5 pt-5 pl-0 pr-0">
-              <Button class="text-grey custom-button"
-                (click)="addQuantity(availedService.data.id, serviceItem.id)">+</Button>
+              <button class="text-grey custom-button"
+                (click)="addQuantity(availedService.data.id, serviceItem.id)">+</button>
               <h3 class="text-blue mb-10 mt-10" style="font-weight:100;">
                 {{
                   orderDetails.services[availedService.data.id][serviceItem.id]
                     .quantity
                 }}
               </h3>
-              <Button class="text-grey custom-button"
-                (click)="removeQuantity(availedService.data.id, serviceItem.id)">-</Button>
+              <button class="text-grey custom-button"
+                (click)="removeQuantity(availedService.data.id, serviceItem.id)">-</button>
             </div>
             <div class="custom-counter-right twelve wide column">
               <h5 class="text-blue mb-5">{{ serviceItem.name }}</h5>
