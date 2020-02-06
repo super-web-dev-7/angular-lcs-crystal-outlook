@@ -1,5 +1,5 @@
 <main *ngIf="!showRoomDetails" class="ms-welcome__main">
-  <div class="ui fluid center aligned container ml-0 mr-0"
+  <div class="ui fluid center aligned container ml-0 mr-0 mainContainer"
     style="margin-right: 0px !important;margin-left: 0px !important;">
     <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
       <img src="../../../assets/logo.png" class="ui fluid centered image" *ngIf="!isOutlookWeb" [ngClass]="" style="max-width: 300px;" />
@@ -11,7 +11,7 @@
             [(ngModel)]="searchText" />
         </div>
       </div>
-      <div class="sixteen wide column pb-0 pt-0">
+      <div class="sixteen wide column pb-0 pt-0 mt-15">
         <div class="ui fluid left aligned slider">
           <div>
             <div style="float:left;"><span>{{'capacityWithColon' | translate}}</span></div>
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="sixteen wide column left aligned pb-0 pt-0">
+      <div class="sixteen wide column left aligned pb-0 pt-0 mt-15">
         <span id="morefiltersToggle">
           <a (click)="resetFilters()" style="color: #03A9F4;">
             {{'moreFilters' | translate}}
@@ -41,7 +41,7 @@
           <option [ngValue]="location" *ngFor="let location of locationLevelDropdowns[i]">{{ location.name }}</option>
         </select>
       </div>
-        <div class="sixteen wide column pt-0">
+        <div class="sixteen wide column pt-0 mt-15">
           <ng-multiselect-dropdown [placeholder]="'selectResourceProfile' | translate"
             [data]="dropdownList_resourceProfiles" [(ngModel)]="selectedItems_resourceProfiles"
             [settings]="dropdownSettings_resourceProfiles">
