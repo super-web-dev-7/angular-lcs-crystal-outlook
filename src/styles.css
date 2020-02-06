@@ -9,9 +9,10 @@ body {
   height     : 100%;
 }
 
-.mt-15{
+.mt-15 {
   margin-top: 15px;
 }
+
 .ui.checkbox label:before {
   border-radius: 50px;
   border-color : #03a9f4;
@@ -127,6 +128,7 @@ input:checked~label:after {
   align-self    : inherit;
   vertical-align: top;
 }
+
 .mainContainer {
   height: 100%;
 }
@@ -206,8 +208,8 @@ input:checked~label:after {
   border       : 0px;
   /* min-height: 340px;
     max-height : 340px; */
-  overflow-y   : scroll;
-  height       : 58%;
+  overflow-y   : hidden;
+  height       : 100%;
   padding      : 2px !important;
 }
 
@@ -215,8 +217,8 @@ input:checked~label:after {
   border       : 0px;
   /* min-height: 360px;
     max-height : 360px; */
-  overflow-y   : scroll;
-  height       : 24%;
+  overflow-y   : hidden;
+  height       : 100%;
   padding      : 2px !important;
 }
 
@@ -365,12 +367,14 @@ span.dropdown-up {
 }
 
 .ngx-pagination {
-  margin-left  : 0;
-  margin-bottom: 1rem;
-  padding-left : 0px !important;
-  position     : fixed;
-  bottom       : 0;
-  width        : 100%;
+  margin-left     : 0;
+  padding-left    : 0px !important;
+  position        : fixed;
+  bottom          : 0;
+  width           : 100%;
+  background-color: white;
+  height          : 35px;
+  margin-bottom   : 0 !important;
 }
 
 .notpointer {
