@@ -1,5 +1,6 @@
 .ms-welcome__main {
   height: 100%;
+  overflow-y: hidden;
 }
 
 body {
@@ -208,7 +209,7 @@ input:checked~label:after {
   border       : 0px;
   /* min-height: 340px;
     max-height : 340px; */
-  overflow-y   : hidden;
+  overflow-y   : scroll;
   height       : 100%;
   padding      : 2px !important;
 }
@@ -217,7 +218,7 @@ input:checked~label:after {
   border       : 0px;
   /* min-height: 360px;
     max-height : 360px; */
-  overflow-y   : hidden;
+  overflow-y   : scroll;
   height       : 100%;
   padding      : 2px !important;
 }
