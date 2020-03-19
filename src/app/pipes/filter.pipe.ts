@@ -19,15 +19,17 @@ export class FilterPipe implements PipeTransform {
       });
     }
 
-     if (searchParams.equipments.length > 0) {
+    if (searchParams.equipments.length > 0) {
       searchParams.equipments.forEach(equipment => {
         itemsFiltered = itemsFiltered.filter(
-          item => { 
+          item => {
             let match = 0;
-            item.equipments.forEach(element => {
-              if(element.id == equipment.id)
-                match++;
-            });
+            if (item.equipments) {
+              item.equipments.forEach(element => {
+                if (element.id == equipment.id)
+                  match++;
+              });
+            }
             return match > 0;
           });
       });
@@ -36,53 +38,53 @@ export class FilterPipe implements PipeTransform {
     if (searchParams.services.length > 0) {
       searchParams.services.forEach(service => {
         itemsFiltered = itemsFiltered.filter(
-          item => { 
+          item => {
             return item.services.includes(service.id);
           });
       });
     }
 
     if (searchParams.resourceProfiles.length > 0) {
-        itemsFiltered = itemsFiltered.filter(
-          item => { 
-            for(let i=0; i<searchParams.resourceProfiles.length; i++){
-              if(searchParams.resourceProfiles[i].id == item.type.id){
-                return true;
-              }
+      itemsFiltered = itemsFiltered.filter(
+        item => {
+          for (let i = 0; i < searchParams.resourceProfiles.length; i++) {
+            if (searchParams.resourceProfiles[i].id == item.type.id) {
+              return true;
             }
-            return false;
-          });
+          }
+          return false;
+        });
     }
 
     if (searchParams.location[0] !== "") {
       let filterLevels = 1;
       let locationLevels = searchParams.location.length;
-      while(filterLevels <= locationLevels && searchParams.location[filterLevels-1] != ""){
+      while (filterLevels <= locationLevels && searchParams.location[filterLevels - 1] != "") {
         filterLevels++;
       };
       filterLevels--;
       itemsFiltered = itemsFiltered.filter(item => {
         let location = item.location;
-        for(let i=0; i<filterLevels; i++){
-          if(location.id == searchParams.location[i].id){
-            if(i == (filterLevels-1)){
+        if (!location) return false;
+        for (let i = 0; i < filterLevels; i++) {
+          if (location.id == searchParams.location[i].id) {
+            if (i == (filterLevels - 1)) {
               return true;
             }
-            else if(location.children && location.children.id){
+            else if (location.children && location.children.id) {
               location = location.children;
             }
-            else{
+            else {
               return false;
             }
           }
-          else{
+          else {
             return false;
           }
         }
         return true;
       });
     }
-
     return itemsFiltered;
   }
 }

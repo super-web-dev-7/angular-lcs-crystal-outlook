@@ -47,7 +47,7 @@ export class RoomComponent implements OnInit {
   responseMessage: string = "";
   finalOrderObj: any = {};
 
-  constructor(private crystalService: CrystalService) {}
+  constructor(private crystalService: CrystalService) { }
 
   ngOnInit() {
     if (this.data) {
@@ -156,12 +156,12 @@ export class RoomComponent implements OnInit {
         this.orderDetails.services[this.availedServices[i].id][
           this.availedServices[i].data.service_items[j].id
         ] = {
-          name: this.availedServices[i].data.service_items[j].name,
-          quantity: 0,
-          price: this.availedServices[i].data.service_items[j].price,
-          itemRemarks: "",
-          cost: 0
-        };
+            name: this.availedServices[i].data.service_items[j].name,
+            quantity: 0,
+            price: this.availedServices[i].data.service_items[j].price,
+            itemRemarks: "",
+            cost: 0
+          };
       }
     }
   }
@@ -204,7 +204,7 @@ export class RoomComponent implements OnInit {
     this.finalOrderObj.resource.language = this.data.currentCulture;
     this.finalOrderObj.resource.services = [];
     Object.keys(this.orderDetails.services).forEach(key => {
-      let tempObj1 : any = {};
+      let tempObj1: any = {};
       tempObj1[key] = {};
       tempObj1[
         key
@@ -212,7 +212,7 @@ export class RoomComponent implements OnInit {
       tempObj1[key].items = [];
       Object.keys(this.orderDetails.services[key]).forEach(item => {
         if (item !== "image" && item !== "name" && item !== "orderRemarks") {
-          let tempObj:any = {};
+          let tempObj: any = {};
           tempObj.item_id = item;
           tempObj.qty = this.orderDetails.services[key][item].quantity;
           tempObj.remarks = this.orderDetails.services[key][item].itemRemarks;
@@ -232,6 +232,9 @@ export class RoomComponent implements OnInit {
     this.crystalService.createMeetingAsync(this.finalOrderObj).subscribe(
       data => {
         this.bookingConfirmed = true;
+        setTimeout(() => {
+          Office.context.ui.closeContainer();
+        }, 2000);
       },
       error => {
         this.responseMessage = error.error.responseMessage;
