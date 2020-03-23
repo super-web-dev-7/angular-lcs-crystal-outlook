@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
   public organizerEmail: string;
   public userTimezone: string;
   public currentLocation: any;
+  public p: any;
   private readonly supportedCultures = ["en-US", "fr-FR"];
   public filteredServices = [];
 
@@ -58,18 +59,18 @@ export class HomeComponent implements OnInit {
     private crystalService: CrystalService,
     private translateService: TranslateService
   ) {
-      this.getEquipments();
-      this.getServices();
+    this.getEquipments();
+    this.getServices();
   }
 
   ngOnInit() {
     this.setLocale();
     if (!!Office.context) {
       Office.context.mailbox.item.start.getAsync(data => {
-        this.appointmentStartTime = data.value.toLocaleString();
+        this.appointmentStartTime = data.value.toISOString();
       });
       Office.context.mailbox.item.end.getAsync(data => {
-        this.appointmentEndTime = data.value.toLocaleString();
+        this.appointmentEndTime = data.value.toISOString();
       });
       Office.context.mailbox.item.organizer.getAsync(data => {
         this.organizerEmail = data.value.emailAddress;
@@ -80,14 +81,14 @@ export class HomeComponent implements OnInit {
 
       setInterval(() => {
         Office.context.mailbox.item.start.getAsync(data => {
-          if(data.value.toLocaleString() !== this.appointmentStartTime){ 
-            this.appointmentStartTime = data.value.toLocaleString();
+          if (data.value.toISOString() !== this.appointmentStartTime) {
+            this.appointmentStartTime = data.value.toISOString();
             this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
           }
         });
         Office.context.mailbox.item.end.getAsync(data => {
-          if(data.value.toLocaleString() !== this.appointmentEndTime){
-            this.appointmentEndTime = data.value.toLocaleString();
+          if (data.value.toISOString() !== this.appointmentEndTime) {
+            this.appointmentEndTime = data.value.toISOString();
             this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
           }
         });
@@ -125,7 +126,7 @@ export class HomeComponent implements OnInit {
         this.rooms = data["resources"];
         this.maxAvailableCapacity = Math.max.apply(
           Math,
-          this.rooms.map(function(o) {
+          this.rooms.map(function (o) {
             return o.capacity;
           })
         );
@@ -198,15 +199,17 @@ export class HomeComponent implements OnInit {
     return false;
   }
 
-  public getRecursiveLength(obj) {
+  public getRecursiveLength(obj, recurse = false) {
+    let lengths = [];
     obj.forEach(location => {
       if (location.children && location.children.length != 0) {
-        length = 1 + this.getRecursiveLength(location.children);
+        length = 1 + this.getRecursiveLength(location.children, true);
       } else {
         length = 1;
       }
+      if (!recurse) lengths.push(length);
     });
-    return length;
+    return !recurse ? Math.max(...lengths) : length;
   }
 
   public populateCities() {
@@ -303,7 +306,7 @@ export class HomeComponent implements OnInit {
         r => r.id === item.id
       );
       this.filteredServices = this.filteredServices.filter(f => {
-        if (currentResourceProfile[0].services.indexOf(f.id.toString()) !== -1)
+        if (currentResourceProfile[0].services && currentResourceProfile[0].services.indexOf(f.id.toString()) !== -1)
           return f;
       });
     });
@@ -312,7 +315,7 @@ export class HomeComponent implements OnInit {
   }
 
   public setLocationPaths() {
-    if(!!this.rooms){
+    if (!!this.rooms) {
       this.rooms.forEach(room => {
         let loc = room.location;
         let path = loc.name;
@@ -341,36 +344,50 @@ export class HomeComponent implements OnInit {
   }
 
   roomSelected(data) {
-    this.currentLocation = [
-      {
-        id: data.room.mail,
-        type: Office.MailboxEnums.LocationType.Room
-      }
-    ];
+    var self = this;
+    if (data.room && data.room.mail && data.room.mail != "") {
+      this.currentLocation = [
+        {
+          id: data.room.mail,
+          type: Office.MailboxEnums.LocationType.Room
+        }
+      ];
+    }
+    else {
+      this.currentLocation = [
+        {
+          id: data.room.name,
+          type: Office.MailboxEnums.LocationType.Custom
+        }
+      ];
+    }
     let asyncContext = data.room;
     let existingLocations = [];
-    Office.context.mailbox.item.enhancedLocation.getAsync(data => {
-      if(data.value.length > 0){
-        data.value.forEach(item => {
-          existingLocations.push(item.locationIdentifier);
-        });
-        Office.context.mailbox.item.enhancedLocation.removeAsync(
-          existingLocations,
-          result => {
-            if (result) {
-              Office.context.mailbox.item.enhancedLocation.addAsync(
-                this.currentLocation,
-                asyncContext
-              );
-            }
-          }
-        );
-      } else {
-        Office.context.mailbox.item.enhancedLocation.addAsync(
-          this.currentLocation,
-          asyncContext
-        );
-      }
+    // $(document).ready(function () {
+      Office.context.mailbox.item.enhancedLocation.getAsync(res1 => {
+        // console.log(res1);
+        // if (res1.value.length > 0) {
+        //   res1.value.forEach(item => {
+        //     existingLocations.push(item.locationIdentifier);
+        //   });
+        //   Office.context.mailbox.item.enhancedLocation.removeAsync(
+        //     existingLocations,
+        //     result => {
+        //       if (result) {
+        //         Office.context.mailbox.item.enhancedLocation.addAsync(
+        //           self.currentLocation,
+        //           asyncContext
+        //         );
+        //       }
+        //     }
+        //   );
+        // } else {
+          Office.context.mailbox.item.enhancedLocation.addAsync(
+            self.currentLocation,
+            asyncContext
+          );
+        // }
+      // });
     });
     this.selectedRoomData = data;
     this.showRoomDetails = true;

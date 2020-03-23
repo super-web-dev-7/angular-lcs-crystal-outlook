@@ -17,7 +17,10 @@ export class CrystalService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public apiUrl = " https://lcs.mockable.io";
+  // public apiUrl = "https://localhost:44316/api/workspace/outlook";
+  // public apiUrl = "https://ise2020.crystalunivers.com/api/workspace/outlook";
+  public apiUrl = "/api/workspace/outlook";
+  // public apiUrl = " https://lcs.mockable.io";
   public getLocations(userEmail: string, userTimezone: string, userLocale: string){
     return this.httpClient.get(this.apiUrl+"/locations?email="+userEmail+"&timezone="+userTimezone+"&language="+userLocale, httpOptions);
   }

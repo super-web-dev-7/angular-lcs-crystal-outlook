@@ -1,17 +1,17 @@
 <main *ngIf="!showRoomDetails" class="ms-welcome__main">
-  <div class="ui fluid center aligned container ml-0 mr-0 mainContainer"
+  <div class="ui fluid center aligned container ml-0 mr-0"
     style="margin-right: 0px !important;margin-left: 0px !important;">
     <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
-      <img src="../../../assets/logo.png" class="ui fluid centered image" *ngIf="!isOutlookWeb" [ngClass]="" style="max-width: 300px;" />
+      <img src="assets/logo.png" class="ui fluid centered image" *ngIf="!isOutlookWeb" [ngClass]="" style="max-width: 300px;" />
     </div>
     <div class="ui segment grid mt-0 mb-0" style="border: 0px; min-height: 160px;">
-      <div class="sixteen wide column pb-0 pt-0">
+      <div class="sixteen wide column pb-0 pt-5">
         <div class="ui fluid input container" style="margin: 0px 0px 0px 0px !important;">
           <input [placeholder]="'enterName' | translate" type="text" style="border-width: 0px 0px 1px 0px;"
             [(ngModel)]="searchText" />
         </div>
       </div>
-      <div class="sixteen wide column pb-0 pt-0 mt-15">
+      <div class="sixteen wide column pb-0 pt-3">
         <div class="ui fluid left aligned slider">
           <div>
             <div style="float:left;"><span>{{'capacityWithColon' | translate}}</span></div>
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="sixteen wide column left aligned pb-0 pt-0 mt-15">
+      <div class="sixteen wide column left aligned pb-0 pt-3">
         <span id="morefiltersToggle">
           <a (click)="resetFilters()" style="color: #03A9F4;">
             {{'moreFilters' | translate}}
@@ -41,7 +41,7 @@
           <option [ngValue]="location" *ngFor="let location of locationLevelDropdowns[i]">{{ location.name }}</option>
         </select>
       </div>
-        <div class="sixteen wide column pt-0 mt-15">
+        <div class="sixteen wide column pt-3">
           <ng-multiselect-dropdown [placeholder]="'selectResourceProfile' | translate"
             [data]="dropdownList_resourceProfiles" [(ngModel)]="selectedItems_resourceProfiles"
             [settings]="dropdownSettings_resourceProfiles">
@@ -75,7 +75,7 @@
                   }
               | paginate: { itemsPerPage: 10, currentPage: p }
           " class="ui placeholder segment segment-grey left aligned" id="{{ room.id }}"
-          style="max-height: 120px; min-height: 120px; margin-top: 2px; margin-bottom: 5px; cursor: pointer; border-style: none; background: #FAFAFA;">
+          style="max-height: 100px; min-height: 100px; margin-top: 2px; margin-bottom: 5px; cursor: pointer; border-style: none; background: white !important;">
           <a (click)="
               roomSelected({
                 room: room,
@@ -89,22 +89,22 @@
                 end: appointmentEndTime
               })
             ">
-            <div class="ui grid" style="max-height: 120px; min-height: 120px;">
-              <div class="six wide column middle aligned">
-                <img src="{{room.visual}}" class="ui image" style="max-height: 95px;" />
+            <div class="ui grid" style="max-height: 100px; min-height: 100px;">
+              <div class="six wide column auto aligned">
+                <img src="{{room.visual}}" class="ui image" style="height: 70px; width: 90px;" />
               </div>
-              <div class="eight wide column middle aligned">
-                <h3 class="ui header aligned left" style="color:#757575">{{ room.name }}</h3>
+              <div class="eight wide column auto aligned" style="padding-left:0px !important; margin-left: -10px;">
+                <h3 class="ui header aligned left" style="color:#757575; font-size:16px;">{{ room.name }}</h3>
                 <div class="aligned left">
                   <i class="circle icon" [ngClass]="room.isAvailable ? 'available' : 'notAvailable'"></i>
-                  <span class="availability" style="color:#757575">
+                  <span class="availability" style="color:#757575; font-size:10px;">
                     {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
                   </span>
                 </div>
-                <p class="aligned left">{{ locationPaths[room.id] }}</p>
+                <p class="aligned left" style="font-size: 10px; color:#757575; padding-top: 5px;">{{ locationPaths[room.id] }}</p>
               </div>
-              <div class="two wide column right aligned availableCount" style="padding: 0 0 0; color:#757575;">
-                {{ room.capacity }}<i class="user icon"></i>
+              <div class="two wide column right aligned availableCount" style="padding: 0 0 0; color:#757575; font-size:12px; padding-right: 0px;">
+                <i class="user icon" style="color: #757575; margin-right: 2px;"></i> {{ room.capacity }}
               </div>
             </div>
           </a>
