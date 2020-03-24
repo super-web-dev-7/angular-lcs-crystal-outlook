@@ -1,7 +1,7 @@
 <!-- UI for Room Details Page -->
 <div *ngIf="currentPage == 1">
   <div style="max-height:90%;">
-    <div class="ui fluid center aligned container" style="margin-right: 0px !important;margin-left: 0px !important;">
+    <div class="ui fluid center aligned container">
       <div class="ui fluid" style="border-bottom: 1px solid #F5F5F5; background: #03A9F4;">
         <img src="assets/logo.png" *ngIf="!isOutlookWeb" class="ui fluid centered image"
           style="max-width: 300px;" />
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div style="margin-left:5%; margin-right:5%">
-      <div class="ui grid" style="margin-top:2%;">
+      <div class="ui grid">
         <div class="thirteen wide column">
           <h1>{{ room.name }}</h1>
         </div>
@@ -24,7 +24,7 @@
         <i class="circle icon" [ngClass]="room.isAvailable ? 'available' : 'notAvailable'"></i>
         {{ room.isAvailable ? ('available' | translate) : ('notAvailable' | translate) }}
       </div>
-      <div class="ui grid" style="margin-top:2%;">
+      <div class="ui grid">
         <p class="twelve wide column">{{ getLocationPath() }}</p>
         <div class="four wide column" style="text-align: center;">
           <!-- <div style="color: #03A9F4;">
