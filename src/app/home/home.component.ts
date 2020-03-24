@@ -44,8 +44,8 @@ export class HomeComponent implements OnInit {
   public selectedItems_resourceProfiles = [];
   public dropdownSettings_resourceProfiles: IDropdownSettings = {};
   public showRoomDetails: boolean = false;
-  public appointmentStartTime: string;
-  public appointmentEndTime: string;
+  public appointmentStartTime: Date;
+  public appointmentEndTime: Date;
   public currentCulture: string;
   public isOutlookWeb: boolean = false;
   public organizerEmail: string;
@@ -67,10 +67,10 @@ export class HomeComponent implements OnInit {
     this.setLocale();
     if (!!Office.context) {
       Office.context.mailbox.item.start.getAsync(data => {
-        this.appointmentStartTime = data.value.toISOString();
+        this.appointmentStartTime = data.value;
       });
       Office.context.mailbox.item.end.getAsync(data => {
-        this.appointmentEndTime = data.value.toISOString();
+        this.appointmentEndTime = data.value;
       });
       Office.context.mailbox.item.organizer.getAsync(data => {
         this.organizerEmail = data.value.emailAddress;
@@ -81,14 +81,14 @@ export class HomeComponent implements OnInit {
 
       setInterval(() => {
         Office.context.mailbox.item.start.getAsync(data => {
-          if (data.value.toISOString() !== this.appointmentStartTime) {
-            this.appointmentStartTime = data.value.toISOString();
+          if (data.value !== this.appointmentStartTime) {
+            this.appointmentStartTime = data.value;
             this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
           }
         });
         Office.context.mailbox.item.end.getAsync(data => {
-          if (data.value.toISOString() !== this.appointmentEndTime) {
-            this.appointmentEndTime = data.value.toISOString();
+          if (data.value !== this.appointmentEndTime) {
+            this.appointmentEndTime = data.value;
             this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
           }
         });
@@ -116,8 +116,8 @@ export class HomeComponent implements OnInit {
   public populateRooms(start, end) {
     this.crystalService
       .getResources(
-        start,
-        end,
+        new Date(start.getTime() - (start.getTimezoneOffset() * 60000)).toISOString(),
+        new Date(end.getTime() - (end.getTimezoneOffset() * 60000)).toISOString(),
         this.organizerEmail,
         this.userTimezone,
         this.currentCulture
@@ -201,6 +201,7 @@ export class HomeComponent implements OnInit {
 
   public getRecursiveLength(obj, recurse = false) {
     let lengths = [];
+    let length = 0;
     obj.forEach(location => {
       if (location.children && location.children.length != 0) {
         length = 1 + this.getRecursiveLength(location.children, true);
@@ -279,13 +280,6 @@ export class HomeComponent implements OnInit {
         this.services = data;
         this.dropdownList_services = this.services;
         this.filteredServices = this.services;
-        // this.dropdownList_services = [
-        //   { id: 1, name: 'service1' },
-        //   { id: 2, name: 'service2' },
-        //   { id: 3, name: 'service3' },
-        //   { id: 4, name: 'service4' },
-        //   { id: 5, name: 'service5' }
-        // ];
         this.selectedItems_services = [];
         this.dropdownSettings_services = {
           singleSelection: false,
@@ -332,9 +326,6 @@ export class HomeComponent implements OnInit {
 
   resetFilters() {
     this.showMoreFilters = !this.showMoreFilters;
-    // this.selectedItems_equipments = [];
-    // this.selectedItems_services = [];
-    // this.selectedItems_resourceProfiles = [];
   }
 
   renderDropdowns() {
@@ -363,31 +354,11 @@ export class HomeComponent implements OnInit {
     }
     let asyncContext = data.room;
     let existingLocations = [];
-    // $(document).ready(function () {
       Office.context.mailbox.item.enhancedLocation.getAsync(res1 => {
-        // console.log(res1);
-        // if (res1.value.length > 0) {
-        //   res1.value.forEach(item => {
-        //     existingLocations.push(item.locationIdentifier);
-        //   });
-        //   Office.context.mailbox.item.enhancedLocation.removeAsync(
-        //     existingLocations,
-        //     result => {
-        //       if (result) {
-        //         Office.context.mailbox.item.enhancedLocation.addAsync(
-        //           self.currentLocation,
-        //           asyncContext
-        //         );
-        //       }
-        //     }
-        //   );
-        // } else {
           Office.context.mailbox.item.enhancedLocation.addAsync(
             self.currentLocation,
             asyncContext
           );
-        // }
-      // });
     });
     this.selectedRoomData = data;
     this.showRoomDetails = true;

@@ -194,31 +194,28 @@ export class RoomComponent implements OnInit {
   }
 
   createOrderObject() {
-    console.log(this.orderDetails.services);
     this.finalOrderObj.resource = {};
     this.finalOrderObj.resource.id = this.orderDetails.room.id;
     this.finalOrderObj.resource.email = this.data.userEmail;
-    this.finalOrderObj.resource.start_time = this.data.start;
-    this.finalOrderObj.resource.end_time = this.data.end;
+    this.finalOrderObj.resource.start_time = new Date(this.data.start.getTime() - (this.data.start.getTimezoneOffset() * 60000)).toISOString();
+    this.finalOrderObj.resource.end_time = new Date(this.data.end.getTime() - (this.data.end.getTimezoneOffset() * 60000)).toISOString();
     this.finalOrderObj.resource.timezone = this.data.timezone;
     this.finalOrderObj.resource.language = this.data.currentCulture;
+
     this.finalOrderObj.resource.services = [];
     Object.keys(this.orderDetails.services).forEach(key => {
       let tempObj1: any = {};
-      tempObj1[key] = {};
-      tempObj1[
-        key
-      ].remarks = this.orderDetails.services[key].orderRemarks;
-      tempObj1[key].items = [];
+      tempObj1 = {id: key, remarks: this.orderDetails.services[key].orderRemarks, items:[]};
       Object.keys(this.orderDetails.services[key]).forEach(item => {
         if (item !== "image" && item !== "name" && item !== "orderRemarks") {
           let tempObj: any = {};
           tempObj.item_id = item;
           tempObj.qty = this.orderDetails.services[key][item].quantity;
           tempObj.remarks = this.orderDetails.services[key][item].itemRemarks;
-          tempObj1[key].items.push(tempObj);
+          tempObj1.items.push(tempObj);
         }
       });
+      
       this.finalOrderObj.resource.services.push(tempObj1);
     });
   }
