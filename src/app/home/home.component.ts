@@ -81,13 +81,13 @@ export class HomeComponent implements OnInit {
 
       setInterval(() => {
         Office.context.mailbox.item.start.getAsync(data => {
-          if (data.value !== this.appointmentStartTime) {
+          if (data.value.toISOString() !== this.appointmentStartTime.toISOString()) {
             this.appointmentStartTime = data.value;
             this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
           }
         });
         Office.context.mailbox.item.end.getAsync(data => {
-          if (data.value !== this.appointmentEndTime) {
+          if (data.value.toISOString() !== this.appointmentEndTime.toISOString()) {
             this.appointmentEndTime = data.value;
             this.populateRooms(this.appointmentStartTime, this.appointmentEndTime);
           }
